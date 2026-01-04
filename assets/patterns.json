@@ -1,0 +1,854 @@
+[
+  {
+    "id": "1",
+    "name": "Introduction to Price Action",
+    "category": "General",
+    "bias": "Neutral",
+    "description": "Price action trading is a method of analyzing and\nmaking trading decisions based solely on the\nmovements of an asset's price, rather than relying\nheavily on technical indicators. Traders use charts,\noften candlestick charts, to identify patterns, support\nand resistance levels, and trends that can help\npredict future price movements.\nYou\u2019ll learn: how to read a single candle, how short\nsequences of candles reveal turning points, and how\nlarger chart structures (triangles, head & shoulders,\nflags) form from repeated behavior. Most importantly,\nyou\u2019ll learn a simple trading discipline: define entry,\nstop-loss, and position size before you trade, and let\nthe market validate your plan. Practice steadily, keep\na journal, and expect steady improvement \u2014 price\naction rewards patience and clear rules.",
+    "key_rules": [],
+    "trend": "",
+    "image_path": "assets/images/patterns/1.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "2",
+    "name": "Understanding Candlesticks",
+    "category": "General",
+    "bias": "Bullish",
+    "description": "Candlesticks visually represent an asset's price\nmovement over a specific time frame, showing four\nkey prices: open, high, low, and close. The colored\n\"body\" of the candlestick shows the range between\nthe open and close, with a green or white body\nindicating a price increase (bullish) and a red or\nblack body showing a price decrease (bearish).\nLines above and below the body, called \"wicks\" or\n\"shadows,\" show the highest and lowest prices\nreached during that period.\nOpen: The starting price for the time period.\nHigh: The highest price reached during the period.\nLow: The lowest price reached during the period.\nClose: The final price of the period.\nBody: The rectangular part that shows the\ndifference between the open and close.\nWicks/Shadows: The lines above and below the\nbody that show the highest and lowest prices. 9",
+    "key_rules": [],
+    "trend": "",
+    "image_path": "assets/images/patterns/2.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "3",
+    "name": "Importance of Timeframes",
+    "category": "General",
+    "bias": "Neutral",
+    "description": "A timeframe shows how much time each candle\nrepresents such as 1 minute, 15 minutes, 1 hour, 4\nhour, 1 day or 1 week.\nShorter timeframes show quick price moves and\nnoise, while higher timeframes reveal stronger trends\nand clearer market direction.\nProfessional traders use multiple timeframes\ntogether: higher ones for trend confirmation and\nlower ones for precise entries.\nChoosing the right timeframe helps you match your\nstrategy, control emotions, and avoid false signals\ncaused by short-term market noise.",
+    "key_rules": [
+      "Lower timeframes (1m\u201315m): Good for scalping,",
+      "but more noise.",
+      "Medium (1H\u20134H): Ideal for intraday traders.",
+      "Higher (Daily\u2013Weekly): Best for swing and",
+      "position trading.",
+      "Top-down analysis: Start with higher timeframe",
+      "to find trend, then drop to lower to time entries.",
+      "Patterns repeat on all timeframes reliability",
+      "increases with higher ones."
+    ],
+    "trend": "",
+    "image_path": "assets/images/patterns/3.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "4",
+    "name": "Psychology Behind Candlestick Movements",
+    "category": "General",
+    "bias": "Neutral",
+    "description": "4.Psychology Behind Candlestick\nMovements\nEvery candlestick reflects the emotions and decisions\nof market participants by showing fear, greed,\nconfidence, or hesitation.\nWhen buyers dominate, prices close higher; when\nsellers control, prices close lower.\nLong candles show strong conviction, while dojis and\nspinning tops signal indecision.\nBy studying candle formations, traders can read the\ncrowd\u2019s psychology who is in control, who is trapped,\nand when momentum is weakening or shifting toward\na possible reversal.\nCandlestick Psychology",
+    "key_rules": [],
+    "trend": "",
+    "image_path": "assets/images/patterns/4.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "5",
+    "name": "Reading Market Sentiment through Candles",
+    "category": "General",
+    "bias": "Bullish",
+    "description": "5.Reading Market Sentiment\nthrough Candles\nMarket sentiment shows how traders collectively feel\nabout price bullish (positive), bearish (negative), or\nneutral (indecisive).\nCandlestick patterns help visualize this sentiment in\nreal time.\nA series of strong bullish candles indicates growing\nconfidence, while repeated bearish candles show fear\nor pressure.\nDoji or small-bodied candles reveal hesitation.\nBy studying these sequences along with trend and\nvolume, traders can judge if the market\u2019s mood\nsupports continuation or warns of an upcoming\nreversal.",
+    "key_rules": [],
+    "trend": "",
+    "image_path": "assets/images/patterns/5.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "6",
+    "name": "Support & Resistance",
+    "category": "General",
+    "bias": "Neutral",
+    "description": "What is Support in Trading?\nSupport in trading defines the price point where\ninvestors show buying interest to stop price declines.\nYou can use this technical concept to locate price\npoints which attract enough buying interest to stop\ndownward price movements.\nThe asset price tends to recover through upward\nmovement when it reaches this point because investors\nrecognize good value at this level.\nSupport is the opposite of resistance. Support functions\nas a price floor below the market value while resistance\nfunctions as a price ceiling above the market value\nbecause sellers use it to push prices down.\nIdentifying Support levels\nThe identification of support levels occurs through\nthe analysis of historical price charts which show\ninstances where prices stopped declining. The\nidentification of these key trading levels enables\ntraders to determine their entry points while deciding\nwhether to purchase or establish stop-loss orders.\nKey Points About Support:\nA strong support level indicates that a downtrend\nmight transition into an uptrend.\nSupport levels exhibit a non-static characteristic\nbecause they transform according to market\nconditions.\nSupport levels tend to match important\npsychological price points because investors tend\nto make decisions at these points.\nThe strength of support increases with each\nunsuccessful attempt of the price to penetrate\nbelow the level.\nWhat is Resistance in Trading?\nResistance in trading defines the price levels in\ntrading that sellers actively defend to stop price\nincreases. The technical concept enables traders to\nlocate price points where selling interest becomes\nstrong enough to drive prices downward.\nThe asset price encounters downward pressure at\nthis level because sellers consider it an optimal point\nto sell which may cause a price reversal.\nResistance is the opposite of support. Support is a\nprice floor below the market value, while resistance is\na price ceiling above the market value, where selling\npressure tends to push prices down.\nIdentifying Resistance levels\nThe identification of resistance levels requires\nstudying historical price charts to determine the points\nwhere prices failed to ascend. Traders use this\nknowledge to determine their sell order positions and\nstop-loss points.\nKey Points About Resistance:\nA strong resistance level means that an uptrend\nmay reverse into a downtrend.\nResistance levels are not fixed and can change\nbased on the market conditions.\nResistance often occurs at significant\npsychological price points where traders make\nkey decisions.\nThe more times the price fails to break through a\nresistance level, the stronger that resistance is\nconsidered.",
+    "key_rules": [],
+    "trend": "",
+    "image_path": "assets/images/patterns/6.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "7",
+    "name": "Hammer",
+    "category": "Single-Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Hammer candlestick forms after a downtrend and\nsignals a potential bullish reversal.\nIt has a small body near the top, a long lower wick (at\nleast twice the body length), and little or no upper\nwick.\nThis shape shows that sellers pushed prices down\nsharply, but buyers fought back and closed near the\nhigh.\nThis price rejection at lower levels indicates that\nselling pressure is weakening and buying interest is\nreturning a sign the trend may reverse upward.",
+    "key_rules": [
+      "Appears after a downtrend \u2014 potential reversal",
+      "signal.",
+      "Lower wick \u2265 2x the body; upper wick very small",
+      "or absent.",
+      "Body color (green or red) doesn\u2019t change meaning",
+      "but a green body shows stronger reversal.",
+      "Most reliable near support zones, trendlines, or",
+      "psychological levels.",
+      "Confirmation comes from the next bullish candle",
+      "closing above the hammer\u2019s high.",
+      "Volume increase strengthens validity of the",
+      "pattern."
+    ],
+    "trend": "Existing Trend: Downtrend or declining market.\nPost-pattern Trend: Possible shift to an uptrend if\nconfirmed by follow-up bullish candle and volume\nrise.\nBest Zones: Appears at support levels, demand\nzones, or after oversold RSI conditions.\nThe hammer implies that buyers are stepping in\nand sellers are exhausted.\nIt warns that the downtrend may end soon and\na trend reversal or short-term pullback could\nfollow.\nTraders often use it as a buy signal when the\nnext candle closes above the hammer\u2019s high\nwith healthy volume.",
+    "image_path": "assets/images/patterns/7.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "8",
+    "name": "Inverted Hammer",
+    "category": "Single-Candle Patterns",
+    "bias": "Bullish",
+    "description": "An Inverted Hammer forms after a downtrend and\nsignals a possible bullish reversal.\nIt has a small body near the bottom, a long upper\nwick (at least twice the body), and little or no lower\nwick.\nThis shape shows buyers tried to push prices higher\nbut faced resistance.\nHowever, the strong upward rejection indicates that\nbuying pressure is returning.\nIf the next candle closes above the Inverted\nHammer\u2019s high, it confirms a potential trend change\nfrom bearish to bullish.",
+    "key_rules": [
+      "Appears after a downtrend \u2014 hints at a reversal or",
+      "pause.",
+      "Upper wick \u2265 2x body size; small or no lower wick.",
+      "Body color (green or red) is less important \u2014",
+      "green adds strength.",
+      "Works best at support zones or after sharp",
+      "declines.",
+      "Requires confirmation candle closing above the",
+      "Inverted Hammer\u2019s high.",
+      "Volume surge improves reliability."
+    ],
+    "trend": "Existing Trend: Downtrend or bearish momentum.\nPost-pattern Trend: Possible upward reversal\nonce confirmed.\nBest Location: Near major support levels, demand\nzones, or after a strong down move.\nOften appears before a bullish breakout in short-\nterm charts.",
+    "image_path": "assets/images/patterns/8.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "9",
+    "name": "Spinning Top",
+    "category": "Single-Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Spinning Top candlestick has a small body with\nlong upper and lower wicks, showing that buyers and\nsellers were active but neither gained full control.\nIt usually appears after a strong uptrend or\ndowntrend, signaling indecision or a possible pause\nin market direction.\nWhen seen near key support or resistance levels, it\nwarns that momentum is weakening and the market\ncould reverse or consolidate before choosing its next\nmove.",
+    "key_rules": [
+      "Has a small body and long wicks on both sides.",
+      "Indicates indecision between buyers and sellers.",
+      "Works best after sharp moves or at key levels.",
+      "Color (green or red) doesn\u2019t affect meaning much.",
+      "Often followed by a breakout or reversal candle.",
+      "Confirmation from the next candle\u2019s direction is",
+      "essential."
+    ],
+    "trend": "The Spinning Top implies market uncertainty neither\nbuyers nor sellers are confident enough to take full\ncontrol.\nIf followed by a strong bullish candle, it signals a\npossible reversal upward; if followed by a bearish\ncandle, it suggests continuation downward.\nTraders often wait for confirmation before entering,\nusing the next candle\u2019s close as a directional clue",
+    "image_path": "assets/images/patterns/9.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "10",
+    "name": "Shooting Star",
+    "category": "Single-Candle Patterns",
+    "bias": "Bearish",
+    "description": "A Shooting Star candlestick forms after an uptrend\nand signals a potential bearish reversal.\nIt has a small body near the bottom, a long upper\nwick (at least twice the body length), and little or no\nlower wick.\nThis pattern shows buyers pushed prices up strongly,\nbut sellers stepped in and forced the price back near\nthe open.\nIt indicates that buying pressure is weakening and\nselling pressure is emerging, often marking the start\nof a downward correction.\nShooting Star",
+    "key_rules": [
+      "Appears after an uptrend \u2014 warns of bearish",
+      "reversal.",
+      "Best seen at resistance levels or near previous",
+      "swing highs.",
+      "Confirmation candle must close below the",
+      "Shooting Star\u2019s low.",
+      "High volume strengthens reliability of the reversal.28"
+    ],
+    "trend": "The Shooting Star implies that upward momentum is\nfading and that a trend reversal may be near.\nIf the next candle is strongly bearish and closes\nbelow the Shooting Star\u2019s low, it confirms the start of\na downward move.",
+    "image_path": "assets/images/patterns/10.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "11",
+    "name": "Gravestone Doji",
+    "category": "Single-Candle Patterns",
+    "bias": "Bearish",
+    "description": "A Gravestone Doji forms when the open, low, and\nclose are nearly equal, but the high is far above the\nbody, creating a long upper wick.\nIt shows that buyers pushed prices up strongly during\nthe session, but sellers forced them back down to the\nopen by the close.\nThis sharp rejection of higher prices often appears at\nthe top of an uptrend, warning of a potential bearish\nreversal or exhaustion of buying strength",
+    "key_rules": [
+      "Looks like an inverted \u201cT\u201d shape \u2014 long upper",
+      "wick, flat base.",
+      "Appears mostly after an uptrend \u2014 bearish",
+      "warning.",
+      "Indicates strong rejection of higher prices.",
+      "Best signal when followed by a bearish",
+      "confirmation candle.",
+      "Stronger when it forms at resistance levels or",
+      "overbought zones."
+    ],
+    "trend": "The Gravestone Doji implies that buyers are\nexhausted, and sellers are returning.\nIt signals a shift from bullish to bearish sentiment,\nespecially when confirmed by volume and a strong\nred candle afterward.\nTraders often enter short positions below the\nGravestone Doji\u2019s low once confirmation appears.",
+    "image_path": "assets/images/patterns/11.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "12",
+    "name": "Dragonfly Doji",
+    "category": "Single-Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Dragonfly Doji has the open, high, and close\nnearly equal, with a long lower wick and little or no\nupper wick.\nIt appears after a downtrend and signals bullish\nreversal potential.\nDuring its formation, sellers drove prices lower, but\nbuyers regained full control and closed the candle\nnear its open or high.\nThis strong rejection from lower prices shows\nrenewed buying interest, hinting that the downtrend\nmay be ending.",
+    "key_rules": [
+      "Appears after a downtrend \u2014 bullish reversal",
+      "sign.",
+      "Shows buyers absorbing selling pressure.",
+      "Stronger when seen at support zones or oversold",
+      "conditions.",
+      "Works best when accompanied by increased",
+      "volume."
+    ],
+    "trend": "The Dragonfly Doji implies that buyers are gaining\ncontrol after a decline.\nIt\u2019s often the first sign that the downtrend may end\nsoon.\nA bullish confirmation candle closing above the\nDragonfly\u2019s high can trigger a buy entry, with stop-loss\nbelow the candle\u2019s low.",
+    "image_path": "assets/images/patterns/12.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "13",
+    "name": "Hanging Man",
+    "category": "Single-Candle Patterns",
+    "bias": "Bearish",
+    "description": "A Hanging Man candlestick appears after an uptrend\nand warns of a possible bearish reversal.\nIt has a small body near the top, a long lower wick (at\nleast twice the body size), and little or no upper wick.\nAlthough buyers pushed prices up, strong selling\nduring the session shows that sellers are beginning to\nresist higher prices.\nThis candle signals that the uptrend may be\nweakening, and traders should watch for a potential\ndecline if confirmed by the next candle.",
+    "key_rules": [
+      "Appears after a strong uptrend \u2014 bearish reversal",
+      "warning.",
+      "Works best near resistance zones or round-",
+      "number price levels.",
+      "Needs confirmation from the next candle closing",
+      "below the low of the Hanging Man.",
+      "High trading volume strengthens the reliability"
+    ],
+    "trend": "The Hanging Man implies that the bullish momentum is\nweakening, and sellers are entering the market.\nIt serves as an early warning of a potential price drop\nor correction.\nTraders often prepare for short entries once the next\ncandle closes below the Hanging Man\u2019s low, setting\nstop-loss above its high.",
+    "image_path": "assets/images/patterns/13.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "14",
+    "name": "Bullish Marubozu",
+    "category": "Single-Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Bullish Marubozu is a single strong bullish candle\nthat shows complete control by buyers.\nIt opens at the session\u2019s low and closes at the\nsession\u2019s high, with no upper or lower wicks.\nThis means buyers were dominant from start to finish,\npushing prices continuously upward.\nIt often appears at the beginning of a new uptrend,\nduring a breakout, or as a confirmation of bullish\nmomentum signaling strong confidence and clear\ndirection in the market.",
+    "key_rules": [
+      "Indicates strong buying momentum and market",
+      "confidence.",
+      "No wicks \u2014 open = low, close = high.",
+      "Appears in uptrends or breakouts.",
+      "Confirms trend continuation or reversal strength.",
+      "Stronger when supported by high trading volume.",
+      "Works well near support zones or breakout levels."
+    ],
+    "trend": "A Bullish Marubozu implies that buyers are fully in\ncontrol, and prices may continue rising.\nIt\u2019s considered a strong bullish confirmation candle.\nTraders often enter long after the candle\u2019s close with\nstop-loss below its low.\nWhen followed by additional bullish candles, it often\nmarks the start of a sustained rally.",
+    "image_path": "assets/images/patterns/14.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "15",
+    "name": "Bearish Marubozu",
+    "category": "Single-Candle Patterns",
+    "bias": "Bearish",
+    "description": "A Bearish Marubozu is a single strong bearish candle\nthat shows complete control by sellers.\nIt opens at the session\u2019s high and closes at the\nsession\u2019s low, with no upper or lower wicks.\nThis indicates that sellers were in charge throughout\nthe session, pushing prices consistently downward.\nIt often forms at the start of a downtrend, during\nbreakouts below support, or as confirmation of selling\npressure, suggesting strong bearish sentiment and\nmarket conviction.",
+    "key_rules": [
+      "Indicates strong selling pressure and market",
+      "dominance by bears.",
+      "No wicks \u2014 open = high, close = low.",
+      "Appears during downtrends.",
+      "Confirms bearish continuation.",
+      "High volume adds reliability."
+    ],
+    "trend": "A Bearish Marubozu implies complete dominance of\nsellers and a clear bearish bias in the market.\nIt signals a high probability of further decline,\nespecially when confirmed by volume or following\nbearish patterns.\nTraders often enter short below the candle\u2019s close\nwith stop-loss above its high.\nIt\u2019s a strong sign of panic or aggressive selling.",
+    "image_path": "assets/images/patterns/15.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "16",
+    "name": "Pin Bar",
+    "category": "Single-Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Pin Bar (short for \u201cPinocchio Bar\u201d) is a single-\ncandle reversal pattern that signals rejection of a\nparticular price level.\nIt has a small body and a long tail (wick) on one side\neither upper or lower which shows where price was\nrejected.\nA long lower wick (Bullish Pin Bar) indicates rejection\nof lower prices and potential upward reversal, while a\nlong upper wick (Bearish Pin Bar) suggests rejection\nof higher prices and a possible downward move.",
+    "key_rules": [
+      "Appears at key support or resistance levels.",
+      "Has a small body and a long wick.",
+      "Bullish Pin Bar: long lower wick \u2192 rejection of",
+      "lows.",
+      "Bearish Pin Bar: long upper wick \u2192 rejection of",
+      "highs.",
+      "Works best with trend context and",
+      "support/resistance confluence.",
+      "Confirmation required from next candle closing in",
+      "reversal direction.",
+      "Often used in price action trading and smart",
+      "money concepts."
+    ],
+    "trend": "Bullish Pin Bar: Appears after a downtrend\npotential reversal upward.\nBearish Pin Bar: Appears after an uptrend\npotential reversal downward.\nBest Zones: Near support/resistance, trendline\nbounces, or supply/demand zones.\nThe Pin Bar implies strong rejection and a possible\nshift in momentum.\nA bullish Pin Bar signals that buyers are defending\nsupport zones, while a bearish Pin Bar signals that\nsellers are defending resistance.\nTraders often enter trades in the direction opposite to\nthe wick, setting stop-loss beyond the wick\u2019s end.\nIt\u2019s a key pattern for reversal entries and trend\ncontinuation pullbacks.",
+    "image_path": "assets/images/patterns/16.png",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "17",
+    "name": "Bullish Engulfing",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Bullish Engulfing pattern forms after a downtrend\nand signals a strong bullish reversal.\nIt consists of two candles \u2014 the first one is bearish\n(red), and the second one is bullish (green) that\ncompletely engulfs the body of the first candle.\nThis shows that buyers have overpowered sellers,\nshifting control of the market.\nThe large bullish candle represents strong\nmomentum, indicating that the downtrend may be\nending and a new upward move could begin.\nBullish Engulfing",
+    "key_rules": [
+      "Appears after a downtrend \u2014 reversal to bullish.",
+      "Formed by two candles: 1st bearish, 2nd bullish.",
+      "The bullish candle\u2019s body fully covers the",
+      "previous bearish candle.",
+      "Stronger when accompanied by high volume.",
+      "Best near support zones or oversold levels.",
+      "Confirmation occurs when the next candle closes",
+      "above the bullish candle\u2019s high."
+    ],
+    "trend": "The Bullish Engulfing implies a shift of power from\nsellers to buyers.\nIt\u2019s one of the most dependable signs of a trend\nreversal when confirmed by volume and follow-\nthrough.\nTraders typically enter long above the engulfing\ncandle\u2019s high, with a stop-loss below its low.",
+    "image_path": "assets/images/patterns/17.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "18",
+    "name": "Bearish Engulfing",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bearish",
+    "description": "A Bearish Engulfing pattern forms after an uptrend\nand signals a possible bearish reversal.\nIt consists of two candles the first is bullish (green)\nand the second is bearish (red) with a body that\ncompletely engulfs the previous candle\u2019s body.\nThis shows that sellers have overtaken buyers,\nreversing momentum.\nThe strong bearish candle indicates that the uptrend\nis weakening, and prices may start to decline as\nselling pressure increases.\nBearish Engulfing",
+    "key_rules": [
+      "Appears after an uptrend bearish reversal sign.",
+      "Consists of two candles: first bullish, second bearish",
+      "(larger body).",
+      "The bearish candle fully covers the prior candle\u2019s",
+      "body.",
+      "Volume spike strengthens the reliability of reversal.",
+      "Works best at resistance zones.",
+      "Confirmation when next candle closes below the",
+      "engulfing candle\u2019s low. 45"
+    ],
+    "trend": "The Bearish Engulfing implies a clear power shift\nfrom buyers to sellers.\nIt\u2019s a strong warning that upside momentum is fading.\nWhen confirmed by volume or momentum indicators,\nit can signal the start of a downward trend or deeper\ncorrection.",
+    "image_path": "assets/images/patterns/18.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "19",
+    "name": "Bullish Harami",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Bullish Harami pattern appears after a downtrend\nand signals a potential bullish reversal.\nIt consists of two candles \u2014 the first is a large\nbearish (red) candle, followed by a small bullish\n(green) candle that forms entirely within the body of\nthe first candle.\nThis shows that selling pressure is slowing down, and\nbuyers are cautiously returning.\nThe shrinking body size reflects indecision and trend\nexhaustion, hinting that the downtrend may soon\nreverse if buyers confirm strength in the next session.\nBullish Harami",
+    "key_rules": [
+      "Indicates loss of bearish momentum.",
+      "Works best at support zones or after sharp",
+      "declines.",
+      "Volume rise on the second candle adds reliability.",
+      "Confirmation when next candle closes above the",
+      "Harami\u2019s high."
+    ],
+    "trend": "The Bullish Harami implies that sellers are losing\ndominance and buyers are regaining confidence.\nIt\u2019s a conservative signal suggesting trend exhaustion\nrather than a sudden reversal.\nTraders often enter long after a bullish confirmation\ncandle, setting stop-loss below the Harami\u2019s low.\nIt\u2019s especially valuable when accompanied by volume\nincrease or bullish divergence on indicators.",
+    "image_path": "assets/images/patterns/19.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "20",
+    "name": "Bearish Harami",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bearish",
+    "description": "A Bearish Harami pattern forms after an uptrend and\nsignals a possible bearish reversal.\nIt consists of two candles \u2014 the first is a large bullish\n(green) candle, followed by a small bearish (red)\ncandle that forms entirely within the body of the first.\nThis pattern shows that buying momentum is fading\nand sellers are slowly taking over.\nThe narrow range of the second candle reflects\nindecision and loss of strength, hinting that the\nuptrend may be nearing its end.\nBearish Harami",
+    "key_rules": [
+      "Indicates buying weakness and market",
+      "hesitation.",
+      "Stronger when found near resistance zones or",
+      "previous highs.",
+      "Volume drop on the second candle strengthens",
+      "validity.",
+      "Confirmation when next candle closes below the",
+      "Harami\u2019s low."
+    ],
+    "trend": "The Bearish Harami implies that bullish momentum is\nfading, and sellers are gaining confidence.\nIt\u2019s not an immediate sell signal but a warning of\npotential reversal.\nTraders often enter short after a bearish confirmation\ncandle closes below the Harami\u2019s low, setting stop-\nloss above its high.\nIt reflects market hesitation and possible shift from\noptimism to caution.",
+    "image_path": "assets/images/patterns/20.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "21",
+    "name": "Morning Star Pattern",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bullish",
+    "description": "21.Morning Star\nThe Morning Star is a three-candle bullish reversal\npattern that forms after a downtrend.\nIt begins with a large bearish candle, followed by a\nsmall indecisive candle (Doji or Spinning Top), and\nends with a strong bullish candle that closes well into\nthe first candle\u2019s body.\nIt signals that the downtrend may be ending, and a\nnew upward move is likely to begin.\nMorning Star",
+    "key_rules": [
+      "Appears after a downtrend signals a bullish reversal.",
+      "Consists of three candles:",
+      "1\u20e3 Long bearish candle (sellers in control)",
+      "2\u20e3 Small body or Doji (indecision)",
+      "3\u20e3 Strong bullish candle (buyers take over)",
+      "The third candle should close above the midpoint of",
+      "the first candle.",
+      "Volume increase on the third candle adds strength.",
+      "Works best at support zones or after long",
+      "downtrends."
+    ],
+    "trend": "The Morning Star implies that sellers are exhausted\nand buyers are returning.\nIt\u2019s a clear indication of trend reversal strength,\nespecially when accompanied by volume\nconfirmation.\nTraders often enter long above the third candle\u2019s\nhigh, placing a stop-loss below the pattern\u2019s low.",
+    "image_path": "assets/images/patterns/21.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "22",
+    "name": "Evening Star Pattern",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bearish",
+    "description": "22.Evening Star\nThe Evening Star is a three-candle bearish reversal\npattern that forms after an uptrend.\nIt starts with a large bullish candle, followed by a\nsmall indecisive candle (Doji or Spinning Top), and\nends with a strong bearish candle that closes deep\ninto the first candle\u2019s body.\nThe pattern signals that the uptrend may be ending,\nand a downward reversal could be underway.\nEvening Star",
+    "key_rules": [
+      "Appears after an uptrend signals bearish reversal.",
+      "Consists of three candles:",
+      "Large bullish candle (strong buying)",
+      "Small candle or Doji (indecision)",
+      "Large bearish candle (strong selling)",
+      "The third candle should close below the midpoint of",
+      "the first candle.",
+      "Volume confirmation on the bearish candle",
+      "strengthens reliability. 53"
+    ],
+    "trend": "The Evening Star implies that buyers are exhausted,\nand sellers are taking control.\nIt acts as an early warning for a potential downtrend\nor major price correction.\nTraders often enter short below the third candle\u2019s low\nwith a stop-loss above the pattern\u2019s high.",
+    "image_path": "assets/images/patterns/22.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "23",
+    "name": "Three White Soldiers",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bullish",
+    "description": "The Three White Soldiers pattern is a three-candle\nbullish reversal formation that appears after a\ndowntrend.\nIt consists of three consecutive long bullish (green)\ncandles, each opening within or near the previous\ncandle\u2019s body and closing progressively higher.\nThis steady upward movement shows strong and\nconsistent buying pressure.\nIt indicates that buyers have taken full control of the\nmarket and a new uptrend may be starting, especially\nwhen supported by volume and market confirmation.",
+    "key_rules": [
+      "Appears after a downtrend signals strong bullish",
+      "reversal.",
+      "Three long bullish candles closing higher each day.",
+      "Each candle opens within or near the previous",
+      "candle\u2019s body.",
+      "No large upper wicks, showing sustained buying",
+      "interest.",
+      "Works best with increasing volume."
+    ],
+    "trend": "The Three White Soldiers implies strong bullish\nmomentum and renewed confidence in the market.\nIt\u2019s one of the most reliable reversal signals, especially\nwhen supported by rising volume and confirmation from\nindicators.\nTraders typically enter long after the third candle\ncloses, setting a stop-loss below the first candle\u2019s low.\nIt often marks the beginning of a sustainable uptrend.",
+    "image_path": "assets/images/patterns/23.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "24",
+    "name": "Three Black Crows",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bearish",
+    "description": "The Three Black Crows pattern is a three-candle\nbearish reversal formation that appears after an\nuptrend.\nIt consists of three consecutive long bearish (red)\ncandles, each opening within or near the previous\ncandle\u2019s body and closing progressively lower.\nThis steady downward move shows consistent selling\npressure and signals that buyers are losing control.\nThe formation warns of a potential trend reversal and\nis strongest when accompanied by high trading\nvolume and confirmation from technical indicators.",
+    "key_rules": [
+      "Appears after an uptrend signals a bearish reversal.",
+      "Three long bearish candles closing lower each",
+      "session.",
+      "Each candle opens within or near the previous",
+      "candle\u2019s body.",
+      "No lower wicks sellers dominated throughout.",
+      "Works best with rising volume and confirmation from",
+      "indicators."
+    ],
+    "trend": "The Three Black Crows implies intense selling pressure\nand loss of bullish confidence.\nIt often marks the start of a downward trend or\ncorrection phase.\nTraders usually enter short below the third candle\u2019s low,\nsetting stop-loss above the first candle\u2019s high.\nIt\u2019s a visual warning of bearish dominance, signaling\ntraders to exit long positions or prepare for downside\nmoves.",
+    "image_path": "assets/images/patterns/24.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "25",
+    "name": "Tweezer Top",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bearish",
+    "description": "25. Tweezer Top\nA Tweezer Top forms after an uptrend and signals a\npossible bearish reversal.\nIt consists of two candles with almost equal highs,\noften showing strong rejection at a resistance level.\nThe first candle is bullish, continuing the trend, and\nthe second is bearish, opening near the previous\nhigh but closing lower.\nThis pattern shows that buyers tried to push prices\nhigher again but failed, revealing seller strength and\na possible end of the uptrend.\nTop(Bearish)",
+    "key_rules": [
+      "Appears after an uptrend \u2014 bearish reversal signal.",
+      "Formed by two candles with identical or nearly equal",
+      "highs.",
+      "First candle: bullish; second: bearish.",
+      "Shows rejection of resistance or double-top behavior.",
+      "Works best with volume spike on the second candle.",
+      "Confirmation when the price closes below both",
+      "candles\u2019 lows."
+    ],
+    "trend": "The Tweezer Top implies that the market rejected\nhigher prices twice in a row.\nIt shows bullish exhaustion and the start of selling\nmomentum.\nTraders often enter short below the pattern\u2019s low with a\nstop-loss above the highs.\nIt\u2019s most reliable when confirmed by a strong bearish\ncandle or high trading volume.",
+    "image_path": "assets/images/patterns/25.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "26",
+    "name": "Tweezer Bottom",
+    "category": "Double & Triple Candle Patterns",
+    "bias": "Bullish",
+    "description": "A Tweezer Bottom forms after a downtrend and\nsignals a potential bullish reversal.\nIt consists of two candles with nearly equal lows,\nshowing rejection of lower prices.\nThe first candle is bearish, and the second is bullish,\nopening near the previous low but closing higher.\nThis shows that sellers tried to continue the\ndowntrend but failed, and buyers stepped in strongly,\nmarking the possible start of a new upward\nmovement.\nBottom(Bullish)",
+    "key_rules": [
+      "Appears after a downtrend bullish reversal pattern.",
+      "Formed by two candles with identical or nearly equal",
+      "lows.",
+      "First candle: bearish; second: bullish.",
+      "Indicates rejection of support or double-bottom",
+      "behavior.",
+      "Works best when the second candle closes above the",
+      "first\u2019s high."
+    ],
+    "trend": "The Tweezer Bottom implies that the market rejected\nlower prices twice, confirming buyer strength.\nIt signals that sellers are weakening, and buyers may\nsoon take control.\nTraders often enter long above the second candle\u2019s\nhigh with a stop-loss below the lows.\nIt\u2019s a simple yet powerful confirmation of bottom\nreversal.",
+    "image_path": "assets/images/patterns/26.png",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "27",
+    "name": "Double Top",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "27. Double Top\nThe Double Top is a bearish reversal chart pattern\nthat forms after a strong uptrend.\nIt consists of two consecutive peaks (tops) at nearly\nthe same price level, separated by a moderate trough\n(neckline).\nThis pattern shows that the market has tested a\nresistance level twice but failed both times to break\nabove it.\nWhen the price finally breaks below the neckline, it\nconfirms a trend reversal signaling that sellers have\ntaken control and a downtrend may begin.",
+    "key_rules": [
+      "Appears after an uptrend \u2014 signals bearish reversal.",
+      "Formed by two peaks at similar levels and a neckline",
+      "between them.",
+      "Second top shows buyer exhaustion and resistance",
+      "confirmation.",
+      "Pattern completes when price breaks below neckline.",
+      "Volume typically decreases on the second top,",
+      "confirming weakness."
+    ],
+    "trend": "The Double Top implies that buyers are losing strength,\nand sellers are regaining control.\nIt\u2019s a warning of potential trend reversal, often marking\nthe transition from bullish to bearish sentiment.\nTraders typically enter short after a confirmed break\nbelow the neckline, with a stop-loss above the second\ntop.\nThe pattern is reliable when supported by volume\nincrease during breakdown.",
+    "image_path": "assets/images/patterns/27.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "28",
+    "name": "Double Bottom",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "28. Double Bottom\nThe Double Bottom is a bullish reversal chart pattern\nthat forms after a strong downtrend.\nIt consists of two consecutive lows (bottoms) at\nnearly the same price level, separated by a moderate\npeak (neckline).\nThis pattern shows that the market tested a support\nlevel twice and failed to break below it.\nWhen the price breaks above the neckline, it confirms\nthat buyers have regained control, signaling a\npotential uptrend or strong bullish recovery.",
+    "key_rules": [
+      "Appears after a downtrend signals bullish reversal.",
+      "Formed by two lows at a similar level and a neckline",
+      "between them.",
+      "Second bottom confirms support zone strength.",
+      "Pattern completes when price breaks above neckline.",
+      "Volume often increases on the breakout, confirming",
+      "buying interest."
+    ],
+    "trend": "The Double Bottom implies that sellers failed to push\nprices lower twice, confirming a strong support level.\nIt\u2019s one of the most reliable signs that the downtrend is\nending and buyers are returning.\nTraders typically enter long after a confirmed break\nabove the neckline, placing a stop-loss below the\nsecond bottom.",
+    "image_path": "assets/images/patterns/28.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "29",
+    "name": "Triple Top",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "29. Triple Top\nThe Triple Top is a bearish reversal chart pattern that\nappears after a prolonged uptrend.\nIt consists of three peaks at roughly the same price\nlevel, separated by two troughs, forming a clear\nhorizontal resistance.\nEach attempt to break above this resistance fails,\nshowing that buyers are losing momentum.\nOnce the price breaks below the neckline (the\nsupport line connecting the two troughs), it confirms\nthe pattern and signals a potential downtrend or\nbearish reversal.",
+    "key_rules": [
+      "Appears after an uptrend \u2014 indicates bearish",
+      "reversal.",
+      "Composed of three equal highs (tops) and two lows",
+      "(neckline).",
+      "Resistance zone is tested three times but not broken.",
+      "Pattern confirms when price breaks below neckline.",
+      "Volume decreases with each peak, signaling",
+      "weakening buyers. 67"
+    ],
+    "trend": "The Triple Top implies complete buyer exhaustion and\na clear transition to selling pressure.\nIt\u2019s a powerful indicator that the uptrend has ended and\na new bearish phase is starting.\nTraders often enter short after a confirmed break below\nthe neckline, placing stop-loss above the third top.\nThe pattern becomes more reliable when accompanied\nby rising volume during the breakdown.",
+    "image_path": "assets/images/patterns/29.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "30",
+    "name": "Triple Bottom",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "The Triple Bottom is a bullish reversal chart pattern\nthat forms after a downtrend.\nIt consists of three consecutive lows at approximately\nthe same price level, separated by two peaks\n(neckline).\nEach time the market tests this support level, buyers\nstep in and prevent further decline.\nThis repeated defense of support shows that selling\npressure is weakening.\nWhen price breaks above the neckline, it confirms a\nbullish reversal, signaling that buyers are regaining\ncontrol and an uptrend may begin.",
+    "key_rules": [
+      "Appears after a downtrend indicates bullish reversal.",
+      "Formed by three equal lows (bottoms) and two highs",
+      "(neckline).",
+      "Support zone tested three times and holds strong.",
+      "Pattern confirms when price breaks above neckline.",
+      "Volume increases on breakout, confirming buying",
+      "momentum."
+    ],
+    "trend": "The Triple Bottom implies strong support and\naccumulation by buyers.\nIt\u2019s a visual confirmation that sellers have failed multiple\ntimes, and buyers are preparing for a breakout.\nTraders typically enter long after a confirmed close\nabove the neckline, placing stop-loss below the third\nbottom.\nThe pattern is most powerful when confirmed by\nincreasing volume or bullish indicators.",
+    "image_path": "assets/images/patterns/30.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "31",
+    "name": "Head & Shoulders",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "31.Head and shoulders\nThe Head and Shoulders is a bearish reversal chart\npattern that forms after an uptrend.\nIt consists of three peaks a left shoulder, a higher\nmiddle peak (the head), and a right shoulder of\nsimilar height to the first.\nA neckline connects the two troughs between the\nshoulders.\nWhen the price breaks below the neckline, it confirms\nthe pattern, signaling that buyers are losing strength\nand sellers are taking control, often leading to a trend\nreversal.",
+    "key_rules": [
+      "Appears after an uptrend signals bearish reversal.",
+      "Composed of three peaks: Left Shoulder, Head, Right",
+      "Shoulder.",
+      "Head is the highest point; shoulders are of similar",
+      "height.",
+      "Neckline connects the two swing lows.",
+      "Pattern confirms when price breaks below neckline. 71"
+    ],
+    "trend": "The Head and Shoulders implies that the uptrend is\nover and a bearish phase may begin.\nIt\u2019s one of the most reliable reversal formations,\nespecially with volume confirmation during the\nbreakdown.\nTraders usually enter short after a confirmed break\nbelow the neckline, setting stop-loss above the right\nshoulder.\nThe pattern signals a shift in market sentiment \u2014 from\noptimism to selling pressure.",
+    "image_path": "assets/images/patterns/31.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "32",
+    "name": "Inverted Head & Shoulders",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "32.Inverse Head and shoulders\nThe Inverse Head and Shoulders is a bullish reversal\npattern that forms after a downtrend.\nIt features three consecutive troughs (lows) \u2014 a left\nshoulder, a lower middle trough (the head), and a\nright shoulder similar in depth to the left.\nA neckline connects the peaks between these\ntroughs.\nWhen the price breaks above the neckline, it confirms\na trend reversal, signaling that buyers are regaining\nstrength and a new uptrend may begin.",
+    "key_rules": [
+      "Appears after a downtrend signals bullish reversal.",
+      "Composed of three lows: Left Shoulder, Head",
+      "(lowest), Right Shoulder.",
+      "Neckline connects the two swing highs.",
+      "Pattern confirms when price breaks above neckline.",
+      "Volume usually increases on the breakout, confirming",
+      "buyer strength. 73"
+    ],
+    "trend": "The Inverse Head and Shoulders implies seller\nexhaustion and buyer accumulation.\nIt\u2019s a strong signal that the downtrend has likely ended,\nand bullish sentiment is returning.\nTraders often enter long after a confirmed break above\nthe neckline, with stop-loss below the right shoulder.\nA volume surge during breakout strengthens\nconfirmation, marking the start of a potential uptrend.",
+    "image_path": "assets/images/patterns/32.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "33",
+    "name": "Rising wedges",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "The Rising Wedge is a bearish chart pattern that can\nform either after an uptrend (reversal) or during a\ndowntrend (continuation).\nIt consists of two upward-sloping trendlines that\nconverge as price moves higher the upper line acts\nas resistance and the lower line as support.\nWhile prices continue to rise, the slope narrows,\nsignaling weakening momentum.\nA breakdown below the lower trendline confirms the\npattern and suggests a potential bearish move\nahead.\nRising Wedge",
+    "key_rules": [
+      "Shape: Two rising, converging trendlines (narrowing",
+      "price channel).",
+      "Trend Type: Bearish signals reversal or continuation.",
+      "Volume decreases during formation, showing",
+      "weakening buyers.",
+      "Breakdown below support confirms bearish bias."
+    ],
+    "trend": "The Rising Wedge implies weakening bullish pressure\nand a potential bearish shift.\nIt often precedes sharp downside movements as\ntrapped buyers exit positions.\nTraders usually enter short after the price breaks below\nthe lower trendline, with a stop-loss above the last\nswing high.\nIt\u2019s one of the most reliable early warning patterns for\ntrend reversals.",
+    "image_path": "assets/images/patterns/33.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "34",
+    "name": "Falling Wedges",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "34.Falling Wedge\nThe Falling Wedge is a bullish chart pattern that\nforms after a downtrend (reversal) or during an\nuptrend (continuation).\nIt consists of two downward-sloping trendlines that\nconverge, showing narrowing price movement.\nAs the range tightens, sellers lose strength while\nbuyers begin accumulating.\nWhen price breaks above the upper trendline, it\nconfirms a bullish breakout signaling that buyers\nhave regained control and a potential upward move\nor trend reversal is underway.",
+    "key_rules": [
+      "Shape: Two converging downward-sloping trendlines.",
+      "Indicates decreasing selling pressure and",
+      "accumulation.",
+      "Can act as a reversal in a downtrend or continuation",
+      "in an uptrend.",
+      "Volume declines during wedge formation and rises on",
+      "breakout."
+    ],
+    "trend": "The Falling Wedge implies seller exhaustion and a\nlikely bullish shift in market control.\nIt\u2019s a strong technical signal that the downtrend may be\nending.\nTraders typically enter long after a confirmed breakout\nabove the upper trendline, placing stop-loss below the\nlast swing low.\nIt\u2019s one of the most powerful reversal setups when\ncombined with volume and divergence confirmation.",
+    "image_path": "assets/images/patterns/34.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "35",
+    "name": "Ascending Triangles",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "35.Ascending Triangle\nThe Ascending Triangle is a bullish continuation\npattern that forms during an uptrend.\nIt\u2019s made up of a horizontal resistance line at the top\nand a rising trendline below.\nThis means buyers are entering at higher prices each\ntime, while sellers repeatedly defend the same\nresistance.\nAs price compresses, momentum builds for a\nbreakout.\nWhen price closes above the resistance line, it\nconfirms the pattern and often leads to a strong\nbullish continuation or new uptrend.\nAscending Triangle",
+    "key_rules": [
+      "Shape: Flat resistance (top) + rising support (bottom).",
+      "Appears during an uptrend signals bullish",
+      "continuation.",
+      "Shows higher lows as buyers gain strength.",
+      "Pattern completes with a breakout above resistance.",
+      "Volume contracts during formation and expands on",
+      "breakout. 79"
+    ],
+    "trend": "The Ascending Triangle implies buyer strength and\nbreakout potential.\nIt often precedes strong bullish momentum as trapped\nsellers exit positions.\nTraders typically enter long after a confirmed breakout\nabove resistance, with stop-loss below the last higher\nlow.\nThe pattern\u2019s reliability increases when accompanied\nby rising volume and strong trend confirmation.",
+    "image_path": "assets/images/patterns/35.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "36",
+    "name": "Descending Triangles",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "36.Descending Triangle\nThe Descending Triangle is a bearish continuation\npattern that forms during a downtrend.\nIt consists of a horizontal support line at the bottom\nand a descending resistance line above.\nThis shows that sellers are getting stronger, pushing\nprices lower each time, while buyers try to hold a\nfixed support level.\nAs the range tightens, pressure builds until price\nbreaks below the support line, confirming the pattern\nand signaling a potential continuation of the\ndowntrend.\nDescending Triangle",
+    "key_rules": [
+      "Shape: Flat support (bottom) + descending resistance",
+      "(top).",
+      "Appears during a downtrend \u2014 signals bearish",
+      "continuation.",
+      "Shows lower highs, meaning sellers dominate.",
+      "Pattern confirms on breakdown below support.",
+      "Volume decreases during formation, increases on",
+      "breakout."
+    ],
+    "trend": "The Descending Triangle implies persistent selling\npressure and buyer weakness.\nIt\u2019s a warning that support may soon fail, leading to\nfurther downside.\nTraders usually enter short after a confirmed close\nbelow the support line, with a stop-loss above the last\nlower high.\nThe pattern is often followed by sharp breakdowns due\nto stop-loss triggers and panic selling.",
+    "image_path": "assets/images/patterns/36.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "37",
+    "name": "Symmetrical Triangle",
+    "category": "Chart Patterns",
+    "bias": "Neutral",
+    "description": "The Symmetrical Triangle is a neutral continuation\npattern that can signal a breakout or breakdown,\ndepending on which side wins control.\nIt consists of two converging trendlines one\ndescending (upper) and one ascending (lower)\nshowing lower highs and higher lows.\nThis pattern reflects a period of indecision and\nconsolidation where price volatility contracts.\nWhen the price finally breaks out of the triangle, it\nconfirms the new direction upward in uptrends or\ndownward in downtrends.",
+    "key_rules": [
+      "Shape: Two converging diagonal trendlines (one",
+      "descending, one ascending).",
+      "Represents indecision and consolidation before a",
+      "breakout.",
+      "Neutral pattern breakout can occur in either direction.",
+      "Volume contracts during formation and expands",
+      "sharply on breakout."
+    ],
+    "trend": "The Symmetrical Triangle implies market balance and\npressure build-up.\nIt\u2019s a sign that a major move is coming, though the\ndirection depends on the breakout.\nTraders typically wait for a candle close beyond either\ntrendline to confirm direction.\nLong entries are made on upward breakouts; short\nentries on downward ones, with stop-loss inside the\ntriangle.",
+    "image_path": "assets/images/patterns/37.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "38",
+    "name": "Dark Cloud Cover",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "The Dark Cloud Cover is a two-candle bearish\nreversal pattern that forms after an uptrend.\nThe first candle is bullish (green), showing strong\nbuying momentum, while the second candle is\nbearish (red) that opens above the previous high but\ncloses below the midpoint of the first candle.\nThis sudden shift shows selling pressure entering the\nmarket.\nIt signals that the uptrend may be losing strength,\nand a downward reversal could be near if confirmed\nby a bearish continuation candle.\nDark Cloud Cover",
+    "key_rules": [
+      "Appears after an uptrend bearish reversal indicator.",
+      "Two candles:",
+      "Long bullish candle (buyers in control).",
+      "Bearish candle opening above the previous high but",
+      "closing below midpoint.",
+      "Gap-up opening enhances signal strength.",
+      "Works best near resistance or overbought regions."
+    ],
+    "trend": "The Dark Cloud Cover implies that buying momentum\nis fading and sellers are stepping in.\nIt\u2019s a strong early warning that a top may be forming.\nTraders often enter short below the bearish candle\u2019s\nlow with a stop-loss above its high.\nWhen confirmed by increasing volume or RSI\ndivergence, it signals a potential trend reversal.",
+    "image_path": "assets/images/patterns/38.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "39",
+    "name": "Cup and Handle",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "The Cup and Handle is a bullish continuation pattern\nthat forms after a strong upward move.\nIt resembles the shape of a tea cup the cup\nrepresents a rounded bottom formed by a gradual\ndecline and recovery, while the handle represents a\nshort pullback or consolidation.\nThis pattern shows a period of accumulation before a\nbreakout.\nWhen price breaks above the handle\u2019s resistance, it\nconfirms trend continuation, signaling a strong bullish\nmomentum ahead.\nCup And Handle",
+    "key_rules": [
+      "Appears during an uptrend signals bullish",
+      "continuation.",
+      "Cup: Rounded bottom showing gradual accumulation.",
+      "Handle: Small pullback after recovery.",
+      "Pattern confirms when price breaks above handle",
+      "resistance.",
+      "Volume decreases during cup formation and",
+      "increases on breakout."
+    ],
+    "trend": "The Cup and Handle implies strong buyer\naccumulation and renewed bullish momentum.\nIt\u2019s a sign that the market has digested earlier gains\nand is ready for the next breakout.\nTraders often enter long after a confirmed breakout\nabove the handle, with stoploss below the handle\u2019s low.\nThe larger and more symmetrical the cup, the more\nreliable the pattern.",
+    "image_path": "assets/images/patterns/39.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "40",
+    "name": "Bullish Flag",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "The Bullish Flag is a continuation pattern that forms\nafter a sharp upward price move.\nIt resembles a flag on a pole the flagpole represents\na strong rally, and the flag represents a short-term\nconsolidation or downward-sloping channel.\nThis pattern shows that after a quick rise, traders are\ntaking profits, but buyers are still in control.\nWhen price breaks above the flag\u2019s upper trendline, it\nconfirms trend continuation and signals the next\nbullish leg upward.\nBullish Flag",
+    "key_rules": [
+      "Structure: Sharp rally (flagpole) + downward-sloping",
+      "flag.",
+      "Appears during an uptrend signals bullish",
+      "continuation.",
+      "Shows temporary consolidation after a strong move.",
+      "Pattern confirms when price breaks above flag",
+      "resistance.",
+      "Volume declines during flag formation and increases",
+      "on breakout."
+    ],
+    "trend": "It shows that buyers are simply pausing before pushing\nprices higher.\nTraders typically enter long on a confirmed breakout\nabove the flag, placing stoploss below the flag\u2019s lower\nline.\nIt\u2019s one of the most profitable patterns for momentum\ntraders, especially when confirmed by volume spike on\nbreakout.",
+    "image_path": "assets/images/patterns/40.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "41",
+    "name": "Bearish Flag",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "The Bearish Flag is a continuation pattern that forms\nafter a sharp downward price move.\nIt looks like a flag on a pole the flagpole represents a\nstrong bearish drop, and the flag is a short-term\nupward or sideways consolidation.\nThis pattern shows that sellers are temporarily\npausing, while buyers attempt a weak recovery.\nWhen price breaks below the flag\u2019s lower trendline, it\nconfirms trend continuation, signaling the start of\nanother wave of selling pressure.\nBearish Flag",
+    "key_rules": [
+      "Structure: Sharp decline (flagpole) + upward-sloping",
+      "or sideways flag.",
+      "Appears during a downtrend signals bearish",
+      "continuation.",
+      "Shows temporary pullback or consolidation before",
+      "breakdown.",
+      "Pattern confirms when price closes below flag",
+      "support."
+    ],
+    "trend": "The Bearish Flag implies strong selling momentum and\na likely continuation of the existing downtrend.\nIt shows that the market is simply pausing before\nanother fall.\nTraders often enter short after a confirmed break below\nthe flag, setting stop-loss above the flag\u2019s upper\nboundary.\nThis pattern helps capture trend continuation moves\nwith low risk and high reward. 92",
+    "image_path": "assets/images/patterns/41.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "42",
+    "name": "Rounding Bottom",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "The Rounding Bottom is a bullish reversal pattern\nthat forms after a prolonged downtrend.\nIt has a smooth, U-shaped curve, showing a gradual\nshift from selling to buying pressure.\nInitially, prices decline slowly, then stabilize, and\nfinally start rising gradually forming a saucer-like\nbottom.\nThis pattern signals accumulation by long-term\nbuyers and often marks the end of a downtrend.\nWhen price breaks above the neckline (resistance), it\nconfirms a new uptrend and bullish momentum.",
+    "key_rules": [
+      "Shape: Smooth U-shaped bottom (saucer form).",
+      "Appears after a downtrend \u2014 signals bullish reversal.",
+      "Represents gradual accumulation and buyer",
+      "confidence.",
+      "Pattern completes when price breaks above",
+      "neckline/resistance.",
+      "Volume decreases near the bottom and rises during",
+      "breakout. 93"
+    ],
+    "trend": "The Rounding Bottom implies a slow but steady\ntransfer of control from sellers to buyers.\nIt\u2019s a strong long-term bullish signal, often preceding\nmajor trend reversals.\nTraders usually enter long after a confirmed breakout\nabove neckline, with stop-loss near the lowest point of\nthe curve.\nIt\u2019s one of the most trustworthy bottoming formations\ndue to its gradual development and clear volume\nstructure. 94",
+    "image_path": "assets/images/patterns/42.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "43",
+    "name": "Rounding Top",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "The Rounding Top is a bearish reversal pattern that\nforms after a strong uptrend.\nIt has a smooth, inverted U-shape, showing a gradual\nshift from bullish to bearish sentiment.\nAt first, buyers push prices higher, but momentum\nweakens as sellers begin to dominate.\nThe rounded shape shows distribution by smart\nmoney and loss of buying strength.\nWhen the price breaks below the neckline (support),\nit confirms the bearish reversal and often leads to a\ndowntrend.",
+    "key_rules": [
+      "Shape: Smooth inverted U-shape (saucer top).",
+      "Appears after an uptrend \u2014 signals bearish reversal.",
+      "Represents buyer fatigue and gradual distribution.",
+      "Pattern confirms when price breaks below",
+      "neckline/support.",
+      "Volume increases during decline and decreases",
+      "during topping phase."
+    ],
+    "trend": "The Rounding Top implies buyer exhaustion and a\ntransition to selling pressure.\nIt\u2019s a warning that the uptrend is losing strength, and a\nreversal may be near.\nTraders typically enter short after a confirmed\nbreakdown below the neckline, setting stop-loss above\nthe recent swing high.\nThis pattern is especially effective when confirmed by\nfalling volume and momentum divergence.",
+    "image_path": "assets/images/patterns/43.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "44",
+    "name": "Diamond Top",
+    "category": "Chart Patterns",
+    "bias": "Bearish",
+    "description": "The Diamond Top is a bearish reversal chart pattern\nthat forms after a strong uptrend.\nIt begins with a broadening formation (higher highs\nand lower lows), followed by a narrowing formation\n(lower highs and higher lows), together forming a\ndiamond shape.\nThis pattern shows market indecision and volatility\nexpansion, followed by contraction.\nWhen price breaks below the lower boundary of the\ndiamond, it confirms a bearish reversal, signaling that\nbuyers are losing control and sellers are taking over.",
+    "key_rules": [
+      "Shape: Combination of broadening and symmetrical",
+      "triangle forming a diamond.",
+      "Appears after an uptrend signals bearish reversal.",
+      "Reflects high volatility and trend exhaustion.",
+      "Pattern confirms when price breaks below support",
+      "(lower boundary).",
+      "Volume increases in the broadening phase and",
+      "decreases during contraction. 97"
+    ],
+    "trend": "Existing Trend: Uptrend.\nPost-pattern Trend: Bearish reversal or downtrend\ncontinuation.\nBest Zones: Near market tops, major resistance\nlevels, or post-rally exhaustion phases.\nWorks well with volume divergence or bearish\nmomentum indicators.\nThe Diamond Top implies trend exhaustion and buyer\nweakness after a strong uptrend.\nIt warns traders that a reversal is imminent as the\nmarket transitions from expansion to contraction.\nTraders usually enter short after a confirmed break\nbelow the diamond, with stop-loss above the upper\nboundary.\nThe pattern often precedes sharp corrections or major\nbearish reversals.",
+    "image_path": "assets/images/patterns/44.png",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "45",
+    "name": "Diamond Bottom",
+    "category": "Chart Patterns",
+    "bias": "Bullish",
+    "description": "The Diamond Bottom is a bullish reversal chart\npattern that forms after a prolonged downtrend.\nIt begins with a broadening formation (lower lows and\nhigher highs) followed by a narrowing formation\n(higher lows and lower highs), together forming a\ndiamond shape.\nThis pattern represents volatility expansion followed\nby compression, showing that sellers are losing\nstrength while buyers start accumulating.\nWhen price breaks above the diamond\u2019s upper\nboundary, it confirms a bullish reversal and signals\nthe start of a new uptrend.",
+    "key_rules": [
+      "Shape: Broadening + contracting trendlines forming a",
+      "diamond.",
+      "Appears after a downtrend signals bullish reversal.",
+      "Reflects buyer accumulation and decreasing volatility.",
+      "Pattern confirms when price breaks above resistance",
+      "(upper boundary).",
+      "Volume increases during breakout, confirming",
+      "demand. 100"
+    ],
+    "trend": "Existing Trend: Downtrend.\nPost-pattern Trend: Bullish reversal or uptrend\nstart.\nBest Zones: Near major support levels, bottom\nformations, or oversold regions.\nWorks best when volume rises during breakout and\nmomentum indicators turn bullish.\nThe Diamond Bottom implies seller exhaustion and\nbuyer strength building at the end of a downtrend.\nIt\u2019s a sign that the market has absorbed all selling\npressure and is preparing for a trend reversal.\nTraders typically enter long after a confirmed breakout\nabove the diamond, with stop-loss below the lower\nboundary.\nThis pattern often marks the early phase of long-term\ntrend reversals.\nThe Final Thought\nThank you for reading. Candlestick patterns are a\nlanguage the more you read charts, the more fluent\nyou become.\nStart small: practise pattern recognition on higher\ntimeframes, trade with well-defined risk, and journal\nevery trade. Consistency and discipline matter far\nmore than finding \u201cperfect\u201d setups.\nFinal tips\nUse higher-timeframe bias first, then trade lower-\ntimeframe entries.\nWait for confirmation a single candle rarely tells\nthe whole story.\nKeep risk per trade small (1\u20132%); protect capital.\nReview trades weekly; learn from both wins and\nlosses.\nDisclaimer\nThis book is educational not investment advice.\nTrading involves risk. Always do your own research\nand consider professional guidance.\nContact / Feedback\nAuthor: Nawaz Ashraf\nI\u2019d love your feedback and real-world samples from\nyour practice journal.",
+    "image_path": "assets/images/patterns/45.png",
+    "difficulty": "Advanced"
+  }
+]
