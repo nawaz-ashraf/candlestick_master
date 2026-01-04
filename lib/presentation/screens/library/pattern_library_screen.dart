@@ -124,7 +124,7 @@ class PatternLibraryScreen extends StatelessWidget {
                     "${pattern.category} • ${pattern.difficulty}",
                     style: const TextStyle(fontSize: 12),
                   ),
-                  trailing: Icon(Icons.chevron_right, color: AppColors.textSecondary),
+                  trailing: const Icon(Icons.chevron_right, color: AppColors.textSecondary),
                   onTap: () => _navigateToPattern(context, pattern),
                 ),
               );

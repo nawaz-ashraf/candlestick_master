@@ -1,5 +1,4 @@
 import 'package:candlesticks/candlesticks.dart';
-import '../../data/models/pattern_model.dart';
 import 'dart:math';
 
 class DetectionResult {

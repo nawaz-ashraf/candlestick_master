@@ -8,18 +8,16 @@
 // TODO: Update domain when production domain is configured
 // =============================================================================
 
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/pattern_model.dart';
-import '../../presentation/screens/chart/chart_screen.dart';
 import '../../presentation/screens/compliance/disclaimer_screen.dart';
 import '../../presentation/screens/compliance/paywall_screen.dart';
 import '../../presentation/screens/detail/pattern_detail_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
-import '../../presentation/screens/library/pattern_library_screen.dart';
-import '../../presentation/screens/quiz/quiz_screen.dart';
+// import '../../presentation/screens/library/pattern_library_screen.dart';
+// import '../../presentation/screens/quiz/quiz_screen.dart';
 import '../../presentation/providers/pattern_notifier.dart';
 
 final appRouter = GoRouter(
@@ -32,11 +30,13 @@ final appRouter = GoRouter(
       path: '/',
       builder: (context, state) => const HomeScreen(),
     ),
+    /*
     GoRoute(
       path: '/library',
       builder: (context, state) => const PatternLibraryScreen(),
     ),
-    
+    */
+
     // ========================================
     // Pattern Detail - Supports Deep Linking
     // ========================================
@@ -51,27 +51,31 @@ final appRouter = GoRouter(
         if (pattern != null) {
           return PatternDetailScreen(pattern: pattern);
         }
-        
+
         // If no extra, this is a deep link - look up by ID
         final patternId = state.pathParameters['id'];
         if (patternId != null) {
           final patternsNotifier = context.read<PatternsNotifier>();
           final foundPattern = patternsNotifier.getPatternById(patternId);
-          
+
           if (foundPattern != null) {
             return PatternDetailScreen(pattern: foundPattern);
           }
         }
-        
+
         // Pattern not found - redirect to home
         // This handles invalid deep links gracefully
         return const HomeScreen();
       },
     ),
-    
+
     // ========================================
     // Feature Routes
     // ========================================
+    // ========================================
+    // Feature Routes
+    // ========================================
+    /* 
     GoRoute(
       path: '/quiz',
       builder: (context, state) => const QuizScreen(),
@@ -80,7 +84,8 @@ final appRouter = GoRouter(
       path: '/chart',
       builder: (context, state) => const ChartScreen(),
     ),
-    
+   */
+
     // ========================================
     // Compliance Routes
     // ========================================

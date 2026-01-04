@@ -36,7 +36,7 @@ class AdService {
   // static const String _prodBannerAdUnitId = 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
   // static const String _prodInterstitialAdUnitId = 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
   
-  // Use test IDs for now
+  // Use test IDs for now5
   static String get bannerAdUnitId => _testBannerAdUnitId;
   static String get interstitialAdUnitId => _testInterstitialAdUnitId;
 
@@ -160,7 +160,7 @@ class AdService {
     
     // Check frequency cap - only show every N actions
     if (_interstitialActionCount < _interstitialFrequencyCap) {
-      debugPrint('AdService: Skipping interstitial (action ${_interstitialActionCount}/$_interstitialFrequencyCap)');
+      debugPrint('AdService: Skipping interstitial (action $_interstitialActionCount/$_interstitialFrequencyCap)');
       return false;
     }
     

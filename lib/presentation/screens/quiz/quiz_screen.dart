@@ -105,9 +105,9 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   const Icon(Icons.celebration, size: 64, color: AppColors.primary),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     "Quiz Finished!",
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
