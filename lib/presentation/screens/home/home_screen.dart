@@ -13,7 +13,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/ad_service.dart';
 import 'dashboard_screen.dart';
 import '../library/pattern_library_screen.dart';
-import '../quiz/quiz_screen.dart';
+import '../quiz/quiz_selection_screen.dart';
 import '../performance/performance_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Widget> pages = [
       DashboardScreen(onTabChange: _onItemTapped),
       const PatternLibraryScreen(),
-      const QuizScreen(),
+      const QuizSelectionScreen(),
       const PerformanceScreen(),
     ];
 

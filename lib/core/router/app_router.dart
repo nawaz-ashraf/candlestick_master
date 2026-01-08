@@ -12,12 +12,13 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/pattern_model.dart';
+import '../../data/models/quiz_settings.dart';
 import '../../presentation/screens/compliance/disclaimer_screen.dart';
 import '../../presentation/screens/compliance/paywall_screen.dart';
 import '../../presentation/screens/detail/pattern_detail_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
-// import '../../presentation/screens/library/pattern_library_screen.dart';
-// import '../../presentation/screens/quiz/quiz_screen.dart';
+import '../../presentation/screens/quiz/quiz_selection_screen.dart';
+import '../../presentation/screens/quiz/quiz_screen.dart';
 import '../../presentation/providers/pattern_notifier.dart';
 
 final appRouter = GoRouter(
@@ -70,21 +71,19 @@ final appRouter = GoRouter(
     ),
 
     // ========================================
-    // Feature Routes
+    // Quiz Routes
     // ========================================
-    // ========================================
-    // Feature Routes
-    // ========================================
-    /* 
+    GoRoute(
+      path: '/quiz/select',
+      builder: (context, state) => const QuizSelectionScreen(),
+    ),
     GoRoute(
       path: '/quiz',
-      builder: (context, state) => const QuizScreen(),
+      builder: (context, state) {
+        final settings = state.extra as QuizSettings?;
+        return QuizScreen(settings: settings);
+      },
     ),
-    GoRoute(
-      path: '/chart',
-      builder: (context, state) => const ChartScreen(),
-    ),
-   */
 
     // ========================================
     // Compliance Routes

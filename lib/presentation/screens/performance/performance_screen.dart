@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/theme_notifier.dart';
+import '../../providers/user_progress_notifier.dart';
+import '../../providers/pattern_notifier.dart';
 import '../../../core/theme/app_theme.dart';
 
 class PerformanceScreen extends StatelessWidget {
@@ -28,70 +30,120 @@ class PerformanceScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Learning Streak Section
-            _buildSectionHeader(context, "Learning Streak"),
-            const SizedBox(height: 12),
-            _buildStreakCard(context),
+      body: Consumer2<UserProgressNotifier, PatternsNotifier>(
+        builder: (context, progressNotifier, patternsNotifier, child) {
+          final learnedCount = progressNotifier.learnedCount;
+          final totalPatterns = patternsNotifier.patterns.length;
+          final quizAccuracy = progressNotifier.quizAccuracy;
+          final totalQuestions = progressNotifier.totalQuestions;
+          final correctAnswers = progressNotifier.correctAnswers;
 
-            const SizedBox(height: 24),
-
-            // Stats Grid
-            _buildSectionHeader(context, "Statistics"),
-            const SizedBox(height: 12),
-            Row(
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: _buildStatCard(
-                    context,
-                    "Patterns Learned",
-                    "12/42",
-                    Icons.grid_view,
-                    Colors.purple,
-                  ),
+                // Learning Streak Section
+                _buildSectionHeader(context, "Learning Streak"),
+                const SizedBox(height: 12),
+                _buildStreakCard(context, learnedCount),
+
+                const SizedBox(height: 24),
+
+                // Stats Grid
+                _buildSectionHeader(context, "Statistics"),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildStatCard(
+                        context,
+                        "Patterns Learned",
+                        "$learnedCount${totalPatterns > 0 ? '/$totalPatterns' : ''}",
+                        Icons.grid_view,
+                        Colors.purple,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildStatCard(
+                        context,
+                        "Quiz Accuracy",
+                        totalQuestions > 0
+                            ? "${quizAccuracy.toStringAsFixed(0)}%"
+                            : "N/A",
+                        Icons.quiz,
+                        Colors.green,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _buildStatCard(
-                    context,
-                    "Quizzes Passed",
-                    "5",
-                    Icons.quiz,
-                    Colors.green,
-                  ),
+
+                const SizedBox(height: 12),
+                // Second row of stats
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildStatCard(
+                        context,
+                        "Questions Answered",
+                        "$totalQuestions",
+                        Icons.help_outline,
+                        Colors.blue,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildStatCard(
+                        context,
+                        "Correct Answers",
+                        "$correctAnswers",
+                        Icons.check_circle_outline,
+                        AppColors.bullish,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+
+                // Achievements Section
+                _buildSectionHeader(context, "Achievements"),
+                const SizedBox(height: 12),
+                _buildAchievementTile(
+                  context,
+                  "First Steps",
+                  "Completed your first candlestick pattern tutorial.",
+                  learnedCount >= 1,
+                ),
+                _buildAchievementTile(
+                  context,
+                  "Dedicated Learner",
+                  "Learned 10 candlestick patterns.",
+                  learnedCount >= 10,
+                ),
+                _buildAchievementTile(
+                  context,
+                  "Sharp Eye",
+                  "Achieved 80% or higher quiz accuracy.",
+                  quizAccuracy >= 80 && totalQuestions >= 5,
+                ),
+                _buildAchievementTile(
+                  context,
+                  "Quiz Master",
+                  "Answered 50 quiz questions.",
+                  totalQuestions >= 50,
+                ),
+                _buildAchievementTile(
+                  context,
+                  "Pattern Expert",
+                  "Learned all candlestick patterns.",
+                  totalPatterns > 0 && learnedCount >= totalPatterns,
                 ),
               ],
             ),
-
-            const SizedBox(height: 24),
-
-            // Recent Activity / Badges (Placeholder for 'many more')
-            _buildSectionHeader(context, "Achievements"),
-            const SizedBox(height: 12),
-            _buildAchievementTile(
-              context,
-              "First Steps",
-              "Completed your first candlestick pattern tutorial.",
-              true,
-            ),
-            _buildAchievementTile(
-              context,
-              "Sharp Eye",
-              "Scored 100% on a quiz.",
-              true,
-            ),
-            _buildAchievementTile(
-              context,
-              "Consistency King",
-              "Studied for 7 days in a row.",
-              false,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -105,7 +157,31 @@ class PerformanceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStreakCard(BuildContext context) {
+  Widget _buildStreakCard(BuildContext context, int learnedCount) {
+    // Determine streak message based on progress
+    String streakTitle;
+    String streakSubtitle;
+    IconData streakIcon;
+
+    if (learnedCount == 0) {
+      streakTitle = "Start Learning!";
+      streakSubtitle = "Mark your first pattern as learned to begin.";
+      streakIcon = Icons.lightbulb_outline;
+    } else if (learnedCount < 5) {
+      streakTitle = "Getting Started!";
+      streakSubtitle =
+          "You've learned $learnedCount pattern${learnedCount == 1 ? '' : 's'}. Keep it up!";
+      streakIcon = Icons.trending_up;
+    } else if (learnedCount < 15) {
+      streakTitle = "Making Progress!";
+      streakSubtitle = "Great job! $learnedCount patterns learned.";
+      streakIcon = Icons.local_fire_department;
+    } else {
+      streakTitle = "On Fire! 🔥";
+      streakSubtitle = "Amazing! You've mastered $learnedCount patterns!";
+      streakIcon = Icons.emoji_events;
+    }
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -129,24 +205,24 @@ class PerformanceScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(Icons.local_fire_department,
-              color: Colors.white, size: 48),
+          Icon(streakIcon, color: Colors.white, size: 48),
           const SizedBox(height: 8),
-          const Text(
-            "3 Day Streak!",
-            style: TextStyle(
+          Text(
+            streakTitle,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            "Keep it up! You're on fire.",
-            style: TextStyle(
+          Text(
+            streakSubtitle,
+            style: const TextStyle(
               color: Colors.white70,
               fontSize: 14,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

@@ -1,0 +1,717 @@
+[
+    {
+        "id": "q1",
+        "category": "pattern",
+        "question": "What does a Doji candlestick pattern indicate?",
+        "options": [
+            "Strong bullish momentum",
+            "Strong bearish momentum",
+            "Market indecision",
+            "Trend reversal confirmed"
+        ],
+        "correctIndex": 2,
+        "explanation": "A Doji forms when open and close prices are nearly equal, indicating market indecision between buyers and sellers."
+    },
+    {
+        "id": "q2",
+        "category": "pattern",
+        "question": "Which pattern consists of three consecutive bullish candles with higher highs?",
+        "options": [
+            "Three Black Crows",
+            "Three White Soldiers",
+            "Morning Star",
+            "Bullish Harami"
+        ],
+        "correctIndex": 1,
+        "explanation": "Three White Soldiers is a bullish reversal pattern consisting of three consecutive long-bodied bullish candles."
+    },
+    {
+        "id": "q3",
+        "category": "pattern",
+        "question": "What is the bearish counterpart of the Hammer pattern?",
+        "options": [
+            "Inverted Hammer",
+            "Hanging Man",
+            "Shooting Star",
+            "Doji"
+        ],
+        "correctIndex": 1,
+        "explanation": "The Hanging Man looks identical to a Hammer but appears at the top of an uptrend, signaling potential reversal."
+    },
+    {
+        "id": "q4",
+        "category": "pattern",
+        "question": "A Shooting Star pattern appears at:",
+        "options": [
+            "Bottom of a downtrend",
+            "Top of an uptrend",
+            "During consolidation",
+            "At support levels"
+        ],
+        "correctIndex": 1,
+        "explanation": "A Shooting Star is a bearish reversal pattern that appears at the top of an uptrend with a small body and long upper shadow."
+    },
+    {
+        "id": "q5",
+        "category": "pattern",
+        "question": "What characterizes a Marubozu candlestick?",
+        "options": [
+            "Long wicks on both sides",
+            "No body, only wicks",
+            "Full body with no wicks",
+            "Small body with equal wicks"
+        ],
+        "correctIndex": 2,
+        "explanation": "A Marubozu is a candlestick with a full body and no upper or lower shadows, indicating strong momentum."
+    },
+    {
+        "id": "q6",
+        "category": "pattern",
+        "question": "The Morning Star pattern is a:",
+        "options": [
+            "Bearish continuation",
+            "Bullish reversal",
+            "Bearish reversal",
+            "Neutral pattern"
+        ],
+        "correctIndex": 1,
+        "explanation": "Morning Star is a three-candle bullish reversal pattern appearing at the bottom of a downtrend."
+    },
+    {
+        "id": "q7",
+        "category": "pattern",
+        "question": "Which pattern has a small body contained within the previous large body?",
+        "options": [
+            "Engulfing",
+            "Harami",
+            "Piercing Line",
+            "Dark Cloud Cover"
+        ],
+        "correctIndex": 1,
+        "explanation": "Harami (meaning 'pregnant' in Japanese) features a small candle body within the range of the previous large candle."
+    },
+    {
+        "id": "q8",
+        "category": "pattern",
+        "question": "A Bullish Engulfing pattern requires:",
+        "options": [
+            "The first candle to be larger",
+            "The second bullish candle to completely engulf the first",
+            "Three candles minimum",
+            "A gap down followed by gap up"
+        ],
+        "correctIndex": 1,
+        "explanation": "In a Bullish Engulfing, the second bullish candle's body completely engulfs the first bearish candle's body."
+    },
+    {
+        "id": "q9",
+        "category": "pattern",
+        "question": "Three Black Crows indicate:",
+        "options": [
+            "Bullish reversal",
+            "Bearish reversal",
+            "Continuation of uptrend",
+            "Market consolidation"
+        ],
+        "correctIndex": 1,
+        "explanation": "Three Black Crows is a bearish reversal pattern with three consecutive long bearish candles with lower lows."
+    },
+    {
+        "id": "q10",
+        "category": "pattern",
+        "question": "What does the Evening Star pattern signal?",
+        "options": [
+            "Bullish continuation",
+            "Bearish reversal at top",
+            "Bullish reversal at bottom",
+            "Strong support"
+        ],
+        "correctIndex": 1,
+        "explanation": "Evening Star is a three-candle bearish reversal pattern appearing at the top of an uptrend."
+    },
+    {
+        "id": "q11",
+        "category": "pattern",
+        "question": "A Hammer pattern has:",
+        "options": [
+            "Long upper shadow, small body",
+            "Long lower shadow, small body at top",
+            "Equal shadows on both sides",
+            "No shadows at all"
+        ],
+        "correctIndex": 1,
+        "explanation": "A Hammer has a small body at the top with a long lower shadow, suggesting buyers pushed prices back up."
+    },
+    {
+        "id": "q12",
+        "category": "pattern",
+        "question": "The Piercing Line pattern opens:",
+        "options": [
+            "Above the previous close",
+            "Below the previous low",
+            "At the previous close",
+            "With a gap up"
+        ],
+        "correctIndex": 1,
+        "explanation": "Piercing Line opens below the previous candle's low and closes above the midpoint of the previous bearish candle."
+    },
+    {
+        "id": "q13",
+        "category": "pattern",
+        "question": "Dark Cloud Cover is characterized by:",
+        "options": [
+            "A bullish candle closing above midpoint",
+            "A bearish candle opening above and closing below midpoint",
+            "Two doji candles",
+            "A hammer at resistance"
+        ],
+        "correctIndex": 1,
+        "explanation": "Dark Cloud Cover opens above the previous high and closes below the midpoint of the previous bullish candle."
+    },
+    {
+        "id": "q14",
+        "category": "pattern",
+        "question": "What is an Inverted Hammer?",
+        "options": [
+            "Bearish pattern at bottom",
+            "Bullish reversal with long upper shadow at bottom",
+            "Same as Shooting Star",
+            "Continuation pattern"
+        ],
+        "correctIndex": 1,
+        "explanation": "An Inverted Hammer appears at the bottom of a downtrend with a small body and long upper shadow, signaling potential reversal."
+    },
+    {
+        "id": "q15",
+        "category": "pattern",
+        "question": "A Spinning Top indicates:",
+        "options": [
+            "Strong trend continuation",
+            "Market indecision",
+            "Definite reversal",
+            "High volume breakout"
+        ],
+        "correctIndex": 1,
+        "explanation": "A Spinning Top has a small body with shadows on both sides, indicating indecision between buyers and sellers."
+    },
+    {
+        "id": "q16",
+        "category": "trading",
+        "question": "What is a stop-loss order?",
+        "options": [
+            "An order to buy at a specific price",
+            "An order to limit losses by selling at a preset price",
+            "An order to take profits",
+            "A market order"
+        ],
+        "correctIndex": 1,
+        "explanation": "A stop-loss order automatically sells a position when price reaches a specified level to limit potential losses."
+    },
+    {
+        "id": "q17",
+        "category": "trading",
+        "question": "What does 'support level' mean in trading?",
+        "options": [
+            "Price level where selling pressure is strong",
+            "Price level where buying interest prevents further decline",
+            "The highest price reached",
+            "Average price over time"
+        ],
+        "correctIndex": 1,
+        "explanation": "Support is a price level where buying interest is strong enough to prevent the price from falling further."
+    },
+    {
+        "id": "q18",
+        "category": "trading",
+        "question": "What is resistance in technical analysis?",
+        "options": [
+            "Price level where buying pressure increases",
+            "Price level where selling pressure prevents further rise",
+            "The lowest price point",
+            "The opening price"
+        ],
+        "correctIndex": 1,
+        "explanation": "Resistance is a price level where selling pressure is strong enough to prevent the price from rising further."
+    },
+    {
+        "id": "q19",
+        "category": "trading",
+        "question": "What does 'bullish' mean in trading?",
+        "options": [
+            "Expecting prices to fall",
+            "Expecting prices to rise",
+            "Market is closed",
+            "Prices are stable"
+        ],
+        "correctIndex": 1,
+        "explanation": "Bullish refers to a positive outlook, expecting the market or asset price to rise."
+    },
+    {
+        "id": "q20",
+        "category": "trading",
+        "question": "What does 'bearish' mean in trading?",
+        "options": [
+            "Expecting prices to rise",
+            "Expecting prices to fall",
+            "High volatility",
+            "Low trading volume"
+        ],
+        "correctIndex": 1,
+        "explanation": "Bearish refers to a negative outlook, expecting the market or asset price to fall."
+    },
+    {
+        "id": "q21",
+        "category": "trading",
+        "question": "What is a trend reversal?",
+        "options": [
+            "Continuation of current trend",
+            "Change in price direction from up to down or vice versa",
+            "Price moving sideways",
+            "High volume spike"
+        ],
+        "correctIndex": 1,
+        "explanation": "A trend reversal occurs when the prevailing price direction changes from bullish to bearish or vice versa."
+    },
+    {
+        "id": "q22",
+        "category": "trading",
+        "question": "What is the purpose of risk management in trading?",
+        "options": [
+            "To maximize every trade",
+            "To control and limit potential losses",
+            "To avoid all trades",
+            "To predict exact prices"
+        ],
+        "correctIndex": 1,
+        "explanation": "Risk management involves strategies to control and limit potential losses while preserving capital."
+    },
+    {
+        "id": "q23",
+        "category": "trading",
+        "question": "What is a breakout in trading?",
+        "options": [
+            "Price falling below support",
+            "Price moving beyond a key level with increased volume",
+            "A gap in price",
+            "Market closing"
+        ],
+        "correctIndex": 1,
+        "explanation": "A breakout occurs when price moves beyond a significant support or resistance level, often with increased volume."
+    },
+    {
+        "id": "q24",
+        "category": "trading",
+        "question": "What does 'volume' indicate in trading?",
+        "options": [
+            "The price of an asset",
+            "The number of shares or contracts traded",
+            "The volatility of price",
+            "The market cap"
+        ],
+        "correctIndex": 1,
+        "explanation": "Volume represents the total number of shares, contracts, or units traded during a specific period."
+    },
+    {
+        "id": "q25",
+        "category": "trading",
+        "question": "What is a false breakout?",
+        "options": [
+            "A confirmed breakout with high volume",
+            "Price breaks a level but quickly reverses",
+            "A gap up at market open",
+            "Consolidation pattern"
+        ],
+        "correctIndex": 1,
+        "explanation": "A false breakout occurs when price temporarily moves beyond a key level but then reverses back."
+    },
+    {
+        "id": "q26",
+        "category": "lesson",
+        "question": "How many candles make up a Doji pattern?",
+        "options": [
+            "One",
+            "Two",
+            "Three",
+            "Four"
+        ],
+        "correctIndex": 0,
+        "explanation": "A Doji is a single candlestick pattern where the open and close prices are virtually equal."
+    },
+    {
+        "id": "q27",
+        "category": "lesson",
+        "question": "What does the body of a candlestick represent?",
+        "options": [
+            "High and low prices",
+            "Open and close prices",
+            "Volume",
+            "Time duration"
+        ],
+        "correctIndex": 1,
+        "explanation": "The body of a candlestick represents the range between the opening and closing prices."
+    },
+    {
+        "id": "q28",
+        "category": "lesson",
+        "question": "What do the wicks (shadows) of a candlestick show?",
+        "options": [
+            "Open and close range",
+            "High and low price extremes",
+            "Trading volume",
+            "Time of trade"
+        ],
+        "correctIndex": 1,
+        "explanation": "Wicks or shadows show the highest and lowest prices reached during the candle's time period."
+    },
+    {
+        "id": "q29",
+        "category": "lesson",
+        "question": "A green (or white) candlestick typically indicates:",
+        "options": [
+            "Price closed lower than open",
+            "Price closed higher than open",
+            "No change in price",
+            "High volatility"
+        ],
+        "correctIndex": 1,
+        "explanation": "A green or white candle indicates the closing price was higher than the opening price (bullish)."
+    },
+    {
+        "id": "q30",
+        "category": "lesson",
+        "question": "A red (or black) candlestick typically indicates:",
+        "options": [
+            "Price closed higher than open",
+            "Price closed lower than open",
+            "Market was closed",
+            "Gap formation"
+        ],
+        "correctIndex": 1,
+        "explanation": "A red or black candle indicates the closing price was lower than the opening price (bearish)."
+    },
+    {
+        "id": "q31",
+        "category": "lesson",
+        "question": "What timeframe does one candlestick represent?",
+        "options": [
+            "Always one day",
+            "Always one hour",
+            "Depends on chart settings",
+            "Always one week"
+        ],
+        "correctIndex": 2,
+        "explanation": "Each candlestick represents a specific time period based on the chart timeframe (1min, 1hr, 1day, etc.)."
+    },
+    {
+        "id": "q32",
+        "category": "lesson",
+        "question": "Where did candlestick charting originate?",
+        "options": [
+            "United States",
+            "Japan",
+            "United Kingdom",
+            "China"
+        ],
+        "correctIndex": 1,
+        "explanation": "Candlestick charting originated in Japan in the 18th century for rice trading analysis."
+    },
+    {
+        "id": "q33",
+        "category": "lesson",
+        "question": "What is the significance of a long wick on a candlestick?",
+        "options": [
+            "Low trading activity",
+            "Price rejection at that level",
+            "Confirmed trend",
+            "Gap in trading"
+        ],
+        "correctIndex": 1,
+        "explanation": "A long wick indicates price was rejected at that level, showing strong buying or selling pressure."
+    },
+    {
+        "id": "q34",
+        "category": "lesson",
+        "question": "How should candlestick patterns be confirmed?",
+        "options": [
+            "Never need confirmation",
+            "With volume, other indicators, or following candles",
+            "Only by pattern shape",
+            "By news events only"
+        ],
+        "correctIndex": 1,
+        "explanation": "Candlestick patterns should be confirmed using volume, other technical indicators, or subsequent price action."
+    },
+    {
+        "id": "q35",
+        "category": "lesson",
+        "question": "What is a continuation pattern?",
+        "options": [
+            "Pattern signaling trend reversal",
+            "Pattern suggesting trend will continue",
+            "Pattern showing no trend",
+            "Pattern only in downtrends"
+        ],
+        "correctIndex": 1,
+        "explanation": "A continuation pattern suggests the current trend is likely to continue after a brief pause or consolidation."
+    },
+    {
+        "id": "q36",
+        "category": "pattern",
+        "question": "The Tweezer Top pattern consists of:",
+        "options": [
+            "One candle with long wick",
+            "Two candles with matching highs",
+            "Three candles in sequence",
+            "Gap followed by reversal"
+        ],
+        "correctIndex": 1,
+        "explanation": "Tweezer Top features two consecutive candles with matching or near-matching highs, signaling bearish reversal."
+    },
+    {
+        "id": "q37",
+        "category": "pattern",
+        "question": "What pattern is the opposite of Tweezer Top?",
+        "options": [
+            "Tweezer Bottom",
+            "Double Top",
+            "Head and Shoulders",
+            "Cup and Handle"
+        ],
+        "correctIndex": 0,
+        "explanation": "Tweezer Bottom is a bullish reversal pattern with two candles having matching or near-matching lows."
+    },
+    {
+        "id": "q38",
+        "category": "pattern",
+        "question": "A Dragonfly Doji has:",
+        "options": [
+            "Long upper shadow only",
+            "Long lower shadow only",
+            "Equal shadows on both sides",
+            "No shadows"
+        ],
+        "correctIndex": 1,
+        "explanation": "A Dragonfly Doji has a long lower shadow with no upper shadow, with open, close, and high at the same level."
+    },
+    {
+        "id": "q39",
+        "category": "pattern",
+        "question": "A Gravestone Doji has:",
+        "options": [
+            "Long lower shadow only",
+            "Long upper shadow only",
+            "No shadows at all",
+            "Small body in middle"
+        ],
+        "correctIndex": 1,
+        "explanation": "A Gravestone Doji has a long upper shadow with no lower shadow, with open, close, and low at the same level."
+    },
+    {
+        "id": "q40",
+        "category": "pattern",
+        "question": "The Rising Three Methods is a:",
+        "options": [
+            "Bearish reversal pattern",
+            "Bullish continuation pattern",
+            "Neutral consolidation",
+            "Single candle pattern"
+        ],
+        "correctIndex": 1,
+        "explanation": "Rising Three Methods is a bullish continuation pattern with a long bullish candle, three small bearish candles, then another long bullish candle."
+    },
+    {
+        "id": "q41",
+        "category": "trading",
+        "question": "What is the risk-reward ratio?",
+        "options": [
+            "Profit divided by total trades",
+            "Potential profit compared to potential loss",
+            "Win rate percentage",
+            "Total capital invested"
+        ],
+        "correctIndex": 1,
+        "explanation": "Risk-reward ratio compares the potential profit of a trade to its potential loss, helping evaluate trade quality."
+    },
+    {
+        "id": "q42",
+        "category": "trading",
+        "question": "What is position sizing?",
+        "options": [
+            "The direction of a trade",
+            "Determining how much capital to allocate to a trade",
+            "The duration of holding",
+            "The entry price"
+        ],
+        "correctIndex": 1,
+        "explanation": "Position sizing determines how much capital to allocate to each trade based on risk tolerance and account size."
+    },
+    {
+        "id": "q43",
+        "category": "trading",
+        "question": "What is a take-profit order?",
+        "options": [
+            "An order to buy more",
+            "An order to automatically sell at a target profit level",
+            "A stop-loss order",
+            "A market order"
+        ],
+        "correctIndex": 1,
+        "explanation": "A take-profit order automatically closes a position when the price reaches a predetermined profit target."
+    },
+    {
+        "id": "q44",
+        "category": "trading",
+        "question": "What does 'consolidation' mean in trading?",
+        "options": [
+            "Strong upward movement",
+            "Strong downward movement",
+            "Price moving sideways within a range",
+            "Market closure"
+        ],
+        "correctIndex": 2,
+        "explanation": "Consolidation occurs when price moves sideways within a defined range, indicating a pause in the trend."
+    },
+    {
+        "id": "q45",
+        "category": "trading",
+        "question": "What is a pullback in an uptrend?",
+        "options": [
+            "Complete trend reversal",
+            "Temporary decline before trend continues",
+            "Gap down opening",
+            "Market crash"
+        ],
+        "correctIndex": 1,
+        "explanation": "A pullback is a temporary decline in price during an uptrend before the upward movement resumes."
+    },
+    {
+        "id": "q46",
+        "category": "lesson",
+        "question": "What is the best approach to learning candlestick patterns?",
+        "options": [
+            "Memorize all patterns at once",
+            "Start with common patterns and practice regularly",
+            "Only study during trades",
+            "Ignore confirmation signals"
+        ],
+        "correctIndex": 1,
+        "explanation": "The best approach is to master common patterns first and practice identifying them regularly before learning complex ones."
+    },
+    {
+        "id": "q47",
+        "category": "lesson",
+        "question": "Why is context important for candlestick patterns?",
+        "options": [
+            "It's not important",
+            "Same pattern can have different meanings based on trend",
+            "Only pattern shape matters",
+            "Context only matters for reversal patterns"
+        ],
+        "correctIndex": 1,
+        "explanation": "Trend context is crucial as the same pattern can signal different outcomes depending on the prevailing trend."
+    },
+    {
+        "id": "q48",
+        "category": "pattern",
+        "question": "What is an Abandoned Baby pattern?",
+        "options": [
+            "Single candle with long wicks",
+            "Three candle pattern with gap and doji in middle",
+            "Two engulfing candles",
+            "Four candle continuation"
+        ],
+        "correctIndex": 1,
+        "explanation": "Abandoned Baby is a rare three-candle pattern with gaps on both sides of a doji, signaling strong reversal."
+    },
+    {
+        "id": "q49",
+        "category": "pattern",
+        "question": "The Falling Three Methods is a:",
+        "options": [
+            "Bullish reversal pattern",
+            "Bearish continuation pattern",
+            "Neutral pattern",
+            "Single candle pattern"
+        ],
+        "correctIndex": 1,
+        "explanation": "Falling Three Methods is a bearish continuation pattern, the opposite of Rising Three Methods."
+    },
+    {
+        "id": "q50",
+        "category": "pattern",
+        "question": "What does a long-legged Doji indicate?",
+        "options": [
+            "Strong trend",
+            "Extreme indecision with high volatility",
+            "Low trading volume",
+            "Trend continuation"
+        ],
+        "correctIndex": 1,
+        "explanation": "A long-legged Doji has long upper and lower shadows, indicating extreme market indecision with high volatility."
+    },
+    {
+        "id": "q51",
+        "category": "trading",
+        "question": "What is 'slippage' in trading?",
+        "options": [
+            "Difference between expected and actual execution price",
+            "A trading strategy",
+            "Type of order",
+            "Market indicator"
+        ],
+        "correctIndex": 0,
+        "explanation": "Slippage is the difference between the expected price of a trade and the actual price at which it is executed."
+    },
+    {
+        "id": "q52",
+        "category": "trading",
+        "question": "What is the 2% rule in risk management?",
+        "options": [
+            "Profit target should be 2%",
+            "Never risk more than 2% of capital on a single trade",
+            "Trade only 2 hours per day",
+            "Use 2:1 leverage"
+        ],
+        "correctIndex": 1,
+        "explanation": "The 2% rule suggests never risking more than 2% of your trading capital on any single trade."
+    },
+    {
+        "id": "q53",
+        "category": "lesson",
+        "question": "What is the primary disadvantage of candlestick patterns?",
+        "options": [
+            "They are always accurate",
+            "They can give false signals and require confirmation",
+            "They only work in forex",
+            "They are too simple"
+        ],
+        "correctIndex": 1,
+        "explanation": "Candlestick patterns can produce false signals, which is why they should be used with other confirmation tools."
+    },
+    {
+        "id": "q54",
+        "category": "pattern",
+        "question": "A Bullish Belt Hold opens:",
+        "options": [
+            "At the high of the day",
+            "At or near the low with no lower shadow",
+            "With a gap down from previous close",
+            "With a doji pattern"
+        ],
+        "correctIndex": 1,
+        "explanation": "A Bullish Belt Hold opens at or near its low with minimal or no lower shadow and closes significantly higher."
+    },
+    {
+        "id": "q55",
+        "category": "pattern",
+        "question": "Which pattern suggests exhaustion of the current trend?",
+        "options": [
+            "Strong Marubozu",
+            "Spinning Top after long trend",
+            "Engulfing pattern",
+            "Three soldiers"
+        ],
+        "correctIndex": 1,
+        "explanation": "A Spinning Top after a long trend suggests momentum exhaustion and potential reversal or consolidation."
+    }
+]

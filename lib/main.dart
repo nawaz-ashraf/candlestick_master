@@ -9,6 +9,7 @@ import 'core/services/fcm_service.dart';
 import 'presentation/providers/pattern_notifier.dart';
 import 'presentation/providers/quiz_notifier.dart';
 import 'presentation/providers/theme_notifier.dart';
+import 'presentation/providers/user_progress_notifier.dart';
 import 'data/repositories/pattern_repository.dart';
 
 // =============================================================================
@@ -18,6 +19,7 @@ import 'data/repositories/pattern_repository.dart';
 // 1. Firebase (required for FCM, Firestore, Auth)
 // 2. AdService (Google AdMob for monetization)
 // 3. FCMService (Push notifications for engagement)
+// 4. ThemeNotifier & UserProgressNotifier (load persisted preferences)
 // =============================================================================
 
 void main() async {
@@ -36,11 +38,31 @@ void main() async {
   // Initialize Firebase Cloud Messaging for push notifications
   await FCMService().initialize();
 
-  runApp(const MyApp());
+  // Create and initialize providers that need async initialization
+  final themeNotifier = ThemeNotifier();
+  final userProgressNotifier = UserProgressNotifier();
+
+  // Load persisted preferences before app starts
+  await Future.wait([
+    themeNotifier.initialize(),
+    userProgressNotifier.initialize(),
+  ]);
+
+  runApp(MyApp(
+    themeNotifier: themeNotifier,
+    userProgressNotifier: userProgressNotifier,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ThemeNotifier themeNotifier;
+  final UserProgressNotifier userProgressNotifier;
+
+  const MyApp({
+    super.key,
+    required this.themeNotifier,
+    required this.userProgressNotifier,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +71,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => PatternsNotifier(PatternRepository())),
         ChangeNotifierProvider(create: (_) => QuizNotifier()),
-        ChangeNotifierProvider(create: (_) => ThemeNotifier()),
+        ChangeNotifierProvider.value(value: themeNotifier),
+        ChangeNotifierProvider.value(value: userProgressNotifier),
       ],
       child: Consumer<ThemeNotifier>(
         builder: (context, themeNotifier, child) {
