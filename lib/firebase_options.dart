@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCF1b7bfbKqGLcNcRDFqKrMpl9_DZ7RWNE',
-    appId: '1:771678380093:android:c956bf9c67e08e02370a54',
+    appId: '1:771678380093:android:d694e7523f1d66fb370a54',
     messagingSenderId: '771678380093',
     projectId: 'my-third-application-a1d2c',
     storageBucket: 'my-third-application-a1d2c.firebasestorage.app',
@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '771678380093',
     projectId: 'my-third-application-a1d2c',
     storageBucket: 'my-third-application-a1d2c.firebasestorage.app',
-    iosBundleId: 'com.candlestickpro.learn',
+    iosBundleId: 'com.candlestickmaster.app',
   );
 }

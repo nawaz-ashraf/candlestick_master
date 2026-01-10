@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:771678380093:android:d694e7523f1d66fb370a54",
+        "android_client_info": {
+          "package_name": "com.candlestickmaster.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF1b7bfbKqGLcNcRDFqKrMpl9_DZ7RWNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:771678380093:android:c956bf9c67e08e02370a54",
         "android_client_info": {
           "package_name": "com.example.candlestick_master"

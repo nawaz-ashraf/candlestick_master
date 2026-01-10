@@ -41,10 +41,10 @@ class AdService {
       'ca-app-pub-4392358942856616/3094895523';
 
   // Use test IDs for now5
-  // static String get bannerAdUnitId => _prodBannerAdUnitId;
-  // static String get interstitialAdUnitId => _prodInterstitialAdUnitId;
-  static String get bannerAdUnitId => _testBannerAdUnitId;
-  static String get interstitialAdUnitId => _testInterstitialAdUnitId;
+  static String get bannerAdUnitId => _prodBannerAdUnitId;
+  static String get interstitialAdUnitId => _prodInterstitialAdUnitId;
+  // static String get bannerAdUnitId => _testBannerAdUnitId;
+  // static String get interstitialAdUnitId => _testInterstitialAdUnitId;
 
   // ============================================
   // Frequency Capping Configuration
