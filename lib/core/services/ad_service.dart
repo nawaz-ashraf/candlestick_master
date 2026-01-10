@@ -26,17 +26,23 @@ class AdService {
   // ============================================
   // TODO: Replace with your production Ad Unit IDs before release
   // ============================================
-  
+
   // Test Ad Unit IDs (safe for development - won't get account banned)
   // These are Google's official test IDs
-  static const String _testBannerAdUnitId = 'ca-app-pub-3940256099942544/6300978111';
-  static const String _testInterstitialAdUnitId = 'ca-app-pub-3940256099942544/1033173712';
-  
+  static const String _testBannerAdUnitId =
+      'ca-app-pub-3940256099942544/6300978111';
+  static const String _testInterstitialAdUnitId =
+      'ca-app-pub-3940256099942544/1033173712';
+
   // TODO: Your production Ad Unit IDs (replace before release)
-  // static const String _prodBannerAdUnitId = 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
-  // static const String _prodInterstitialAdUnitId = 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
-  
+  static const String _prodBannerAdUnitId =
+      'ca-app-pub-4392358942856616/7175980458';
+  static const String _prodInterstitialAdUnitId =
+      'ca-app-pub-4392358942856616/3094895523';
+
   // Use test IDs for now5
+  // static String get bannerAdUnitId => _prodBannerAdUnitId;
+  // static String get interstitialAdUnitId => _prodInterstitialAdUnitId;
   static String get bannerAdUnitId => _testBannerAdUnitId;
   static String get interstitialAdUnitId => _testInterstitialAdUnitId;
 
@@ -56,11 +62,11 @@ class AdService {
   // ============================================
   // Initialization
   // ============================================
-  
+
   /// Initialize the Mobile Ads SDK. Call this before using any ads.
   Future<void> initialize() async {
     if (_isInitialized) return;
-    
+
     try {
       await MobileAds.instance.initialize();
       _isInitialized = true;
@@ -75,16 +81,17 @@ class AdService {
   // ============================================
   // Banner Ads
   // ============================================
-  
+
   /// Creates a banner ad. The caller is responsible for disposing it.
-  /// 
+  ///
   /// Usage:
   /// ```dart
   /// final bannerAd = AdService.instance.createBannerAd();
   /// // Add to widget tree using AdWidget(ad: bannerAd)
   /// // Don't forget to dispose when done
   /// ```
-  BannerAd createBannerAd({Function()? onLoaded, Function(LoadAdError)? onFailed}) {
+  BannerAd createBannerAd(
+      {Function()? onLoaded, Function(LoadAdError)? onFailed}) {
     return BannerAd(
       adUnitId: bannerAdUnitId,
       size: AdSize.banner,
@@ -106,11 +113,11 @@ class AdService {
   // ============================================
   // Interstitial Ads with Frequency Capping
   // ============================================
-  
+
   /// Load an interstitial ad. Call this to pre-load before showing.
   Future<void> _loadInterstitialAd() async {
     if (!_isInitialized) return;
-    
+
     await InterstitialAd.load(
       adUnitId: interstitialAdUnitId,
       request: const AdRequest(),
@@ -119,9 +126,10 @@ class AdService {
           _interstitialAd = ad;
           _isInterstitialReady = true;
           debugPrint('AdService: Interstitial ad loaded');
-          
+
           // Set up callbacks for when the ad is dismissed
-          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+          _interstitialAd!.fullScreenContentCallback =
+              FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
               debugPrint('AdService: Interstitial dismissed');
               ad.dispose();
@@ -150,30 +158,31 @@ class AdService {
 
   /// Show the pre-loaded interstitial ad with frequency capping.
   /// Returns true if shown successfully, false otherwise.
-  /// 
+  ///
   /// Frequency capping: Only shows ad every N actions to prevent user fatigue.
   /// If ad is not ready or frequency cap not met, returns false silently
   /// to allow user flow to continue uninterrupted.
   Future<bool> showInterstitialAd() async {
     // Increment action counter
     _interstitialActionCount++;
-    
+
     // Check frequency cap - only show every N actions
     if (_interstitialActionCount < _interstitialFrequencyCap) {
-      debugPrint('AdService: Skipping interstitial (action $_interstitialActionCount/$_interstitialFrequencyCap)');
+      debugPrint(
+          'AdService: Skipping interstitial (action $_interstitialActionCount/$_interstitialFrequencyCap)');
       return false;
     }
-    
+
     // Reset counter
     _interstitialActionCount = 0;
-    
+
     // Show ad if ready
     if (_isInterstitialReady && _interstitialAd != null) {
       debugPrint('AdService: Showing interstitial ad');
       await _interstitialAd!.show();
       return true;
     }
-    
+
     // Ad not ready - continue without blocking
     debugPrint('AdService: Interstitial not ready, skipping');
     return false;
@@ -195,7 +204,7 @@ class AdService {
   // ============================================
   // Cleanup
   // ============================================
-  
+
   /// Dispose all loaded ads. Call this when the app is closing.
   void dispose() {
     _bannerAd?.dispose();

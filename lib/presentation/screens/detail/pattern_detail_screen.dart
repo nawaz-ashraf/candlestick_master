@@ -4,6 +4,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../data/models/pattern_model.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../providers/user_progress_notifier.dart';
+import '../../widgets/full_screen_image_view.dart';
 
 class PatternDetailScreen extends StatelessWidget {
   final CandlestickPattern pattern;
@@ -43,12 +44,26 @@ class PatternDetailScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 250,
                 color: AppColors.surface,
-                child: Image.asset(
-                  pattern.imagePath,
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, o, s) => const Center(
-                    child:
-                        Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            FullScreenImageView(imagePath: pattern.imagePath),
+                      ),
+                    );
+                  },
+                  child: Hero(
+                    tag: pattern.imagePath,
+                    child: Image.asset(
+                      pattern.imagePath,
+                      fit: BoxFit.contain,
+                      errorBuilder: (c, o, s) => const Center(
+                        child: Icon(Icons.broken_image,
+                            size: 50, color: Colors.grey),
+                      ),
+                    ),
                   ),
                 ),
               ),

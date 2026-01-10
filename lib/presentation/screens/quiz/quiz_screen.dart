@@ -13,14 +13,15 @@
 // =============================================================================
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import '../../providers/quiz_notifier.dart';
-import '../../providers/pattern_notifier.dart';
-import '../../providers/user_progress_notifier.dart';
-import '../../../data/models/quiz_settings.dart';
-import '../../../core/theme/app_theme.dart';
+import 'package:provider/provider.dart';
+
 import '../../../core/services/ad_service.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../data/models/quiz_settings.dart';
+import '../../providers/pattern_notifier.dart';
+import '../../providers/quiz_notifier.dart';
+import '../../providers/user_progress_notifier.dart';
 
 class QuizScreen extends StatefulWidget {
   final QuizSettings? settings;
@@ -163,6 +164,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     question.questionText,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 16),

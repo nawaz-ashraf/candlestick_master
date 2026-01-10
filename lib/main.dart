@@ -1,16 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'core/theme/app_theme.dart';
+
 import 'core/router/app_router.dart';
 import 'core/services/ad_service.dart';
 import 'core/services/fcm_service.dart';
+import 'core/theme/app_theme.dart';
+import 'data/repositories/pattern_repository.dart';
+import 'firebase_options.dart';
 import 'presentation/providers/pattern_notifier.dart';
 import 'presentation/providers/quiz_notifier.dart';
 import 'presentation/providers/theme_notifier.dart';
 import 'presentation/providers/user_progress_notifier.dart';
-import 'data/repositories/pattern_repository.dart';
 
 // =============================================================================
 // Main Entry Point
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeNotifier>(
         builder: (context, themeNotifier, child) {
           return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
             title: 'Candlestick Master',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

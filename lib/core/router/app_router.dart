@@ -13,13 +13,13 @@ import 'package:provider/provider.dart';
 
 import '../../data/models/pattern_model.dart';
 import '../../data/models/quiz_settings.dart';
+import '../../presentation/providers/pattern_notifier.dart';
 import '../../presentation/screens/compliance/disclaimer_screen.dart';
 import '../../presentation/screens/compliance/paywall_screen.dart';
 import '../../presentation/screens/detail/pattern_detail_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
-import '../../presentation/screens/quiz/quiz_selection_screen.dart';
 import '../../presentation/screens/quiz/quiz_screen.dart';
-import '../../presentation/providers/pattern_notifier.dart';
+import '../../presentation/screens/quiz/quiz_selection_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/disclaimer', // Force disclaimer check on startup
@@ -48,7 +48,14 @@ final appRouter = GoRouter(
       path: '/pattern/:id',
       builder: (context, state) {
         // First, try to get the pattern from navigation extra (in-app)
-        final pattern = state.extra as CandlestickPattern?;
+        CandlestickPattern? pattern;
+        if (state.extra is CandlestickPattern) {
+          pattern = state.extra as CandlestickPattern;
+        } else if (state.extra is Map<String, dynamic>) {
+          pattern =
+              CandlestickPattern.fromJson(state.extra as Map<String, dynamic>);
+        }
+
         if (pattern != null) {
           return PatternDetailScreen(pattern: pattern);
         }

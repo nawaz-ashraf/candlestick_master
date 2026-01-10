@@ -39,6 +39,7 @@ class QuizSelectionScreen extends StatelessWidget {
                 'Choose Your Challenge',
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -1,15 +1,17 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import '../../../core/theme/app_theme.dart';
-import '../../providers/theme_notifier.dart';
-import '../../providers/pattern_notifier.dart';
-import '../../../data/models/pattern_model.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+
 import '../../../core/services/ad_service.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../data/models/pattern_model.dart';
+import '../../providers/pattern_notifier.dart';
+import '../../providers/theme_notifier.dart';
 
 class DashboardScreen extends StatelessWidget {
   // Callback to switch tabs in the parent HomeScreen
@@ -101,15 +103,16 @@ https://play.google.com/store/apps/details?id=com.candlestick.master
             icon: const Icon(Icons.share),
             tooltip: "Share App",
           ),
-          IconButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text('Notifications coming in next update!')),
-              );
-            },
-            icon: const Icon(Icons.notifications),
-          ),
+          // TODO: Add notifications in future updates
+          // IconButton(
+          //   onPressed: () {
+          //     ScaffoldMessenger.of(context).showSnackBar(
+          //       const SnackBar(
+          //           content: Text('Notifications coming in next update!')),
+          //     );
+          //   },
+          //   icon: const Icon(Icons.notifications),
+          // ),
         ],
       ),
       body: SingleChildScrollView(
