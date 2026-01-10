@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'core/router/app_router.dart';
 import 'core/services/ad_service.dart';
 import 'core/services/fcm_service.dart';
+import 'core/services/local_notification_service.dart';
 import 'core/theme/app_theme.dart';
 import 'data/repositories/pattern_repository.dart';
 import 'firebase_options.dart';
@@ -38,6 +39,9 @@ void main() async {
 
   // Initialize Firebase Cloud Messaging for push notifications
   await FCMService().initialize();
+
+  // Initialize Local Notifications
+  await LocalNotificationService().initialize();
 
   // Create and initialize providers that need async initialization
   final themeNotifier = ThemeNotifier();

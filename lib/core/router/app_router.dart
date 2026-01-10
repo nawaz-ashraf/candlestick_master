@@ -8,6 +8,7 @@
 // TODO: Update domain when production domain is configured
 // =============================================================================
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,9 @@ import '../../presentation/screens/quiz/quiz_selection_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/disclaimer', // Force disclaimer check on startup
+  observers: [
+    FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+  ],
   routes: [
     // ========================================
     // Main App Routes

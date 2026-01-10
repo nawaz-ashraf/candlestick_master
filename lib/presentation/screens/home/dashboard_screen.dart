@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/services/ad_service.dart';
+import '../../../core/services/local_notification_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/pattern_model.dart';
 import '../../providers/pattern_notifier.dart';
@@ -104,15 +105,21 @@ https://play.google.com/store/apps/details?id=com.candlestick.master
             tooltip: "Share App",
           ),
           // TODO: Add notifications in future updates
-          // IconButton(
-          //   onPressed: () {
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //       const SnackBar(
-          //           content: Text('Notifications coming in next update!')),
-          //     );
-          //   },
-          //   icon: const Icon(Icons.notifications),
-          // ),
+          // Manual Notification Test Button
+          IconButton(
+            onPressed: () {
+              // Trigger a test notification
+              // This is for verification purposes as requested
+              LocalNotificationService().showNotification(
+                id: 0,
+                title: 'Test Notification',
+                body: 'Tap to see a Bullish Engulfing pattern!',
+                payload: '/pattern/bullish_engulfing',
+              );
+            },
+            icon: const Icon(Icons.notifications_active),
+            tooltip: "Test Notification",
+          ),
         ],
       ),
       body: SingleChildScrollView(
