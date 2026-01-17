@@ -41,10 +41,10 @@ class AdService {
       'ca-app-pub-4392358942856616/3094895523';
 
   // Use test IDs for now5
-  // static String get bannerAdUnitId => _prodBannerAdUnitId;
-  // static String get interstitialAdUnitId => _prodInterstitialAdUnitId;
-  static String get bannerAdUnitId => _testBannerAdUnitId;
-  static String get interstitialAdUnitId => _testInterstitialAdUnitId;
+  static String get bannerAdUnitId => _prodBannerAdUnitId;
+  static String get interstitialAdUnitId => _prodInterstitialAdUnitId;
+  // static String get bannerAdUnitId => _testBannerAdUnitId;
+  // static String get interstitialAdUnitId => _testInterstitialAdUnitId;
 
   // ============================================
   // Frequency Capping Configuration
@@ -132,20 +132,20 @@ class AdService {
           // Set up callbacks for when the ad is dismissed
           _interstitialAd!.fullScreenContentCallback =
               FullScreenContentCallback(
-                onAdDismissedFullScreenContent: (ad) {
-                  debugPrint('AdService: Interstitial dismissed');
-                  ad.dispose();
-                  _isInterstitialReady = false;
-                  // Pre-load another one for next time
-                  _loadInterstitialAd();
-                },
-                onAdFailedToShowFullScreenContent: (ad, error) {
-                  debugPrint('AdService: Interstitial failed to show - $error');
-                  ad.dispose();
-                  _isInterstitialReady = false;
-                  _loadInterstitialAd();
-                },
-              );
+            onAdDismissedFullScreenContent: (ad) {
+              debugPrint('AdService: Interstitial dismissed');
+              ad.dispose();
+              _isInterstitialReady = false;
+              // Pre-load another one for next time
+              _loadInterstitialAd();
+            },
+            onAdFailedToShowFullScreenContent: (ad, error) {
+              debugPrint('AdService: Interstitial failed to show - $error');
+              ad.dispose();
+              _isInterstitialReady = false;
+              _loadInterstitialAd();
+            },
+          );
         },
         onAdFailedToLoad: (error) {
           debugPrint('AdService: Interstitial failed to load - $error');

@@ -106,20 +106,20 @@ https://play.google.com/store/apps/details?id=com.candlestick.master
           ),
           // TODO: Add notifications in future updates
           // Manual Notification Test Button
-          IconButton(
-            onPressed: () {
-              // Trigger a test notification
-              // This is for verification purposes as requested
-              LocalNotificationService().showNotification(
-                id: 0,
-                title: 'Test Notification',
-                body: 'Tap to see a Bullish Engulfing pattern!',
-                payload: '/pattern/bullish_engulfing',
-              );
-            },
-            icon: const Icon(Icons.notifications_active),
-            tooltip: "Test Notification",
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     // Trigger a test notification
+          //     // This is for verification purposes as requested
+          //     LocalNotificationService().showNotification(
+          //       id: 0,
+          //       title: 'Test Notification',
+          //       body: 'Tap to see a Bullish Engulfing pattern!',
+          //       payload: '/pattern/bullish_engulfing',
+          //     );
+          //   },
+          //   icon: const Icon(Icons.notifications_active),
+          //   tooltip: "Test Notification",
+          // ),
         ],
       ),
       body: SingleChildScrollView(
