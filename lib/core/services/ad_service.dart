@@ -13,8 +13,10 @@
 // actual AdMob ad unit IDs.
 // =============================================================================
 
+import 'package:candlestick_master/core/constants/reward_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Singleton service for managing Google AdMob ads
 class AdService {
@@ -29,34 +31,33 @@ class AdService {
 
   // Test Ad Unit IDs (safe for development - won't get account banned)
   // These are Google's official test IDs
-  static const String _testBannerAdUnitId =
-      'ca-app-pub-3940256099942544/6300978111';
-  static const String _testInterstitialAdUnitId =
-      'ca-app-pub-3940256099942544/1033173712';
-
-  // TODO: Your production Ad Unit IDs (replace before release)
   static const String _prodBannerAdUnitId =
       'ca-app-pub-4392358942856616/7175980458';
   static const String _prodInterstitialAdUnitId =
       'ca-app-pub-4392358942856616/3094895523';
 
-  // Use test IDs for now5
+  // Use test IDs for now
   static String get bannerAdUnitId => _prodBannerAdUnitId;
   static String get interstitialAdUnitId => _prodInterstitialAdUnitId;
-  // static String get bannerAdUnitId => _testBannerAdUnitId;
-  // static String get interstitialAdUnitId => _testInterstitialAdUnitId;
+  static String get rewardedAdUnitId =>
+      'ca-app-pub-3940256099942544/5224354917'; // test ID
 
-  // ============================================
-  // Frequency Capping Configuration
-  // ============================================
-  // Shows ads at most once every N actions to prevent user fatigue
-  static const int _interstitialFrequencyCap = 3;
-  int _interstitialActionCount = 0;
+  // SharedPreferences keys for session-based interstitial cadence.
+  static const String _sessionCountKey = 'ad_session_count';
+  static const String _lastInterstitialSessionKey =
+      'ad_last_interstitial_session';
+
+  int _sessionCount = 0;
+  int _lastInterstitialSession = -1;
+  bool _isSessionStateLoaded = false;
 
   // Ad instances
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
+  RewardedAd? _rewardedAd;
+
   bool _isInterstitialReady = false;
+  bool _isRewardedReady = false;
   bool _isInitialized = false;
 
   // ============================================
@@ -70,8 +71,10 @@ class AdService {
     try {
       await MobileAds.instance.initialize();
       _isInitialized = true;
-      // Pre-load an interstitial ad for faster display
+      await _loadSessionState();
+      // Pre-load an interstitial ad and a rewarded ad for faster display
       await _loadInterstitialAd();
+      await _loadRewardedAd();
       debugPrint('AdService: Initialized successfully');
     } catch (e) {
       debugPrint('AdService: Failed to initialize - $e');
@@ -113,8 +116,47 @@ class AdService {
   }
 
   // ============================================
-  // Interstitial Ads with Frequency Capping
+  // Interstitial Ads (session-based cadence)
   // ============================================
+
+  /// Increment app session counter.
+  /// Call this once per app launch after [initialize].
+  Future<void> startSession() async {
+    await _loadSessionState();
+    _sessionCount += 1;
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_sessionCountKey, _sessionCount);
+
+    debugPrint('AdService: Session $_sessionCount started');
+  }
+
+  Future<void> _loadSessionState() async {
+    if (_isSessionStateLoaded) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    _sessionCount = prefs.getInt(_sessionCountKey) ?? 0;
+    _lastInterstitialSession = prefs.getInt(_lastInterstitialSessionKey) ?? -1;
+    _isSessionStateLoaded = true;
+  }
+
+  Future<bool> _canShowInterstitialThisSession() async {
+    await _loadSessionState();
+
+    if (_sessionCount <= 0) return false;
+
+    final isEligibleSession =
+        _sessionCount % RewardConstants.sessionsPerInterstitial == 0;
+    final notShownInThisSession = _lastInterstitialSession != _sessionCount;
+
+    return isEligibleSession && notShownInThisSession;
+  }
+
+  Future<void> _markInterstitialShownForSession() async {
+    _lastInterstitialSession = _sessionCount;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_lastInterstitialSessionKey, _lastInterstitialSession);
+  }
 
   /// Load an interstitial ad. Call this to pre-load before showing.
   Future<void> _loadInterstitialAd() async {
@@ -158,31 +200,21 @@ class AdService {
   /// Check if an interstitial ad is ready to show
   bool get isInterstitialReady => _isInterstitialReady;
 
-  /// Show the pre-loaded interstitial ad with frequency capping.
+  /// Show the pre-loaded interstitial ad based on session cadence.
   /// Returns true if shown successfully, false otherwise.
-  ///
-  /// Frequency capping: Only shows ad every N actions to prevent user fatigue.
-  /// If ad is not ready or frequency cap not met, returns false silently
-  /// to allow user flow to continue uninterrupted.
   Future<bool> showInterstitialAd() async {
-    // Increment action counter
-    _interstitialActionCount++;
+    final shouldShow = await _canShowInterstitialThisSession();
 
-    // Check frequency cap - only show every N actions
-    if (_interstitialActionCount < _interstitialFrequencyCap) {
-      debugPrint(
-        'AdService: Skipping interstitial (action $_interstitialActionCount/$_interstitialFrequencyCap)',
-      );
+    if (!shouldShow) {
+      debugPrint('AdService: Skipping interstitial (session cadence)');
       return false;
     }
-
-    // Reset counter
-    _interstitialActionCount = 0;
 
     // Show ad if ready
     if (_isInterstitialReady && _interstitialAd != null) {
       debugPrint('AdService: Showing interstitial ad');
       await _interstitialAd!.show();
+      await _markInterstitialShownForSession();
       return true;
     }
 
@@ -192,15 +224,74 @@ class AdService {
   }
 
   /// Force show interstitial without frequency capping
-  /// Use sparingly for high-intent moments like quiz start
+  /// Use sparingly for explicit non-quiz placements.
   Future<bool> forceShowInterstitialAd() async {
     if (_isInterstitialReady && _interstitialAd != null) {
       debugPrint('AdService: Force showing interstitial ad');
-      _interstitialActionCount = 0; // Reset counter
       await _interstitialAd!.show();
+      await _markInterstitialShownForSession();
       return true;
     }
     debugPrint('AdService: Force interstitial not ready, skipping');
+    return false;
+  }
+
+  // ============================================
+  // Rewarded Ads
+  // ============================================
+
+  /// Load a rewarded ad
+  Future<void> _loadRewardedAd() async {
+    if (!_isInitialized) return;
+
+    await RewardedAd.load(
+      adUnitId: rewardedAdUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          _rewardedAd = ad;
+          _isRewardedReady = true;
+          debugPrint('AdService: Rewarded ad loaded');
+
+          _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              debugPrint('AdService: Rewarded ad dismissed');
+              ad.dispose();
+              _isRewardedReady = false;
+              _loadRewardedAd();
+            },
+            onAdFailedToShowFullScreenContent: (ad, error) {
+              debugPrint('AdService: Rewarded ad failed to show - $error');
+              ad.dispose();
+              _isRewardedReady = false;
+              _loadRewardedAd();
+            },
+          );
+        },
+        onAdFailedToLoad: (error) {
+          debugPrint('AdService: Rewarded ad failed to load - $error');
+          _isRewardedReady = false;
+        },
+      ),
+    );
+  }
+
+  /// Show a rewarded ad and execute a callback if the user earns the reward.
+  Future<bool> showRewardedAd({required Function() onRewarded}) async {
+    if (_isRewardedReady && _rewardedAd != null) {
+      debugPrint('AdService: Showing rewarded ad');
+      await _rewardedAd!.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+          debugPrint('AdService: User earned reward!');
+          onRewarded();
+        },
+      );
+      return true;
+    }
+
+    debugPrint('AdService: Rewarded ad not ready');
+    // Pre-load if it wasn't ready
+    _loadRewardedAd();
     return false;
   }
 
@@ -212,5 +303,6 @@ class AdService {
   void dispose() {
     _bannerAd?.dispose();
     _interstitialAd?.dispose();
+    _rewardedAd?.dispose();
   }
 }

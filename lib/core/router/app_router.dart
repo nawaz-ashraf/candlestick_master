@@ -8,19 +8,20 @@
 // TODO: Update domain when production domain is configured
 // =============================================================================
 
+import 'package:candlestick_master/features/compliance/disclaimer_screen.dart';
+import 'package:candlestick_master/features/compliance/paywall_screen.dart';
+import 'package:candlestick_master/features/home/home_screen.dart';
+import 'package:candlestick_master/features/learn/lesson_session_screen.dart';
+import 'package:candlestick_master/features/learn/pattern_detail_screen.dart';
+import 'package:candlestick_master/features/quiz/quiz_screen.dart';
+import 'package:candlestick_master/features/quiz/quiz_selection_screen.dart';
+import 'package:candlestick_master/features/revision/revision_screen.dart';
+import 'package:candlestick_master/models/pattern_model.dart';
+import 'package:candlestick_master/models/quiz_settings.dart';
+import 'package:candlestick_master/providers/pattern_notifier.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
-import '../../data/models/pattern_model.dart';
-import '../../data/models/quiz_settings.dart';
-import '../../presentation/providers/pattern_notifier.dart';
-import '../../presentation/screens/compliance/disclaimer_screen.dart';
-import '../../presentation/screens/compliance/paywall_screen.dart';
-import '../../presentation/screens/detail/pattern_detail_screen.dart';
-import '../../presentation/screens/home/home_screen.dart';
-import '../../presentation/screens/quiz/quiz_screen.dart';
-import '../../presentation/screens/quiz/quiz_selection_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/disclaimer', // Force disclaimer check on startup
@@ -34,6 +35,25 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: '/challenge',
+      builder: (context, state) => const HomeScreen(initialTabIndex: 3),
+    ),
+    GoRoute(
+      path: '/learn',
+      builder: (context, state) => const HomeScreen(initialTabIndex: 1),
+    ),
+    GoRoute(
+      path: '/learn/indicators',
+      builder: (context, state) => const HomeScreen(
+        initialTabIndex: 1,
+        initialLearnTabIndex: 1,
+      ),
+    ),
+    GoRoute(
+      path: '/learn/session',
+      builder: (context, state) => const LessonSessionScreen(),
     ),
     /*
     GoRoute(
@@ -94,6 +114,14 @@ final appRouter = GoRouter(
         final settings = state.extra as QuizSettings?;
         return QuizScreen(settings: settings);
       },
+    ),
+
+    // ========================================
+    // Gamification Routes
+    // ========================================
+    GoRoute(
+      path: '/revision',
+      builder: (context, state) => const RevisionScreen(),
     ),
 
     // ========================================

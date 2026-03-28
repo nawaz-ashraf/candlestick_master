@@ -12,7 +12,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import '../models/pattern_model.dart';
+import 'package:candlestick_master/models/pattern_model.dart';
 
 class PatternRepository {
   // Cache patterns after first load

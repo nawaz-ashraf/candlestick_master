@@ -1,94 +1,122 @@
-# Candlestick Master - Learn & Trade (Flutter)
+# Candlestick Master (Flutter)
 
-A comprehensive educational app for learning candlestick patterns, testing knowledge with quizzes, and practicing on interactive charts. Built with Flutter for Android (Target API 35).
+Candlestick Master is a habit-based, gamified learning app for candlestick pattern mastery.
+It keeps the original learning and quiz functionality and extends it with XP, streaks, daily challenges, revision loops, and modular retention systems.
 
-## 🚀 Features
-*   **Pattern Library**: 40+ patterns extracted from expert material, categorized by difficulty and trend bias.
-*   **Quiz Mode**: Dynamic quizzes with scoring, streaks, and mastery tracking.
-*   **Interactive Charts**: Real-time candlestick chart simulation with pinch-to-zoom.
-*   **Pattern Detection**: Rule-based engine to detect patterns (Hammer, Engulfing, etc.) on the chart.
-*   **Progress Tracking**: Local database to track attempts and accuracy.
-*   **Premium**: Subscription logic for Ad-removal and advanced features.
+## Core Product Loops
 
-## 🛠 Tech Stack
-*   **Framework**: Flutter (Dart)
-*   **State Management**: Riverpod
-*   **Database**: sqflite (Local), Shared Preferences
-*   **Navigation**: GoRouter
-*   **Charts**: candlesticks package
-*   **Architecture**: Clean Architecture (Layered: Presentation, Domain, Data)
+- Daily habit loop: Home -> Continue Learning -> Lesson -> Quiz -> Reward -> Streak update
+- Retention loop: Daily challenge reminders + streak risk reminders
+- Revision loop: Wrong answers are stored and replayed in Practice Mistakes
+- Monetization loop: Rewarded ad (+100 coins) and session-based interstitial structure
 
-## 📂 Project Structure
-```
+## Feature Highlights
+
+- Pattern Library with categorized patterns and pattern detail pages
+- Lesson Session flow with image, title, 3-4 bullet insights, and Next progression
+- Quiz mode with instant feedback, score, accuracy, and XP-earned result view
+- Daily Challenge (5 deterministic questions/day) with once-per-day rewards
+- Streak system with best streak tracking and missed-day reset behavior
+- Profile hub with level, XP, coins, achievements, and revision shortcut
+- Local persistence via SharedPreferences and SQL progress history for quiz mastery
+- Local notification reminders and modular FCM tap routing support
+
+## Tech Stack
+
+- Flutter (null-safe)
+- State Management: Provider
+- Navigation: GoRouter
+- Local Storage: SharedPreferences + sqflite
+- Notifications: flutter_local_notifications + Firebase Messaging
+- Monetization: google_mobile_ads
+
+## Project Structure
+
+```text
 lib/
 ├── core/
-│   ├── router/          # App navigation config
-│   ├── theme/           # App colors and styles
-│   └── services/        # External services (FCM, IAP)
+│   ├── constants/
+│   │   └── reward_constants.dart
+│   ├── router/
+│   │   └── app_router.dart
+│   ├── services/
+│   │   ├── ad_service.dart
+│   │   ├── fcm_service.dart
+│   │   ├── local_notification_service.dart
+│   │   ├── purchase_service.dart
+│   │   └── storage_service.dart
+│   ├── theme/
+│   │   └── app_theme.dart
+│   └── utils/
+│       └── date_utils.dart
 ├── data/
-│   ├── datasources/     # Mock data, Asset loading
-│   ├── models/          # Data classes (JSON/DB mappers)
-│   └── repositories/    # Data access logic
 ├── domain/
-│   ├── detection/       # Pattern recognition engine
-│   └── logic/           # Business logic (Quiz generation)
-└── presentation/
-    ├── providers/       # Riverpod providers
-    └── screens/         # UI Screens (Home, Library, Quiz, Chart)
-assets/
-    ├── patterns.json    # Extracted pattern data
-    └── images/patterns/ # Generated pattern images
+├── features/
+│   ├── challenge/
+│   ├── home/
+│   ├── learn/
+│   ├── profile/
+│   ├── quiz/
+│   └── revision/
+├── models/
+│   ├── habit_user_progress.dart
+│   ├── pattern_model.dart
+│   ├── quiz_question.dart
+│   └── user_progress.dart
+├── providers/
+├── widgets/
+└── main.dart
 ```
 
-## ⚙️ Setup Instructions
+## Reward Rules
 
-### Prerequisites
-*   Flutter SDK (Latest Stable)
-*   Android Studio / VS Code
-*   Python 3 (for data extraction scripts, optional)
+- Lesson completion: +10 XP
+- Correct quiz answer: +20 XP
+- Daily challenge completion: +30 XP and +50 coins
+- Rewarded ad: +100 coins
+- Level formula: `level = xp ~/ 100`
 
-### Installation
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/yourusername/candlestick-master.git
-    cd candlestick-master
-    ```
+## Startup Integration
 
-2.  **Install Dependencies**:
-    ```bash
-    flutter pub get
-    ```
+`main.dart` initializes systems in this order:
 
-3.  **Run the App**:
-    ```bash
-    flutter run
-    ```
+1. Firebase core
+2. AdService initialize + session start
+3. FCMService initialize (with router callback)
+4. Local notifications initialize + schedule daily reminders
+5. Provider notifiers initialize and load persisted state
 
-### Data Pipeline (Optional)
-If you need to regenerate the pattern data from a new PDF:
-1.  Place the PDF in the root directory.
-2.  Run the extraction script:
-    ```bash
-    source ../formatted_venv/bin/activate
-    python ../extract_patterns_v3.py
-    ```
-3.  Copy `patterns.json` and images to `assets/`.
+## Daily Challenge Behavior
 
-## 📦 Building for Release
-1.  **Update Version**: Update `pubspec.yaml`.
-2.  **Sign App**: Configure `key.properties` and `build.gradle`.
-3.  **Build Bundle**:
-    ```bash
-    flutter build appbundle
-    ```
-4.  Upload the `.aab` file to Google Play Console.
+- Uses deterministic date seed so users get a stable 5-question challenge per day
+- Marks completion by date key (`yyyy-MM-dd`)
+- Reward can only be claimed once per day
 
-## 🤝 Contribution
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+## Ad Behavior
 
-## ⚠️ Disclaimer
-This app is for educational purposes only. It does not provide financial advice. Trading carries risk.
+- Rewarded ads are available from Profile
+- Interstitials are session-gated and tracked in SharedPreferences
+- Quiz flow does not show ads during question answering or result
+
+## Run Locally
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Tests
+
+Run all tests:
+
+```bash
+flutter test
+```
+
+Added notifier tests validate:
+
+- persistence across restarts
+- daily reset behavior
+- streak update logic
+- XP/reward math correctness
+- malformed/null persisted data safety

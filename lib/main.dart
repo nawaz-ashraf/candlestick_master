@@ -1,18 +1,18 @@
+import 'package:candlestick_master/core/router/app_router.dart';
+import 'package:candlestick_master/core/services/ad_service.dart';
+import 'package:candlestick_master/core/services/fcm_service.dart';
+import 'package:candlestick_master/core/services/local_notification_service.dart';
+import 'package:candlestick_master/core/theme/app_theme.dart';
+import 'package:candlestick_master/data/repositories/pattern_repository.dart';
+import 'package:candlestick_master/firebase_options.dart';
+import 'package:candlestick_master/providers/gamification_notifier.dart';
+import 'package:candlestick_master/providers/pattern_notifier.dart';
+import 'package:candlestick_master/providers/quiz_notifier.dart';
+import 'package:candlestick_master/providers/theme_notifier.dart';
+import 'package:candlestick_master/providers/user_progress_notifier.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'core/router/app_router.dart';
-import 'core/services/ad_service.dart';
-import 'core/services/fcm_service.dart';
-import 'core/services/local_notification_service.dart';
-import 'core/theme/app_theme.dart';
-import 'data/repositories/pattern_repository.dart';
-import 'firebase_options.dart';
-import 'presentation/providers/pattern_notifier.dart';
-import 'presentation/providers/quiz_notifier.dart';
-import 'presentation/providers/theme_notifier.dart';
-import 'presentation/providers/user_progress_notifier.dart';
 
 // =============================================================================
 // Main Entry Point
@@ -36,37 +36,56 @@ void main() async {
   // Initialize AdMob SDK for monetization
   // TODO: Replace test ad IDs with production IDs before release
   await AdService.instance.initialize();
+  await AdService.instance.startSession();
 
   // Initialize Firebase Cloud Messaging for push notifications
+  FCMService.onNotificationTap = (data) {
+    final route = data['route'];
+    if (route is String && route.isNotEmpty) {
+      appRouter.go(route);
+      return;
+    }
+
+    final patternId = data['patternId'];
+    if (patternId is String && patternId.isNotEmpty) {
+      appRouter.go('/pattern/$patternId');
+    }
+  };
   await FCMService().initialize();
 
   // Initialize Local Notifications
   await LocalNotificationService().initialize();
+  await LocalNotificationService().scheduleAllDailyReminders();
 
   // Create and initialize providers that need async initialization
   final themeNotifier = ThemeNotifier();
   final userProgressNotifier = UserProgressNotifier();
+  final gamificationNotifier = GamificationNotifier();
 
   // Load persisted preferences before app starts
   await Future.wait([
     themeNotifier.initialize(),
     userProgressNotifier.initialize(),
+    gamificationNotifier.initialize(),
   ]);
 
   runApp(MyApp(
     themeNotifier: themeNotifier,
     userProgressNotifier: userProgressNotifier,
+    gamificationNotifier: gamificationNotifier,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final ThemeNotifier themeNotifier;
   final UserProgressNotifier userProgressNotifier;
+  final GamificationNotifier gamificationNotifier;
 
   const MyApp({
     super.key,
     required this.themeNotifier,
     required this.userProgressNotifier,
+    required this.gamificationNotifier,
   });
 
   @override
@@ -78,6 +97,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => QuizNotifier()),
         ChangeNotifierProvider.value(value: themeNotifier),
         ChangeNotifierProvider.value(value: userProgressNotifier),
+        ChangeNotifierProvider.value(value: gamificationNotifier),
       ],
       child: Consumer<ThemeNotifier>(
         builder: (context, themeNotifier, child) {

@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-import '../router/app_router.dart';
+import 'package:candlestick_master/core/router/app_router.dart';
 
 class LocalNotificationService {
   // Singleton pattern
@@ -134,7 +134,6 @@ class LocalNotificationService {
           importance: Importance.max,
           priority: Priority.high,
           icon: '@mipmap/ic_launcher',
-          largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
@@ -142,6 +141,52 @@ class LocalNotificationService {
           UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
     );
+  }
+
+  /// Schedule daily streak reminder at 8 PM
+  Future<void> scheduleDailyStreakReminder() async {
+    final now = DateTime.now();
+    var scheduledDate = DateTime(now.year, now.month, now.day, 20, 0); // 8:00 PM
+
+    if (now.isAfter(scheduledDate)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+
+    await scheduleNotification(
+      id: 1001,
+      title: 'Your streak is at risk! 🔥',
+      body: 'Complete a lesson or quiz today to keep your streak alive!',
+      scheduledDate: scheduledDate,
+      payload: '/', // Home screen
+    );
+  }
+
+  /// Schedule daily challenge reminder at 9 AM
+  Future<void> scheduleDailyChallengeReminder() async {
+    final now = DateTime.now();
+    var scheduledDate = DateTime(now.year, now.month, now.day, 9, 0); // 9:00 AM
+
+    if (now.isAfter(scheduledDate)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+
+    await scheduleNotification(
+      id: 1002,
+      title: "Today's Challenge is Ready! 🎯",
+      body: 'Complete 5 questions to earn +30 XP and +50 Coins!',
+      scheduledDate: scheduledDate,
+      payload: '/challenge', // Challenge screen (Note: handled by home tab now but can be routed)
+    );
+  }
+
+  /// Schedule all daily reminders
+  Future<void> scheduleAllDailyReminders() async {
+    try {
+      await scheduleDailyStreakReminder();
+      await scheduleDailyChallengeReminder();
+    } catch (e) {
+      print('Could not schedule reminders (permission or platform issue): $e');
+    }
   }
 
   /// Cancel all notifications

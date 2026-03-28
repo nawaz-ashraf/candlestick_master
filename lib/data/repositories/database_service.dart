@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../models/user_progress.dart';
+import 'package:candlestick_master/models/user_progress.dart';
 
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();

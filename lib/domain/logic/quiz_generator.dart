@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
-import 'package:candlestick_master/data/models/pattern_model.dart';
-import 'package:candlestick_master/data/models/quiz_question.dart';
-import 'package:candlestick_master/data/models/static_quiz_question.dart';
+import 'package:candlestick_master/models/pattern_model.dart';
+import 'package:candlestick_master/models/quiz_question.dart';
+import 'package:candlestick_master/models/static_quiz_question.dart';
 
 // =============================================================================
 // Quiz Generator - Creates Mixed Quizzes
