@@ -9,8 +9,8 @@
 // - Preloading for fast display
 // - Non-blocking behavior (user flow continues if ad fails)
 //
-// IMPORTANT: This file uses TEST AD IDs. Before release, replace with your
-// actual AdMob ad unit IDs.
+// IMPORTANT: Test ad IDs are used in debug/profile. Release builds use
+// production IDs.
 // =============================================================================
 
 import 'package:candlestick_master/core/constants/reward_constants.dart';
@@ -26,21 +26,33 @@ class AdService {
   static AdService get instance => _instance;
 
   // ============================================
-  // TODO: Replace with your production Ad Unit IDs before release
+  // Ad Unit IDs (test in debug/profile, production in release)
   // ============================================
 
-  // Test Ad Unit IDs (safe for development - won't get account banned)
-  // These are Google's official test IDs
+  // Google's official test IDs (safe for development)
+  static const String _testBannerAdUnitId =
+      'ca-app-pub-3940256099942544/6300978111';
+  static const String _testInterstitialAdUnitId =
+      'ca-app-pub-3940256099942544/1033173712';
+  static const String _testRewardedAdUnitId =
+      'ca-app-pub-3940256099942544/5224354917';
+
+  // Production Ad Unit IDs
   static const String _prodBannerAdUnitId =
       'ca-app-pub-4392358942856616/7175980458';
   static const String _prodInterstitialAdUnitId =
       'ca-app-pub-4392358942856616/3094895523';
+  static const String _prodRewardedAdUnitId =
+      'ca-app-pub-4392358942856616/5797671098';
 
-  // Use test IDs for now
-  static String get bannerAdUnitId => _prodBannerAdUnitId;
-  static String get interstitialAdUnitId => _prodInterstitialAdUnitId;
+  static bool get _useTestAds => !kReleaseMode;
+
+  static String get bannerAdUnitId =>
+      _useTestAds ? _testBannerAdUnitId : _prodBannerAdUnitId;
+  static String get interstitialAdUnitId =>
+      _useTestAds ? _testInterstitialAdUnitId : _prodInterstitialAdUnitId;
   static String get rewardedAdUnitId =>
-      'ca-app-pub-3940256099942544/5224354917'; // test ID
+      _useTestAds ? _testRewardedAdUnitId : _prodRewardedAdUnitId;
 
   // SharedPreferences keys for session-based interstitial cadence.
   static const String _sessionCountKey = 'ad_session_count';

@@ -178,7 +178,7 @@ class _DailyChallengeScreenState extends State<DailyChallengeScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              "Challenge Completed! ✅",
+              "Challenge Completed!",
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
