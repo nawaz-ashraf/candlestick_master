@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     
     <application
-        android:label="Candlestick Master"
+        android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
@@ -24,6 +24,45 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4392358942856616~7115081334"/>
+
+        <!-- ============================================================ -->
+        <!-- META (FACEBOOK) SDK — App Install Tracking & Ads Attribution -->
+        <!-- Replace YOUR_FACEBOOK_APP_ID & YOUR_FACEBOOK_CLIENT_TOKEN    -->
+        <!-- in res/values/strings.xml (NOT here). Never hard-code IDs.   -->
+        <!-- ============================================================ -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token"/>
+
+        <!--
+            FacebookActivity is required for any Facebook SDK login/share
+            dialog. Even if you are only tracking events it must be declared
+            to avoid ActivityNotFoundException on some SDK paths.
+        -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:exported="true"/>
+
+        <!--
+            CustomTabActivity handles the OAuth redirect from the custom
+            Chrome tab used by the Facebook SDK for web-based login flows.
+        -->
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/fb_login_protocol_scheme"/>
+            </intent-filter>
+        </activity>
         
         <activity
             android:name=".MainActivity"
@@ -76,5 +115,13 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+
+        <!--
+            Required on Android 11+ so the Facebook SDK can detect whether
+            the Facebook / Messenger apps are installed (for share sheets &
+            login). Without this the SDK silently fails to open the app.
+        -->
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider"/>
+        <provider android:authorities="com.facebook.orca.provider.PlatformProvider"/>
     </queries>
 </manifest>

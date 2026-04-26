@@ -44,6 +44,9 @@ dependencies:
   # Ads (Monetization) - Upgraded for better compatibility
   google_mobile_ads: ^5.2.0
 
+  # Meta (Facebook) SDK - App install tracking & ads attribution
+  facebook_app_events: ^0.27.0
+
   # Sharing (Deep Links / Marketing)
   share_plus: ^7.2.1
   path_provider: ^2.1.1

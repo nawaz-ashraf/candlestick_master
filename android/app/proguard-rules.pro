@@ -26,3 +26,23 @@
 # Play Core (Deferred Components)
 -dontwarn com.google.android.play.core.**
 -dontwarn io.flutter.embedding.engine.deferredcomponents.**
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Meta (Facebook) SDK — App Events & Ads Attribution
+# ─────────────────────────────────────────────────────────────────────────────
+# Keep all Facebook SDK classes (required for ads attribution & event tracking)
+-keep class com.facebook.** { *; }
+-dontwarn com.facebook.**
+
+# Keep Bolts (Facebook's internal async task library)
+-keep class bolts.** { *; }
+-dontwarn bolts.**
+
+# Keep Facebook's JNI / native bridge
+-keepclassmembers class * {
+    @com.facebook.common.internal.DoNotStrip *;
+}
+
+# Preserve Facebook AppEventsLogger internal reflection calls
+-keepnames class com.facebook.appevents.** { *; }
+

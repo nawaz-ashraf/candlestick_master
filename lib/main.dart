@@ -2,6 +2,7 @@ import 'package:candlestick_master/core/router/app_router.dart';
 import 'package:candlestick_master/core/services/ad_service.dart';
 import 'package:candlestick_master/core/services/fcm_service.dart';
 import 'package:candlestick_master/core/services/local_notification_service.dart';
+import 'package:candlestick_master/core/services/meta_analytics_service.dart';
 import 'package:candlestick_master/core/theme/app_theme.dart';
 import 'package:candlestick_master/data/repositories/pattern_repository.dart';
 import 'package:candlestick_master/firebase_options.dart';
@@ -37,6 +38,14 @@ void main() async {
   // TODO: Replace test ad IDs with production IDs before release
   await AdService.instance.initialize();
   await AdService.instance.startSession();
+
+  // Initialize Meta (Facebook) SDK — app install tracking & ads attribution
+  // NOTE: Ensure facebook_app_id and facebook_client_token are set in
+  //       android/app/src/main/res/values/strings.xml before running.
+  await MetaAnalyticsService.instance.initialize();
+
+  // Log the app open event so Meta Ads can track daily active usage
+  await MetaAnalyticsService.instance.logAppOpen();
 
   // Initialize Firebase Cloud Messaging for push notifications
   FCMService.onNotificationTap = (data) {

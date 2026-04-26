@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║           META (FACEBOOK) SDK — ANDROID CREDENTIALS         ║
+  ║                                                              ║
+  ║  HOW TO FIND YOUR VALUES:                                    ║
+  ║  1. Go to https://developers.facebook.com/apps/             ║
+  ║  2. Select your app (or create one under "My Apps")         ║
+  ║  3. App ID  → Dashboard → App ID                           ║
+  ║  4. Client Token → Settings > Advanced > Client Token       ║
+  ║                                                              ║
+  ║  REPLACE the placeholder strings below before building.     ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<resources>
+
+    <!-- App display name shown in Facebook SDK dialogs -->
+    <string name="app_name">Candlestick Master</string>
+
+    <!--
+        Facebook App ID
+        Example: 1234567890123456
+        Found at: developers.facebook.com > Your App > Dashboard > App ID
+    -->
+    <string name="facebook_app_id">845527258581886</string>
+
+    <!--
+        Facebook Client Token
+        Example: abcdef1234567890abcdef1234567890
+        Found at: developers.facebook.com > Your App > Settings > Advanced > Client Token
+    -->
+    <string name="facebook_client_token">ee5aacaf93282cf00e4a2e7896041420</string>
+
+    <!--
+        Facebook Login Protocol Scheme
+        This MUST be "fb" followed immediately by your App ID (no spaces).
+        Example: fb1234567890123456
+    -->
+    <string name="fb_login_protocol_scheme">fb845527258581886</string>
+
+
+</resources>
