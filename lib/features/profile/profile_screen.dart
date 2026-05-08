@@ -461,26 +461,48 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Future<void> _watchRewardedAd(BuildContext context) async {
-    // Try showing the rewarded ad
-    final adShown = await AdService.instance.showRewardedAd(
+    final result = await AdService.instance.showRewardedAd(
       onRewarded: () {
         context.read<GamificationNotifier>().rewardAdCoins();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("🎉 +100 Coins earned!"),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("🎉 +100 Coins earned!"),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
       },
     );
 
-    if (!adShown && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Ad not available right now. Try again later!"),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+    if (!context.mounted) return;
+
+    switch (result) {
+      case RewardedAdResult.rewarded:
+        // Reward already granted inside the callback above.
+        break;
+      case RewardedAdResult.dismissed:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Watch the full ad to earn coins!"),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      case RewardedAdResult.loading:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("⏳ Ad is loading… tap again in a moment!"),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      case RewardedAdResult.notInitialized:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Ad service unavailable. Try again later!"),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
     }
   }
 }
