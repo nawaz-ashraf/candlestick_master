@@ -11,6 +11,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:candlestick_master/models/quiz_settings.dart';
+import 'package:candlestick_master/core/constants/reward_constants.dart';
+import 'package:candlestick_master/widgets/rewarded_ad_bottom_sheet.dart';
+import 'package:candlestick_master/providers/gamification_notifier.dart';
+import 'package:provider/provider.dart';
 
 class QuizSelectionScreen extends StatelessWidget {
   const QuizSelectionScreen({super.key});
@@ -96,7 +100,23 @@ class QuizSelectionScreen extends StatelessWidget {
     );
   }
 
-  void _startQuiz(BuildContext context, QuizSettings settings) {
+  void _startQuiz(BuildContext context, QuizSettings settings) async {
+    if (RewardConstants.allowRewardedQuiz) {
+      final gamification = context.read<GamificationNotifier>();
+      final result = await RewardedAdBottomSheet.show(
+        context,
+        title: 'Start Quiz',
+        description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+        rewardAmount: RewardConstants.rewardedContentBonus,
+      );
+
+      if (result == RewardedFlowResult.cancelled) return;
+      if (result == RewardedFlowResult.success) {
+        await gamification.addCoins(RewardConstants.rewardedContentBonus);
+      }
+      if (!context.mounted) return;
+    }
+
     context.push('/quiz', extra: settings);
   }
 }

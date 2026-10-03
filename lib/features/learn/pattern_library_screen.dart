@@ -4,11 +4,13 @@ import 'package:candlestick_master/core/constants/learning_constants.dart';
 import 'package:candlestick_master/core/services/ad_service.dart';
 import 'package:candlestick_master/core/theme/app_theme.dart';
 import 'package:candlestick_master/data/repositories/lesson_repository.dart';
+import 'package:candlestick_master/core/constants/reward_constants.dart';
 import 'package:candlestick_master/models/indicator_model.dart';
 import 'package:candlestick_master/models/lesson_model.dart';
 import 'package:candlestick_master/models/pattern_model.dart';
 import 'package:candlestick_master/providers/gamification_notifier.dart';
 import 'package:candlestick_master/providers/pattern_notifier.dart';
+import 'package:candlestick_master/widgets/rewarded_ad_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -780,6 +782,20 @@ class _PatternLibraryScreenState extends State<PatternLibraryScreen>
         patternById[lesson.id] ?? patternByTitle[_normalize(lesson.title)];
 
     if (pattern != null) {
+      if (RewardConstants.allowRewardedPattern) {
+        final result = await RewardedAdBottomSheet.show(
+          context,
+          title: 'Unlock & Learn',
+          description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+          rewardAmount: RewardConstants.rewardedContentBonus,
+        );
+
+        if (result == RewardedFlowResult.cancelled) return;
+        if (result == RewardedFlowResult.success) {
+          await gamification.addCoins(RewardConstants.rewardedContentBonus);
+        }
+      }
+
       await AdService.instance.showInterstitialAd();
       if (context.mounted) {
         context.push('/pattern/${pattern.id}', extra: pattern);
@@ -795,6 +811,21 @@ class _PatternLibraryScreenState extends State<PatternLibraryScreen>
     LessonModel lesson,
     GamificationNotifier gamification,
   ) async {
+    if (RewardConstants.allowRewardedPattern) {
+      final result = await RewardedAdBottomSheet.show(
+        context,
+        title: 'Unlock & Learn',
+        description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+        rewardAmount: RewardConstants.rewardedContentBonus,
+      );
+
+      if (result == RewardedFlowResult.cancelled) return;
+      if (result == RewardedFlowResult.success) {
+        await gamification.addCoins(RewardConstants.rewardedContentBonus);
+      }
+      if (!context.mounted) return;
+    }
+
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -856,6 +887,22 @@ class _PatternLibraryScreenState extends State<PatternLibraryScreen>
     IndicatorModel indicator,
     bool isCompleted,
   ) async {
+    if (RewardConstants.allowRewardedIndicator) {
+      final gamification = context.read<GamificationNotifier>();
+      final result = await RewardedAdBottomSheet.show(
+        context,
+        title: 'Unlock & Learn',
+        description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+        rewardAmount: RewardConstants.rewardedContentBonus,
+      );
+
+      if (result == RewardedFlowResult.cancelled) return;
+      if (result == RewardedFlowResult.success) {
+        await gamification.addCoins(RewardConstants.rewardedContentBonus);
+      }
+      if (!context.mounted) return;
+    }
+
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
