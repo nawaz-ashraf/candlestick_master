@@ -101,12 +101,23 @@ class GamificationNotifier extends ChangeNotifier {
   // Coin System
   // ============================================
 
-  /// Add coins and auto-persist
-  Future<void> addCoins(int amount) async {
-    if (amount <= 0) return;
+  /// Add coins and auto-persist. Returns true if persisted successfully.
+  Future<bool> addCoins(int amount) async {
+    if (amount <= 0) return true;
+    final previousData = _data;
     _data = _data.copyWith(coins: _data.coins + amount);
     notifyListeners();
-    await _persist();
+    final success = await _persist();
+    if (!success) {
+      debugPrint(
+          'GamificationNotifier: Failed to persist coins – rolling back state');
+      _data = previousData;
+      notifyListeners();
+      return false;
+    }
+    debugPrint(
+        'GamificationNotifier: +$amount coins granted & persisted. New balance: ${_data.coins}');
+    return true;
   }
 
   /// Spend coins (returns false if insufficient)
@@ -342,12 +353,9 @@ class GamificationNotifier extends ChangeNotifier {
   // Rewarded Ad (+100 Coins)
   // ============================================
 
-  /// Award coins for watching a rewarded ad
-  Future<void> rewardAdCoins() async {
-    _data =
-        _data.copyWith(coins: _data.coins + RewardConstants.rewardedAdCoins);
-    notifyListeners();
-    await _persist();
+  /// Award coins for watching a rewarded ad. Returns true if persisted successfully.
+  Future<bool> rewardAdCoins() async {
+    return await addCoins(RewardConstants.rewardedAdCoins);
   }
 
   // ============================================
@@ -555,7 +563,16 @@ class GamificationNotifier extends ChangeNotifier {
   }
 
   /// Persist current data to storage
-  Future<void> _persist() async {
-    await _storage.saveGamificationData(_data);
+  Future<bool> _persist() async {
+    try {
+      final success = await _storage.saveGamificationData(_data);
+      if (!success) {
+        debugPrint('GamificationNotifier: Failed to save gamification data');
+      }
+      return success;
+    } catch (e) {
+      debugPrint('GamificationNotifier: Error during _persist() - $e');
+      return false;
+    }
   }
 }

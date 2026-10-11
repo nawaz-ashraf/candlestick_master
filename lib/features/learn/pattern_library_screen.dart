@@ -786,18 +786,27 @@ class _PatternLibraryScreenState extends State<PatternLibraryScreen>
         final result = await RewardedAdBottomSheet.show(
           context,
           title: 'Unlock & Learn',
-          description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+          description:
+              'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
           rewardAmount: RewardConstants.rewardedContentBonus,
+          onRewardEarned: () async {
+            debugPrint(
+                'PatternLibraryScreen: Awarding +${RewardConstants.rewardedContentBonus} coins for pattern ${pattern.id} from onUserEarnedReward callback');
+            await gamification.addCoins(RewardConstants.rewardedContentBonus);
+          },
         );
 
-        if (result == RewardedFlowResult.cancelled) return;
-        if (result == RewardedFlowResult.success) {
-          await gamification.addCoins(RewardConstants.rewardedContentBonus);
+        if (result == RewardedFlowResult.cancelled) {
+          debugPrint(
+              'PatternLibraryScreen: Ad was cancelled – aborting pattern ${pattern.id} navigation');
+          return;
         }
       }
 
       await AdService.instance.showInterstitialAd();
       if (context.mounted) {
+        debugPrint(
+            'PatternLibraryScreen: Navigating to pattern screen for ${pattern.id}');
         context.push('/pattern/${pattern.id}', extra: pattern);
       }
       return;
@@ -815,13 +824,20 @@ class _PatternLibraryScreenState extends State<PatternLibraryScreen>
       final result = await RewardedAdBottomSheet.show(
         context,
         title: 'Unlock & Learn',
-        description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+        description:
+            'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
         rewardAmount: RewardConstants.rewardedContentBonus,
+        onRewardEarned: () async {
+          debugPrint(
+              'PatternLibraryScreen: Awarding +${RewardConstants.rewardedContentBonus} coins for virtual lesson ${lesson.id} from onUserEarnedReward callback');
+          await gamification.addCoins(RewardConstants.rewardedContentBonus);
+        },
       );
 
-      if (result == RewardedFlowResult.cancelled) return;
-      if (result == RewardedFlowResult.success) {
-        await gamification.addCoins(RewardConstants.rewardedContentBonus);
+      if (result == RewardedFlowResult.cancelled) {
+        debugPrint(
+            'PatternLibraryScreen: Ad was cancelled – aborting virtual lesson ${lesson.id}');
+        return;
       }
       if (!context.mounted) return;
     }
@@ -892,17 +908,26 @@ class _PatternLibraryScreenState extends State<PatternLibraryScreen>
       final result = await RewardedAdBottomSheet.show(
         context,
         title: 'Unlock & Learn',
-        description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+        description:
+            'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
         rewardAmount: RewardConstants.rewardedContentBonus,
+        onRewardEarned: () async {
+          debugPrint(
+              'PatternLibraryScreen: Awarding +${RewardConstants.rewardedContentBonus} coins for indicator ${indicator.id} from onUserEarnedReward callback');
+          await gamification.addCoins(RewardConstants.rewardedContentBonus);
+        },
       );
 
-      if (result == RewardedFlowResult.cancelled) return;
-      if (result == RewardedFlowResult.success) {
-        await gamification.addCoins(RewardConstants.rewardedContentBonus);
+      if (result == RewardedFlowResult.cancelled) {
+        debugPrint(
+            'PatternLibraryScreen: Ad was cancelled – aborting indicator ${indicator.id} detail view');
+        return;
       }
       if (!context.mounted) return;
     }
 
+    debugPrint(
+        'PatternLibraryScreen: Successfully presenting indicator detail sheet for ${indicator.id}');
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,

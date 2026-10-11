@@ -64,9 +64,9 @@ class QuizSelectionScreen extends StatelessWidget {
                     _DifficultyCard(
                       settings: QuizSettings.easy,
                       icon: Icons.bolt,
-                      gradientColors: [
-                        const Color(0xFF00C896),
-                        const Color(0xFF00E0A4),
+                      gradientColors: const [
+                        Color(0xFF00C896),
+                        Color(0xFF00E0A4),
                       ],
                       onTap: () => _startQuiz(context, QuizSettings.easy),
                     ),
@@ -74,9 +74,9 @@ class QuizSelectionScreen extends StatelessWidget {
                     _DifficultyCard(
                       settings: QuizSettings.medium,
                       icon: Icons.trending_up,
-                      gradientColors: [
-                        const Color(0xFFE6B566),
-                        const Color(0xFFF4C430),
+                      gradientColors: const [
+                        Color(0xFFE6B566),
+                        Color(0xFFF4C430),
                       ],
                       onTap: () => _startQuiz(context, QuizSettings.medium),
                     ),
@@ -84,9 +84,9 @@ class QuizSelectionScreen extends StatelessWidget {
                     _DifficultyCard(
                       settings: QuizSettings.hard,
                       icon: Icons.psychology,
-                      gradientColors: [
-                        const Color(0xFFE5533D),
-                        const Color(0xFFFF6B5B),
+                      gradientColors: const [
+                        Color(0xFFE5533D),
+                        Color(0xFFFF6B5B),
                       ],
                       onTap: () => _startQuiz(context, QuizSettings.hard),
                     ),
@@ -100,24 +100,42 @@ class QuizSelectionScreen extends StatelessWidget {
     );
   }
 
+  static bool _isLaunchingQuiz = false;
+
   void _startQuiz(BuildContext context, QuizSettings settings) async {
-    if (RewardConstants.allowRewardedQuiz) {
-      final gamification = context.read<GamificationNotifier>();
-      final result = await RewardedAdBottomSheet.show(
-        context,
-        title: 'Start Quiz',
-        description: 'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
-        rewardAmount: RewardConstants.rewardedContentBonus,
-      );
+    if (_isLaunchingQuiz) return;
+    _isLaunchingQuiz = true;
 
-      if (result == RewardedFlowResult.cancelled) return;
-      if (result == RewardedFlowResult.success) {
-        await gamification.addCoins(RewardConstants.rewardedContentBonus);
+    try {
+      if (RewardConstants.allowRewardedQuiz) {
+        final gamification = context.read<GamificationNotifier>();
+        final result = await RewardedAdBottomSheet.show(
+          context,
+          title: 'Start Quiz',
+          description:
+              'Watch a short ad to continue and earn +${RewardConstants.rewardedContentBonus} Coins.',
+          rewardAmount: RewardConstants.rewardedContentBonus,
+          onRewardEarned: () async {
+            debugPrint(
+                'QuizSelectionScreen: Granting +${RewardConstants.rewardedContentBonus} coins from onUserEarnedReward callback');
+            await gamification.addCoins(RewardConstants.rewardedContentBonus);
+          },
+        );
+
+        if (result == RewardedFlowResult.cancelled) {
+          debugPrint(
+              'QuizSelectionScreen: User cancelled or closed ad early – quiz launch aborted');
+          return;
+        }
+        if (!context.mounted) return;
       }
-      if (!context.mounted) return;
-    }
 
-    context.push('/quiz', extra: settings);
+      debugPrint(
+          'QuizSelectionScreen: Launching quiz with difficulty ${settings.difficulty.name} (${settings.questionCount} questions)');
+      context.push('/quiz', extra: settings);
+    } finally {
+      _isLaunchingQuiz = false;
+    }
   }
 }
 

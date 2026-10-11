@@ -289,7 +289,7 @@ class _RevisionScreenState extends State<RevisionScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 48),
-            Icon(Icons.school, size: 64, color: AppColors.primary),
+            const Icon(Icons.school, size: 64, color: AppColors.primary),
             const SizedBox(height: 24),
             Text("Revision Complete!",
                 style: theme.textTheme.headlineMedium

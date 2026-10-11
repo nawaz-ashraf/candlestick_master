@@ -204,8 +204,9 @@ class LessonRepository {
     if (fromPattern.contains('intermediate')) {
       return ContentDifficulty.intermediate.label;
     }
-    if (fromPattern.contains('advanced'))
+    if (fromPattern.contains('advanced')) {
       return ContentDifficulty.advanced.label;
+    }
     if (fromPattern.contains('hard')) return ContentDifficulty.hard.label;
     return ContentDifficulty.intermediate.label;
   }

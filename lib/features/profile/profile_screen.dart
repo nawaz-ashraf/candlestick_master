@@ -5,7 +5,8 @@
 // to revision mode and rewarded ads.
 // =============================================================================
 
-import 'package:candlestick_master/core/services/ad_service.dart';
+import 'package:candlestick_master/core/constants/reward_constants.dart';
+import 'package:candlestick_master/widgets/rewarded_ad_bottom_sheet.dart';
 import 'package:candlestick_master/core/theme/app_theme.dart';
 import 'package:candlestick_master/data/repositories/lesson_repository.dart';
 import 'package:candlestick_master/providers/gamification_notifier.dart';
@@ -460,49 +461,45 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  static bool _isWatchingAd = false;
+
   Future<void> _watchRewardedAd(BuildContext context) async {
-    final result = await AdService.instance.showRewardedAd(
-      onRewarded: () {
-        context.read<GamificationNotifier>().rewardAdCoins();
-        if (context.mounted) {
+    if (_isWatchingAd) return;
+    _isWatchingAd = true;
+
+    try {
+      final gamification = context.read<GamificationNotifier>();
+      final result = await RewardedAdBottomSheet.show(
+        context,
+        title: 'Earn Bonus Coins',
+        description: 'Watch a short ad to earn bonus coins!',
+        rewardAmount: RewardConstants.rewardedAdCoins,
+        onRewardEarned: () async {
+          debugPrint(
+              'ProfileScreen: Awarding ${RewardConstants.rewardedAdCoins} coins from onUserEarnedReward callback');
+          await gamification.rewardAdCoins();
+        },
+      );
+
+      if (!context.mounted) return;
+
+      switch (result) {
+        case RewardedFlowResult.success:
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text("🎉 +100 Coins earned!"),
+              content: Text('🎉 +${RewardConstants.rewardedAdCoins} Coins earned!'),
               behavior: SnackBarBehavior.floating,
             ),
           );
-        }
-      },
-    );
-
-    if (!context.mounted) return;
-
-    switch (result) {
-      case RewardedAdResult.rewarded:
-        // Reward already granted inside the callback above.
-        break;
-      case RewardedAdResult.dismissed:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Watch the full ad to earn coins!"),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      case RewardedAdResult.loading:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("⏳ Ad is loading… tap again in a moment!"),
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 3),
-          ),
-        );
-      case RewardedAdResult.notInitialized:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Ad service unavailable. Try again later!"),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        case RewardedFlowResult.fallback:
+          // Ad was unavailable; user chose to continue without reward.
+          break;
+        case RewardedFlowResult.cancelled:
+          // User declined or dismissed early without earning reward.
+          break;
+      }
+    } finally {
+      _isWatchingAd = false;
     }
   }
 }

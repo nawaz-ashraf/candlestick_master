@@ -2,7 +2,7 @@ import 'package:candlestick_master/models/indicator_model.dart';
 
 class IndicatorRepository {
   static final List<IndicatorModel> _indicators = [
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_rsi',
       title: 'RSI',
       definition:
@@ -17,7 +17,7 @@ class IndicatorRepository {
           'Use RSI to time entries during pullbacks and confirm momentum shifts.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_volume',
       title: 'Volume',
       definition:
@@ -32,7 +32,7 @@ class IndicatorRepository {
           'Use volume to validate breakouts and avoid low-conviction price moves.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_bollinger_bands',
       title: 'Bollinger Bands',
       definition:
@@ -47,7 +47,7 @@ class IndicatorRepository {
           'Use band squeezes to anticipate expansion and pair with trend confirmation.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_zigzag',
       title: 'ZigZag',
       definition:
@@ -62,7 +62,7 @@ class IndicatorRepository {
           'Use ZigZag to map clear swing points before drawing support and resistance.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_moving_average',
       title: 'Moving Average',
       definition:
@@ -76,7 +76,7 @@ class IndicatorRepository {
       useCase: 'Use a moving average as a trend filter before taking setups.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_sma',
       title: 'Simple Moving Average (SMA)',
       definition:
@@ -91,7 +91,7 @@ class IndicatorRepository {
           'Use SMA to track broad trend direction and dynamic support/resistance.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_ema',
       title: 'Exponential Moving Average (EMA)',
       definition:
@@ -106,7 +106,7 @@ class IndicatorRepository {
           'Use EMA for faster trend updates and pullback entries in momentum markets.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_macd',
       title: 'MACD',
       definition:
@@ -121,7 +121,7 @@ class IndicatorRepository {
           'Use MACD to confirm trend continuation or potential reversal momentum.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_stochastic',
       title: 'Stochastic Oscillator',
       definition:
@@ -136,7 +136,7 @@ class IndicatorRepository {
           'Use stochastic to time entries in consolidation and pullback phases.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_adx',
       title: 'ADX',
       definition:
@@ -151,7 +151,7 @@ class IndicatorRepository {
           'Use ADX to decide whether to apply trend-following or mean-reversion tactics.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_atr',
       title: 'ATR',
       definition:
@@ -165,7 +165,7 @@ class IndicatorRepository {
       useCase: 'Use ATR to set adaptive stops and reduce noise-based exits.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_vwap',
       title: 'VWAP',
       definition:
@@ -179,7 +179,7 @@ class IndicatorRepository {
       useCase: 'Use VWAP for intraday bias and pullback confirmation.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_obv',
       title: 'OBV',
       definition:
@@ -194,7 +194,7 @@ class IndicatorRepository {
           'Use OBV to validate whether volume supports current price trend.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_cci',
       title: 'CCI',
       definition:
@@ -208,7 +208,7 @@ class IndicatorRepository {
       useCase: 'Use CCI to identify momentum bursts and reversal candidates.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_mfi',
       title: 'MFI',
       definition:
@@ -223,7 +223,7 @@ class IndicatorRepository {
           'Use MFI when volume context is important for momentum decisions.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_parabolic_sar',
       title: 'Parabolic SAR',
       definition:
@@ -238,7 +238,7 @@ class IndicatorRepository {
           'Use SAR for trend trailing stops, especially in strong directional moves.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_fibonacci_retracement',
       title: 'Fibonacci Retracement',
       definition:
@@ -253,7 +253,7 @@ class IndicatorRepository {
           'Use Fibonacci levels to plan pullback entries in trending markets.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_ichimoku',
       title: 'Ichimoku Cloud',
       definition:
@@ -268,7 +268,7 @@ class IndicatorRepository {
           'Use Ichimoku for all-in-one trend structure and signal confirmation.',
       difficulty: 'Advanced',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_supertrend',
       title: 'Supertrend',
       definition:
@@ -283,7 +283,7 @@ class IndicatorRepository {
           'Use Supertrend as a simple trend-following filter with adaptive stops.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_keltner',
       title: 'Keltner Channels',
       definition:
@@ -298,7 +298,7 @@ class IndicatorRepository {
           'Use Keltner channels for breakout structure and pullback context.',
       difficulty: 'Advanced',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_donchian',
       title: 'Donchian Channels',
       definition:
@@ -313,7 +313,7 @@ class IndicatorRepository {
           'Use Donchian breakouts to catch trend continuation after consolidations.',
       difficulty: 'Advanced',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_hma',
       title: 'Hull Moving Average',
       definition:
@@ -328,7 +328,7 @@ class IndicatorRepository {
           'Use HMA when you need faster trend adaptation with moderate smoothing.',
       difficulty: 'Advanced',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_roc',
       title: 'Rate of Change (ROC)',
       definition:
@@ -343,7 +343,7 @@ class IndicatorRepository {
           'Use ROC to detect acceleration or deceleration in trend momentum.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_williams_r',
       title: 'Williams %R',
       definition:
@@ -358,7 +358,7 @@ class IndicatorRepository {
           'Use Williams %R to time entries around short-term momentum exhaustion.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_pivot_points',
       title: 'Pivot Points',
       definition:
@@ -373,7 +373,7 @@ class IndicatorRepository {
           'Use pivot levels to plan reaction zones and target levels for intraday trades.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_volume_profile',
       title: 'Volume Profile',
       definition:
@@ -388,7 +388,7 @@ class IndicatorRepository {
           'Use volume profile to identify high-probability support and resistance zones.',
       difficulty: 'Advanced',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_atr_trailing_stop',
       title: 'ATR Trailing Stop',
       definition:
@@ -403,7 +403,7 @@ class IndicatorRepository {
           'Use ATR trailing stop to protect trend trades while reducing noise exits.',
       difficulty: 'Advanced',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_heikin_ashi',
       title: 'Heikin Ashi',
       definition:
@@ -418,7 +418,7 @@ class IndicatorRepository {
           'Use Heikin Ashi to stay in trends longer and filter minor pullbacks.',
       difficulty: 'Basic',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_trix',
       title: 'TRIX',
       definition:
@@ -433,7 +433,7 @@ class IndicatorRepository {
           'Use TRIX for cleaner momentum tracking in trending instruments.',
       difficulty: 'Advanced',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_dmi',
       title: 'DMI (+DI / -DI)',
       definition:
@@ -448,7 +448,7 @@ class IndicatorRepository {
           'Use DMI with ADX to align entries with stronger directional pressure.',
       difficulty: 'Intermediate',
     ),
-    IndicatorModel(
+    const IndicatorModel(
       id: 'indicator_elder_ray',
       title: 'Elder Ray Index',
       definition:

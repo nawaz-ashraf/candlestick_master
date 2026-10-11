@@ -20,13 +20,18 @@ class StorageService {
   static const String _gamificationKey = 'gamification_data';
 
   /// Save gamification data to SharedPreferences as JSON
-  Future<void> saveGamificationData(UserProgress data) async {
+  Future<bool> saveGamificationData(UserProgress data) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final jsonString = jsonEncode(data.toJson());
-      await prefs.setString(_gamificationKey, jsonString);
+      final success = await prefs.setString(_gamificationKey, jsonString);
+      if (!success) {
+        debugPrint('StorageService: SharedPreferences.setString returned false');
+      }
+      return success;
     } catch (e) {
       debugPrint('StorageService: Error saving gamification data - $e');
+      return false;
     }
   }
 

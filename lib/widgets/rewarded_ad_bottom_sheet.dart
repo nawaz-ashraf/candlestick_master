@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:candlestick_master/core/services/ad_service.dart';
 import 'package:candlestick_master/core/theme/app_theme.dart';
+import 'package:candlestick_master/providers/gamification_notifier.dart';
+import 'package:provider/provider.dart';
 
 enum RewardedFlowResult {
   success,
@@ -12,12 +16,14 @@ class RewardedAdBottomSheet extends StatefulWidget {
   final String title;
   final String description;
   final int rewardAmount;
+  final FutureOr<void> Function()? onRewardEarned;
 
   const RewardedAdBottomSheet({
     super.key,
     required this.title,
     required this.description,
     required this.rewardAmount,
+    this.onRewardEarned,
   });
 
   static Future<RewardedFlowResult> show(
@@ -25,6 +31,7 @@ class RewardedAdBottomSheet extends StatefulWidget {
     required String title,
     required String description,
     required int rewardAmount,
+    FutureOr<void> Function()? onRewardEarned,
   }) async {
     final result = await showModalBottomSheet<RewardedFlowResult>(
       context: context,
@@ -37,6 +44,7 @@ class RewardedAdBottomSheet extends StatefulWidget {
         title: title,
         description: description,
         rewardAmount: rewardAmount,
+        onRewardEarned: onRewardEarned,
       ),
     );
     return result ?? RewardedFlowResult.cancelled;
@@ -53,41 +61,61 @@ class _RewardedAdBottomSheetState extends State<RewardedAdBottomSheet> {
   Future<void> _showAd() async {
     if (_isLoading) return;
 
+    debugPrint(
+        'RewardedAdBottomSheet: User opted in to watch ad (reward: +${widget.rewardAmount} coins)');
     setState(() {
       _isLoading = true;
       _errorMessage = null;
     });
 
-    int attempts = 0;
-    while (attempts < 3) {
-      //bool rewardEarned = false;
-      final result = await AdService.instance.showRewardedAd(
-        onRewarded: () {
-          //rewardEarned = true;
-        },
-      );
-
-      if (result == RewardedAdResult.rewarded) {
-        if (!mounted) return;
-        Navigator.of(context).pop(RewardedFlowResult.success);
-        return;
-      } else if (result == RewardedAdResult.dismissed) {
-        if (!mounted) return;
-        Navigator.of(context).pop(RewardedFlowResult.cancelled);
-        return;
-      } else if (result == RewardedAdResult.loading ||
-          result == RewardedAdResult.notInitialized) {
-        attempts++;
-        await Future.delayed(const Duration(seconds: 2));
-        continue;
-      }
-    }
+    // ── Step 1: Wait for the ad to be fully loaded ──────────────────────────
+    // This ensures we NEVER call .show() on an unavailable ad.
+    final isReady = await AdService.instance.waitForRewardedAd(
+      timeout: const Duration(seconds: 10),
+    );
 
     if (!mounted) return;
-    setState(() {
-      _isLoading = false;
-      _errorMessage = "Ad isn't available right now.";
-    });
+
+    if (!isReady) {
+      debugPrint('RewardedAdBottomSheet: Rewarded ad unavailable after waiting');
+      setState(() {
+        _isLoading = false;
+        _errorMessage = "Ad isn't available right now. Please try again later.";
+      });
+      return;
+    }
+
+    // ── Step 2: Show the ad with reward-delivery callback ───────────────────
+    final gamification = context.read<GamificationNotifier>();
+    final result = await AdService.instance.showRewardedAd(
+      onUserEarnedReward: (reward) async {
+        debugPrint(
+            'RewardedAdBottomSheet: onUserEarnedReward received from AdMob SDK');
+        if (widget.onRewardEarned != null) {
+          await widget.onRewardEarned!();
+        } else if (widget.rewardAmount > 0) {
+          await gamification.addCoins(widget.rewardAmount);
+        }
+      },
+    );
+
+    if (!mounted) return;
+
+    debugPrint('RewardedAdBottomSheet: Ad presentation finished with result: $result');
+
+    switch (result) {
+      case RewardedAdResult.rewarded:
+        Navigator.of(context).pop(RewardedFlowResult.success);
+      case RewardedAdResult.dismissed:
+        Navigator.of(context).pop(RewardedFlowResult.cancelled);
+      case RewardedAdResult.loading:
+      case RewardedAdResult.notInitialized:
+        // Edge case: ad became unavailable between wait and show.
+        setState(() {
+          _isLoading = false;
+          _errorMessage = "Ad couldn't be shown. Please try again.";
+        });
+    }
   }
 
   @override
@@ -138,10 +166,23 @@ class _RewardedAdBottomSheetState extends State<RewardedAdBottomSheet> {
                 ),
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () =>
-                    Navigator.of(context).pop(RewardedFlowResult.fallback),
-                child: const Text('Continue'),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () =>
+                          Navigator.of(context).pop(RewardedFlowResult.fallback),
+                      child: const Text('Continue'),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _showAd,
+                      child: const Text('Try Again'),
+                    ),
+                  ),
+                ],
               ),
             ] else if (_isLoading) ...[
               const Center(child: CircularProgressIndicator()),

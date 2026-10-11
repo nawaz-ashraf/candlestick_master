@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -74,7 +75,7 @@ class LocalNotificationService {
         appRouter.push(response.payload!);
       } catch (e) {
         // Handle parsing error or invalid route
-        print('Error navigating to payload: ${response.payload}, error: $e');
+        debugPrint('Error navigating to payload: ${response.payload}, error: $e');
       }
     }
   }
@@ -185,7 +186,7 @@ class LocalNotificationService {
       await scheduleDailyStreakReminder();
       await scheduleDailyChallengeReminder();
     } catch (e) {
-      print('Could not schedule reminders (permission or platform issue): $e');
+      debugPrint('Could not schedule reminders (permission or platform issue): $e');
     }
   }
 
@@ -200,5 +201,5 @@ class LocalNotificationService {
 void notificationTapBackground(NotificationResponse notificationResponse) {
   // Handle background notification tap if needed
   // Note: Navigation might not work directly here if context is unavailable
-  print('Background notification tapped: ${notificationResponse.payload}');
+  debugPrint('Background notification tapped: ${notificationResponse.payload}');
 }

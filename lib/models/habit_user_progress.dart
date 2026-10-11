@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:candlestick_master/core/constants/learning_constants.dart';
 import 'package:candlestick_master/core/utils/level_utils.dart';
 
@@ -44,12 +42,10 @@ class UserProgress {
   });
 
   List<String> get resolvedUnlockedDifficulties {
-    final merged = LinkedHashSet<String>.from(
-      [
-        ...LearningConstants.baseUnlockedDifficultyKeys(),
-        ...unlockedDifficulties,
-      ],
-    );
+    final merged = <String>{
+      ...LearningConstants.baseUnlockedDifficultyKeys(),
+      ...unlockedDifficulties,
+    };
     return merged.toList(growable: false);
   }
 
@@ -130,12 +126,10 @@ class UserProgress {
 
   factory UserProgress.fromJson(Map<String, dynamic> json) {
     final unlockedFromJson = _toStringList(json['unlockedDifficulties']);
-    final mergedUnlocks = LinkedHashSet<String>.from(
-      [
-        ...LearningConstants.baseUnlockedDifficultyKeys(),
-        ...unlockedFromJson,
-      ],
-    ).toList(growable: false);
+    final mergedUnlocks = <String>{
+      ...LearningConstants.baseUnlockedDifficultyKeys(),
+      ...unlockedFromJson,
+    }.toList(growable: false);
 
     return UserProgress(
       userId: json['userId'] as String? ?? '',

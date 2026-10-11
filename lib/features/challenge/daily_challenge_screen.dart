@@ -165,7 +165,7 @@ class _DailyChallengeScreenState extends State<DailyChallengeScreen> {
             Container(
               width: 100,
               height: 100,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [AppColors.primary, AppColors.primarySoft],
@@ -198,11 +198,11 @@ class _DailyChallengeScreenState extends State<DailyChallengeScreen> {
                 color: AppColors.accent.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.emoji_events, color: AppColors.accent),
-                  const SizedBox(width: 8),
+                  Icon(Icons.emoji_events, color: AppColors.accent),
+                  SizedBox(width: 8),
                   Text(
                     "+30 XP  •  +50 Coins",
                     style: TextStyle(

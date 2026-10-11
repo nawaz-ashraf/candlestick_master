@@ -21,6 +21,8 @@
 // production IDs.
 // =============================================================================
 
+import 'dart:async';
+
 import 'package:candlestick_master/core/constants/reward_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -42,6 +44,22 @@ enum RewardedAdResult {
 
   /// The service is not yet initialised.
   notInitialized,
+}
+
+/// Internal state tracker for an individual rewarded ad display session.
+/// Guarantees that rewards are executed strictly on [onUserEarnedReward],
+/// that duplicate callbacks cannot trigger multiple grants, and that
+/// dismissal unblocks the caller with the final result.
+class _RewardedAdSession {
+  final int id;
+  bool isShowing = false;
+  bool hasEarnedReward = false;
+  bool hasGrantedReward = false;
+  bool isDismissed = false;
+  bool didFailToShow = false;
+  final Completer<RewardedAdResult> completer = Completer<RewardedAdResult>();
+
+  _RewardedAdSession(this.id);
 }
 
 /// Singleton service for managing Google AdMob ads.
@@ -120,10 +138,13 @@ class AdService {
 
   bool _isRewardedLoading = false;
   bool _isRewardedReady = false;
+  bool _isRewardedShowing = false;
 
   bool _isRewardedInterstitialLoading = false;
   bool _isRewardedInterstitialReady = false;
+  bool _isRewardedInterstitialShowing = false;
 
+  int _adSessionCounter = 0;
   bool _isInitialized = false;
 
   // ============================================
@@ -334,6 +355,9 @@ class AdService {
   /// Whether an interstitial ad is loaded and ready to display.
   bool get isInterstitialReady => _isInterstitialReady;
 
+  /// Whether a rewarded ad is loaded and ready to display.
+  bool get isRewardedReady => _isRewardedReady;
+
   /// Show the pre-loaded interstitial ad if the session cadence allows it.
   ///
   /// Returns `true` if the ad was shown, `false` otherwise (not eligible,
@@ -379,9 +403,16 @@ class AdService {
 
   /// Load a standard [RewardedAd] in the background.
   Future<void> _loadRewardedAd() async {
-    if (!_isInitialized) return;
-    if (_isRewardedLoading || _isRewardedReady) return;
+    if (!_isInitialized) {
+      debugPrint('AdService: Cannot load rewarded ad – SDK not initialized');
+      return;
+    }
+    if (_isRewardedLoading || _isRewardedReady) {
+      debugPrint('AdService: Rewarded ad load skipped (already loading or ready)');
+      return;
+    }
     _isRewardedLoading = true;
+    debugPrint('AdService: Loading rewarded ad ($rewardedAdUnitId)...');
 
     await RewardedAd.load(
       adUnitId: rewardedAdUnitId,
@@ -391,29 +422,10 @@ class AdService {
           _rewardedAd = ad;
           _isRewardedReady = true;
           _isRewardedLoading = false;
-          debugPrint('AdService: Rewarded ad loaded');
-
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              debugPrint('AdService: Rewarded ad dismissed');
-              ad.dispose();
-              _rewardedAd = null;
-              _isRewardedReady = false;
-              // Always keep one ready for next user-initiated action.
-              _loadRewardedAd();
-            },
-            onAdFailedToShowFullScreenContent: (ad, error) {
-              debugPrint('AdService: Rewarded ad failed to show – $error');
-              ad.dispose();
-              _rewardedAd = null;
-              _isRewardedReady = false;
-              _isRewardedLoading = false;
-              _loadRewardedAd();
-            },
-          );
+          debugPrint('AdService: Rewarded ad loaded successfully');
         },
         onAdFailedToLoad: (error) {
-          debugPrint('AdService: Rewarded ad failed to load – $error');
+          debugPrint('AdService: Rewarded ad failed to load – ${error.message} (code: ${error.code})');
           _isRewardedReady = false;
           _isRewardedLoading = false;
         },
@@ -421,38 +433,157 @@ class AdService {
     );
   }
 
+  /// Wait for a rewarded ad to become ready, with a [timeout].
+  ///
+  /// Returns `true` if the ad is ready, `false` if the timeout elapsed.
+  /// This allows the UI to show a proper loading indicator while waiting,
+  /// instead of failing silently when the ad isn't loaded.
+  Future<bool> waitForRewardedAd({
+    Duration timeout = const Duration(seconds: 10),
+  }) async {
+    if (_isRewardedReady && _rewardedAd != null) {
+      debugPrint('AdService: Rewarded ad already ready');
+      return true;
+    }
+
+    debugPrint('AdService: Rewarded ad not ready, triggering load and waiting...');
+    _loadRewardedAd();
+
+    final deadline = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(deadline)) {
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (_isRewardedReady && _rewardedAd != null) {
+        debugPrint('AdService: Rewarded ad became ready while waiting');
+        return true;
+      }
+    }
+    debugPrint('AdService: Timed out waiting for rewarded ad');
+    return false;
+  }
+
   /// Show a rewarded ad.
   ///
-  /// Returns a [RewardedAdResult] enum so the UI can show the right state:
-  /// - [RewardedAdResult.rewarded]  → grant the reward.
-  /// - [RewardedAdResult.dismissed] → user closed early, no reward.
-  /// - [RewardedAdResult.loading]   → ad not ready; show a "Loading…" spinner
-  ///                                   and call this method again in ~2 s.
-  /// - [RewardedAdResult.notInitialized] → call [initialize] first.
+  /// Parameters:
+  /// - [onUserEarnedReward]: Invoked strictly when Google Mobile Ads SDK reports
+  ///   an earned reward via [onUserEarnedReward]. The reward MUST be granted from
+  ///   this callback to adhere to AdMob rewarded ad policies.
+  ///
+  /// Returns a [RewardedAdResult] enum when the ad flow is finished (dismissed or failed):
+  /// - [RewardedAdResult.rewarded]  → the user earned the reward; post-ad action can resume.
+  /// - [RewardedAdResult.dismissed] → user closed early or ad failed; no reward.
+  /// - [RewardedAdResult.loading]   → ad not ready even after a wait;
+  /// - [RewardedAdResult.notInitialized] → SDK not initialised.
   Future<RewardedAdResult> showRewardedAd({
-    required Function() onRewarded,
+    FutureOr<void> Function(RewardItem reward)? onUserEarnedReward,
   }) async {
-    if (!_isInitialized) return RewardedAdResult.notInitialized;
+    if (!_isInitialized) {
+      debugPrint('AdService: Cannot show rewarded ad – SDK not initialized');
+      return RewardedAdResult.notInitialized;
+    }
+
+    // Prevent double-show attempts while an ad is already on screen.
+    if (_isRewardedShowing) {
+      debugPrint('AdService: Rewarded ad already showing – ignoring duplicate request');
+      return RewardedAdResult.loading;
+    }
 
     if (!_isRewardedReady || _rewardedAd == null) {
       debugPrint(
           'AdService: Rewarded ad not ready – triggering load & returning loading state');
       _loadRewardedAd();
-      // Signal to the UI that it should display a loading indicator.
       return RewardedAdResult.loading;
     }
 
-    debugPrint('AdService: Showing rewarded ad');
-    bool didEarnReward = false;
-    await _rewardedAd!.show(
-      onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
-        debugPrint('AdService: User earned reward – ${reward.amount} ${reward.type}');
-        didEarnReward = true;
-        onRewarded();
+    // Capture a local reference so callbacks are safe.
+    final ad = _rewardedAd!;
+    _isRewardedShowing = true;
+    _isRewardedReady = false;
+    _rewardedAd = null;
+
+    final session = _RewardedAdSession(++_adSessionCounter);
+    debugPrint('AdService: [Session ${session.id}] Displaying rewarded ad');
+
+    // Wire up full-screen callbacks BEFORE calling show().
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (ad) {
+        debugPrint('AdService: [Session ${session.id}] Rewarded ad showed full screen');
+        session.isShowing = true;
+      },
+      onAdDismissedFullScreenContent: (ad) {
+        debugPrint(
+            'AdService: [Session ${session.id}] Rewarded ad dismissed. Reward earned: ${session.hasEarnedReward}');
+        session.isDismissed = true;
+        ad.dispose();
+        _isRewardedShowing = false;
+        // Pre-load the next ad for future user actions.
+        _loadRewardedAd();
+
+        if (!session.completer.isCompleted) {
+          session.completer.complete(
+            session.hasEarnedReward
+                ? RewardedAdResult.rewarded
+                : RewardedAdResult.dismissed,
+          );
+        }
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint(
+            'AdService: [Session ${session.id}] Rewarded ad failed to show – ${error.message} (code: ${error.code})');
+        session.didFailToShow = true;
+        session.isDismissed = true;
+        ad.dispose();
+        _isRewardedShowing = false;
+        _loadRewardedAd();
+
+        if (!session.completer.isCompleted) {
+          session.completer.complete(RewardedAdResult.dismissed);
+        }
+      },
+      onAdImpression: (ad) {
+        debugPrint('AdService: [Session ${session.id}] Rewarded ad impression recorded');
+      },
+      onAdClicked: (ad) {
+        debugPrint('AdService: [Session ${session.id}] Rewarded ad clicked');
       },
     );
 
-    return didEarnReward ? RewardedAdResult.rewarded : RewardedAdResult.dismissed;
+    try {
+      await ad.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem reward) async {
+          debugPrint(
+              'AdService: [Session ${session.id}] onUserEarnedReward invoked – amount: ${reward.amount}, type: ${reward.type}');
+          session.hasEarnedReward = true;
+          if (!session.hasGrantedReward) {
+            session.hasGrantedReward = true;
+            try {
+              if (onUserEarnedReward != null) {
+                await onUserEarnedReward(reward);
+                debugPrint(
+                    'AdService: [Session ${session.id}] Reward callback executed successfully');
+              }
+            } catch (e, stack) {
+              debugPrint(
+                  'AdService: [Session ${session.id}] Error in onUserEarnedReward callback: $e\n$stack');
+            }
+          } else {
+            debugPrint(
+                'AdService: [Session ${session.id}] Duplicate onUserEarnedReward callback ignored');
+          }
+        },
+      );
+    } catch (e, stack) {
+      debugPrint(
+          'AdService: [Session ${session.id}] Exception calling ad.show(): $e\n$stack');
+      session.didFailToShow = true;
+      ad.dispose();
+      _isRewardedShowing = false;
+      _loadRewardedAd();
+      if (!session.completer.isCompleted) {
+        session.completer.complete(RewardedAdResult.dismissed);
+      }
+    }
+
+    return await session.completer.future;
   }
 
   // ============================================
@@ -478,24 +609,6 @@ class AdService {
           _isRewardedInterstitialReady = true;
           _isRewardedInterstitialLoading = false;
           debugPrint('AdService: RewardedInterstitial ad loaded');
-
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              debugPrint('AdService: RewardedInterstitial dismissed');
-              ad.dispose();
-              _rewardedInterstitialAd = null;
-              _isRewardedInterstitialReady = false;
-              _loadRewardedInterstitialAd();
-            },
-            onAdFailedToShowFullScreenContent: (ad, error) {
-              debugPrint(
-                  'AdService: RewardedInterstitial failed to show – $error');
-              ad.dispose();
-              _rewardedInterstitialAd = null;
-              _isRewardedInterstitialReady = false;
-              _isRewardedInterstitialLoading = false;
-            },
-          );
         },
         onAdFailedToLoad: (error) {
           debugPrint('AdService: RewardedInterstitial failed to load – $error');
@@ -519,9 +632,18 @@ class AdService {
   ///
   /// Returns the same [RewardedAdResult] enum as [showRewardedAd].
   Future<RewardedAdResult> showRewardedInterstitialAd({
-    required Function() onRewarded,
+    FutureOr<void> Function(RewardItem reward)? onUserEarnedReward,
   }) async {
-    if (!_isInitialized) return RewardedAdResult.notInitialized;
+    if (!_isInitialized) {
+      debugPrint('AdService: Cannot show RewardedInterstitial – SDK not initialized');
+      return RewardedAdResult.notInitialized;
+    }
+
+    if (_isRewardedInterstitialShowing) {
+      debugPrint(
+          'AdService: RewardedInterstitial already showing – ignoring duplicate request');
+      return RewardedAdResult.loading;
+    }
 
     if (!_isRewardedInterstitialReady || _rewardedInterstitialAd == null) {
       debugPrint(
@@ -530,18 +652,93 @@ class AdService {
       return RewardedAdResult.loading;
     }
 
-    debugPrint('AdService: Showing RewardedInterstitial ad');
-    bool didEarnReward = false;
-    await _rewardedInterstitialAd!.show(
-      onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+    final ad = _rewardedInterstitialAd!;
+    _isRewardedInterstitialShowing = true;
+    _isRewardedInterstitialReady = false;
+    _rewardedInterstitialAd = null;
+
+    final session = _RewardedAdSession(++_adSessionCounter);
+    debugPrint('AdService: [Session ${session.id}] Showing RewardedInterstitial ad');
+
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (ad) {
+        debugPrint('AdService: [Session ${session.id}] RewardedInterstitial showed full screen');
+        session.isShowing = true;
+      },
+      onAdDismissedFullScreenContent: (ad) {
         debugPrint(
-            'AdService: User earned reward from interstitial – ${reward.amount} ${reward.type}');
-        didEarnReward = true;
-        onRewarded();
+            'AdService: [Session ${session.id}] RewardedInterstitial dismissed. Reward earned: ${session.hasEarnedReward}');
+        session.isDismissed = true;
+        ad.dispose();
+        _isRewardedInterstitialShowing = false;
+        _loadRewardedInterstitialAd();
+
+        if (!session.completer.isCompleted) {
+          session.completer.complete(
+            session.hasEarnedReward
+                ? RewardedAdResult.rewarded
+                : RewardedAdResult.dismissed,
+          );
+        }
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint(
+            'AdService: [Session ${session.id}] RewardedInterstitial failed to show – ${error.message} (code: ${error.code})');
+        session.didFailToShow = true;
+        session.isDismissed = true;
+        ad.dispose();
+        _isRewardedInterstitialShowing = false;
+        _loadRewardedInterstitialAd();
+
+        if (!session.completer.isCompleted) {
+          session.completer.complete(RewardedAdResult.dismissed);
+        }
+      },
+      onAdImpression: (ad) {
+        debugPrint('AdService: [Session ${session.id}] RewardedInterstitial impression recorded');
+      },
+      onAdClicked: (ad) {
+        debugPrint('AdService: [Session ${session.id}] RewardedInterstitial clicked');
       },
     );
 
-    return didEarnReward ? RewardedAdResult.rewarded : RewardedAdResult.dismissed;
+    try {
+      await ad.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem reward) async {
+          debugPrint(
+              'AdService: [Session ${session.id}] RewardedInterstitial onUserEarnedReward fired – ${reward.amount} ${reward.type}');
+          session.hasEarnedReward = true;
+          if (!session.hasGrantedReward) {
+            session.hasGrantedReward = true;
+            try {
+              if (onUserEarnedReward != null) {
+                await onUserEarnedReward(reward);
+                debugPrint(
+                    'AdService: [Session ${session.id}] Interstitial reward callback executed successfully');
+              }
+            } catch (e, stack) {
+              debugPrint(
+                  'AdService: [Session ${session.id}] Error in interstitial reward callback: $e\n$stack');
+            }
+          } else {
+            debugPrint(
+                'AdService: [Session ${session.id}] Duplicate interstitial reward callback ignored');
+          }
+        },
+      );
+    } catch (e, stack) {
+      debugPrint(
+          'AdService: [Session ${session.id}] Exception calling RewardedInterstitial ad.show(): $e\n$stack');
+      session.didFailToShow = true;
+      ad.dispose();
+      _isRewardedInterstitialShowing = false;
+      _loadRewardedInterstitialAd();
+      if (!session.completer.isCompleted) {
+        session.completer.complete(RewardedAdResult.dismissed);
+      }
+    }
+
+    return await session.completer.future;
   }
 
   // ============================================
