@@ -17,10 +17,12 @@ import 'package:provider/provider.dart';
 
 class PatternLibraryScreen extends StatefulWidget {
   final int initialTabIndex;
+  final VoidCallback? onOpenDrawer;
 
   const PatternLibraryScreen({
     super.key,
     this.initialTabIndex = 0,
+    this.onOpenDrawer,
   });
 
   @override
@@ -64,6 +66,13 @@ class _PatternLibraryScreenState extends State<PatternLibraryScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Learn'),
+        leading: widget.onOpenDrawer != null
+            ? IconButton(
+                icon: const Icon(Icons.menu),
+                tooltip: "Open Navigation Menu",
+                onPressed: widget.onOpenDrawer,
+              )
+            : null,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(72),
           child: Padding(

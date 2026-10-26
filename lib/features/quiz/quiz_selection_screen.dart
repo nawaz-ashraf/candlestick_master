@@ -17,20 +17,31 @@ import 'package:candlestick_master/providers/gamification_notifier.dart';
 import 'package:provider/provider.dart';
 
 class QuizSelectionScreen extends StatelessWidget {
-  const QuizSelectionScreen({super.key});
+  final VoidCallback? onOpenDrawer;
+
+  const QuizSelectionScreen({super.key, this.onOpenDrawer});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final canPop = Navigator.canPop(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Quiz'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
+        leading: onOpenDrawer != null
+            ? IconButton(
+                icon: const Icon(Icons.menu),
+                tooltip: "Open Navigation Menu",
+                onPressed: onOpenDrawer,
+              )
+            : (canPop
+                ? IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => context.pop(),
+                  )
+                : null),
       ),
       body: SafeArea(
         child: Padding(

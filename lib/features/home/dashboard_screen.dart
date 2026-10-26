@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:candlestick_master/core/constants/learning_constants.dart';
 import 'package:candlestick_master/core/services/ad_service.dart';
 import 'package:candlestick_master/core/theme/app_theme.dart';
@@ -9,11 +7,8 @@ import 'package:candlestick_master/models/pattern_model.dart';
 import 'package:candlestick_master/providers/gamification_notifier.dart';
 import 'package:candlestick_master/providers/pattern_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 typedef HomeTabChangeCallback = void Function(
   int index, {
@@ -24,8 +19,9 @@ class DashboardScreen extends StatelessWidget {
   // Callback to switch tabs in the parent HomeScreen
   // Navigation indices: 0=Home, 1=Learn, 2=Quiz, 3=Challenge, 4=Profile
   final HomeTabChangeCallback onTabChange;
+  final VoidCallback? onOpenDrawer;
 
-  const DashboardScreen({super.key, required this.onTabChange});
+  const DashboardScreen({super.key, required this.onTabChange, this.onOpenDrawer});
 
   static final LessonRepository _lessonRepository = LessonRepository();
 
@@ -38,82 +34,22 @@ class DashboardScreen extends StatelessWidget {
     }
   }
 
-  /// Share app logo with marketing text
-  Future<void> _shareApp(BuildContext context) async {
-    try {
-      // Marketing text for sharing
-      const String marketingText = '''
-🕯️ Master Candlestick Patterns with Candlestick Master!
-
-📈 Learn 40+ candlestick patterns
-    📊 Study 25+ indicators with clear explanations
-🎯 Practice with interactive quizzes
-    🔥 Build streaks with daily lessons and 100+ challenges
-📊 Track your learning progress
-🌙 Beautiful dark/light mode
-
-Download now and become a trading expert!
-https://play.google.com/store/apps/details?id=com.candlestickmaster.app
-''';
-
-      // Load the app logo from assets
-      final ByteData bytes =
-          await rootBundle.load('assets/AppIcons/playstore.png');
-      final Uint8List logoBytes = bytes.buffer.asUint8List();
-
-      // Save to temporary directory for sharing
-      final tempDir = await getTemporaryDirectory();
-      final logoFile = File('${tempDir.path}/candlestick_master_logo.png');
-      await logoFile.writeAsBytes(logoBytes);
-
-      // Share with image
-      await Share.shareXFiles(
-        [XFile(logoFile.path)],
-        text: marketingText,
-        subject: 'Check out Candlestick Master!',
-      );
-    } catch (e) {
-      // Fallback to text-only sharing if image fails
-      debugPrint('Share with image failed: $e');
-      await Share.share(
-        '🕯️ Master Candlestick Patterns with Candlestick Master!\n\n'
-        '📈 Learn 40+ candlestick patterns\n'
-        '🎯 Practice with interactive quizzes\n\n'
-        'Download: https://play.google.com/store/apps/details?id=com.candlestickmaster.app',
-        subject: 'Check out Candlestick Master!',
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Candlestick Master",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Candlestick Master",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         automaticallyImplyLeading: false,
-        actions: [
-          // Gamification quick stats in app bar
-          Consumer<GamificationNotifier>(
-            builder: (context, gamification, _) {
-              return Row(
-                children: [
-                  _buildMiniStat(Icons.local_fire_department,
-                      gamification.streak.toString(), Colors.orange),
-                  const SizedBox(width: 8),
-                  _buildMiniStat(Icons.monetization_on,
-                      gamification.coins.toString(), AppColors.accent),
-                  const SizedBox(width: 8),
-                ],
-              );
-            },
-          ),
-          IconButton(
-            onPressed: () => _shareApp(context),
-            icon: const Icon(Icons.share),
-            tooltip: "Share App",
-          ),
-        ],
+        leading: onOpenDrawer != null
+            ? IconButton(
+                icon: const Icon(Icons.menu),
+                tooltip: "Open Navigation Menu",
+                onPressed: onOpenDrawer,
+              )
+            : null,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -203,7 +139,7 @@ https://play.google.com/store/apps/details?id=com.candlestickmaster.app
               "Daily challenge + 100+ practice challenges",
               Icons.local_fire_department,
               Colors.deepOrange,
-              () => onTabChange(3), // Switch to Challenge Tab
+              () => onTabChange(4), // Switch to Challenge Tab
             ),
             const SizedBox(height: 12),
             _buildActionCard(
@@ -220,17 +156,7 @@ https://play.google.com/store/apps/details?id=com.candlestickmaster.app
     );
   }
 
-  Widget _buildMiniStat(IconData icon, String value, Color color) {
-    return Row(
-      children: [
-        Icon(icon, color: color, size: 16),
-        const SizedBox(width: 4),
-        Text(value,
-            style: TextStyle(
-                color: color, fontWeight: FontWeight.bold, fontSize: 14)),
-      ],
-    );
-  }
+
 
   Widget _buildGamifiedHeader(
     BuildContext context,
@@ -337,7 +263,7 @@ https://play.google.com/store/apps/details?id=com.candlestickmaster.app
     return GestureDetector(
       onTap: () {
         if (!completed) {
-          onTabChange(3); // Go to Challenge tab
+          onTabChange(4); // Go to Challenge tab
         }
       },
       child: Container(

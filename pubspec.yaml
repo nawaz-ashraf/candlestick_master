@@ -40,6 +40,7 @@ dependencies:
   cloud_firestore: ^5.0.0
   firebase_messaging: ^15.0.0
   firebase_analytics: ^11.0.0
+  firebase_crashlytics: ^4.0.0
 
   # Ads (Monetization) - Upgraded for better compatibility
   google_mobile_ads: ^5.2.0
@@ -49,11 +50,14 @@ dependencies:
 
   # Sharing (Deep Links / Marketing)
   share_plus: ^7.2.1
+  uuid: ^4.0.0
   path_provider: ^2.1.1
   
   # Notifications
   flutter_local_notifications: ^18.0.1
   timezone: ^0.9.4
+  in_app_review: ^2.0.12
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -68,5 +72,6 @@ flutter:
   assets:
     - assets/patterns.json
     - assets/quiz_questions.json
+    - assets/images/
     - assets/images/patterns/
     - assets/AppIcons/

@@ -1,3 +1,8 @@
+import "package:candlestick_master/features/auth/forgot_password_screen.dart";
+import "package:candlestick_master/features/auth/login_screen.dart";
+import "package:candlestick_master/features/auth/register_screen.dart";
+import "package:candlestick_master/features/journal/journal_stats_screen.dart";
+import "package:candlestick_master/features/journal/trade_form_screen.dart";
 // =============================================================================
 // App Router - Navigation & Deep Link Configuration
 // =============================================================================
@@ -10,6 +15,8 @@
 
 import 'package:candlestick_master/features/compliance/disclaimer_screen.dart';
 import 'package:candlestick_master/features/compliance/paywall_screen.dart';
+import 'package:candlestick_master/features/compliance/privacy_policy_screen.dart';
+import 'package:candlestick_master/features/compliance/terms_of_service_screen.dart';
 import 'package:candlestick_master/features/home/home_screen.dart';
 import 'package:candlestick_master/features/learn/lesson_session_screen.dart';
 import 'package:candlestick_master/features/learn/pattern_detail_screen.dart';
@@ -36,9 +43,44 @@ final appRouter = GoRouter(
       path: '/',
       builder: (context, state) => const HomeScreen(),
     ),
+    // ========================================
+    // Authentication Routes
+    // ========================================
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: '/forgot-password',
+      builder: (context, state) => const ForgotPasswordScreen(),
+    ),
+
+    // ========================================
+    // Trading Journal Routes
+    // ========================================
+    GoRoute(
+      path: '/journal',
+      builder: (context, state) => const HomeScreen(initialTabIndex: 3),
+    ),
+    GoRoute(
+      path: '/journal/add',
+      builder: (context, state) => const TradeFormScreen(),
+    ),
+    GoRoute(
+      path: '/journal/stats',
+      builder: (context, state) => const JournalStatsScreen(),
+    ),
     GoRoute(
       path: '/challenge',
-      builder: (context, state) => const HomeScreen(initialTabIndex: 3),
+      builder: (context, state) => const HomeScreen(initialTabIndex: 4),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const HomeScreen(initialTabIndex: 5),
     ),
     GoRoute(
       path: '/learn',
@@ -134,6 +176,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/paywall',
       builder: (context, state) => const PaywallScreen(),
+    ),
+    GoRoute(
+      path: '/privacy-policy',
+      builder: (context, state) => const PrivacyPolicyScreen(),
+    ),
+    GoRoute(
+      path: '/terms-of-service',
+      builder: (context, state) => const TermsOfServiceScreen(),
     ),
   ],
 );

@@ -14,6 +14,9 @@ import 'package:candlestick_master/core/services/storage_service.dart';
 import 'package:candlestick_master/core/utils/date_utils.dart';
 import 'package:candlestick_master/models/habit_user_progress.dart';
 import 'package:flutter/foundation.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:candlestick_master/core/services/firestore_service.dart";
+
 
 class GamificationNotifier extends ChangeNotifier {
   final StorageService _storage = StorageService();
@@ -562,12 +565,45 @@ class GamificationNotifier extends ChangeNotifier {
     return hash;
   }
 
+  /// Merge cloud progress with local progress (highest values win, sets union)
+  Future<void> mergeFromCloud(UserProgress cloudData) async {
+    final mergedLessons = {..._data.completedLessons, ...cloudData.completedLessons}.toList();
+    final mergedIndicators = {..._data.completedIndicators, ...cloudData.completedIndicators}.toList();
+    final mergedChallenges = {..._data.completedChallenges, ...cloudData.completedChallenges}.toList();
+    final mergedDifficulties = {..._data.unlockedDifficulties, ...cloudData.unlockedDifficulties}.toList();
+    final mergedWrongAnswers = {..._data.wrongAnswers, ...cloudData.wrongAnswers}.toList();
+
+    _data = _data.copyWith(
+      xp: max(_data.xp, cloudData.xp),
+      coins: max(_data.coins, cloudData.coins),
+      streak: max(_data.streak, cloudData.streak),
+      bestStreak: max(_data.bestStreak, cloudData.bestStreak),
+      completedLessons: mergedLessons,
+      completedIndicators: mergedIndicators,
+      completedChallenges: mergedChallenges,
+      unlockedDifficulties: mergedDifficulties,
+      wrongAnswers: mergedWrongAnswers,
+      sessionCount: max(_data.sessionCount, cloudData.sessionCount),
+    );
+
+    notifyListeners();
+    await _persist();
+  }
+
   /// Persist current data to storage
   Future<bool> _persist() async {
     try {
       final success = await _storage.saveGamificationData(_data);
       if (!success) {
         debugPrint('GamificationNotifier: Failed to save gamification data');
+      }
+      try {
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          FirestoreService().saveUserProgress(uid: user.uid, data: _data);
+        }
+      } catch (e) {
+        debugPrint('GamificationNotifier: Background Firestore sync failed - $e');
       }
       return success;
     } catch (e) {
@@ -576,3 +612,4 @@ class GamificationNotifier extends ChangeNotifier {
     }
   }
 }
+
