@@ -9,7 +9,11 @@ import 'dart:async';
 
 import 'package:candlestick_master/core/services/auth_service.dart';
 import 'package:candlestick_master/core/services/firestore_service.dart';
+import 'package:candlestick_master/core/services/storage_service.dart';
+import 'package:candlestick_master/data/repositories/trade_repository.dart';
 import 'package:candlestick_master/providers/gamification_notifier.dart';
+import 'package:candlestick_master/providers/trade_notifier.dart';
+import 'package:candlestick_master/providers/user_progress_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -103,8 +107,12 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  /// Delete user account and all associated cloud data.
-  Future<bool> deleteAccount() async {
+  /// Delete user account and all associated cloud and local data.
+  Future<bool> deleteAccount({
+    GamificationNotifier? gamification,
+    TradeNotifier? tradeNotifier,
+    UserProgressNotifier? userProgress,
+  }) async {
     _setLoading(true);
     _error = null;
 
@@ -112,6 +120,11 @@ class AuthNotifier extends ChangeNotifier {
       final uid = _user?.uid;
       if (uid != null) {
         await FirestoreService().deleteAllUserData(uid: uid);
+        await TradeRepository().deleteAll(userId: uid);
+        await StorageService().clearGamificationData(userId: uid);
+        tradeNotifier?.clearOnSignOut();
+        await gamification?.clearOnSignOut();
+        userProgress?.clearOnSignOut();
       }
       await _authService.deleteAccount();
       _setLoading(false);
@@ -123,12 +136,21 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  /// Sign out.
-  Future<void> signOut() async {
+  /// Sign out and clear all user-specific in-memory and listener state.
+  Future<void> signOut({
+    GamificationNotifier? gamification,
+    TradeNotifier? tradeNotifier,
+    UserProgressNotifier? userProgress,
+  }) async {
     _setLoading(true);
     _error = null;
 
     try {
+      // Stop user-specific data from persisting or remaining in active memory
+      tradeNotifier?.clearOnSignOut();
+      await gamification?.clearOnSignOut();
+      userProgress?.clearOnSignOut();
+
       await _authService.signOut();
     } catch (e) {
       _error = AuthService.friendlyError(e);
@@ -153,30 +175,53 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  /// Sync local progress to Firestore on login.
-  Future<void> syncOnLogin(GamificationNotifier gamification) async {
+  /// Sync user progress and trading journal with Firestore on login.
+  /// Enforces strict account isolation: switches notifiers to the active user's UID
+  /// before touching any data, preventing cross-account contamination.
+  Future<void> syncOnLogin(
+    GamificationNotifier gamification, {
+    TradeNotifier? tradeNotifier,
+    UserProgressNotifier? userProgress,
+  }) async {
     if (!isAuthenticated || _user == null) return;
+    final targetUid = _user!.uid;
 
     try {
-      debugPrint('AuthNotifier: Syncing data for ${_user!.uid}');
+      debugPrint('AuthNotifier: Syncing isolated data for $targetUid');
+
+      // 1. Switch all state notifiers to active user UID immediately
+      await gamification.switchUser(targetUid);
+      if (tradeNotifier != null) {
+        await tradeNotifier.switchUser(targetUid);
+      }
+      if (userProgress != null) {
+        await userProgress.switchUser(targetUid);
+      }
+
       final firestoreService = FirestoreService();
 
-      // Upload local progress to cloud
-      await firestoreService.saveUserProgress(
-        uid: _user!.uid,
-        data: gamification.data,
-      );
-
-      // Try to merge cloud data (cloud wins for higher values)
+      // 2. Fetch cloud data for this specific user
       final cloudData = await firestoreService.loadUserProgress(
-        uid: _user!.uid,
+        uid: targetUid,
       );
 
       if (cloudData != null) {
+        // Existing user: merge their own cloud progress into their local state
         await gamification.mergeFromCloud(cloudData);
+      } else {
+        // First cloud sync for this user: initialize cloud with this user's state
+        await firestoreService.saveUserProgress(
+          uid: targetUid,
+          data: gamification.data.copyWith(userId: targetUid),
+        );
       }
 
-      debugPrint('AuthNotifier: Sync completed');
+      // 3. Load user's cloud trades into isolated local repository
+      if (tradeNotifier != null) {
+        await tradeNotifier.syncFromCloud();
+      }
+
+      debugPrint('AuthNotifier: Sync completed safely for $targetUid');
     } catch (e) {
       debugPrint('AuthNotifier: Sync failed – $e');
     }

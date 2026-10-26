@@ -2,7 +2,7 @@
 // StorageService - SharedPreferences Wrapper for Gamification Data
 // =============================================================================
 // Provides JSON-based persistence for the GamificationData model.
-// Uses a single SharedPreferences key to store the entire gamification state.
+// Enforces strict account isolation via user-scoped SharedPreferences keys.
 // =============================================================================
 
 import 'dart:convert';
@@ -17,16 +17,26 @@ class StorageService {
   factory StorageService() => _instance;
   StorageService._internal();
 
-  static const String _gamificationKey = 'gamification_data';
+  static const String _legacyGamificationKey = 'gamification_data';
 
-  /// Save gamification data to SharedPreferences as JSON
-  Future<bool> saveGamificationData(UserProgress data) async {
+  /// Derive user-scoped SharedPreferences storage key.
+  static String gamificationKey([String? userId]) {
+    final uid = (userId != null && userId.trim().isNotEmpty) ? userId.trim() : 'guest';
+    return 'gamification_data_$uid';
+  }
+
+  /// Save gamification data to SharedPreferences as JSON scoped to a specific user.
+  Future<bool> saveGamificationData(UserProgress data, {String? userId}) async {
     try {
+      final targetUid = (userId != null && userId.trim().isNotEmpty)
+          ? userId.trim()
+          : (data.userId.trim().isNotEmpty ? data.userId.trim() : 'guest');
+      final key = gamificationKey(targetUid);
       final prefs = await SharedPreferences.getInstance();
       final jsonString = jsonEncode(data.toJson());
-      final success = await prefs.setString(_gamificationKey, jsonString);
+      final success = await prefs.setString(key, jsonString);
       if (!success) {
-        debugPrint('StorageService: SharedPreferences.setString returned false');
+        debugPrint('StorageService: SharedPreferences.setString returned false for key $key');
       }
       return success;
     } catch (e) {
@@ -35,30 +45,52 @@ class StorageService {
     }
   }
 
-  /// Load gamification data from SharedPreferences
-  /// Returns default UserProgress if no data exists or on error
-  Future<UserProgress> loadGamificationData() async {
+  /// Load gamification data from SharedPreferences for a specific user.
+  /// Returns default UserProgress if no data exists or on error.
+  Future<UserProgress> loadGamificationData({String? userId}) async {
     try {
+      final targetUid = (userId != null && userId.trim().isNotEmpty) ? userId.trim() : 'guest';
+      final key = gamificationKey(targetUid);
       final prefs = await SharedPreferences.getInstance();
-      final jsonString = prefs.getString(_gamificationKey);
+      var jsonString = prefs.getString(key);
+
+      // Safe migration for legacy unauthenticated data:
+      // If reading for 'guest' and no guest-specific key exists, check legacy un-scoped key once.
+      // For signed-in users, never load legacy or unassociated data!
+      if ((jsonString == null || jsonString.isEmpty) && targetUid == 'guest') {
+        final legacyData = prefs.getString(_legacyGamificationKey);
+        if (legacyData != null && legacyData.isNotEmpty) {
+          jsonString = legacyData;
+          await prefs.setString(key, legacyData);
+          await prefs.remove(_legacyGamificationKey);
+          debugPrint('StorageService: Migrated legacy gamification data to guest storage');
+        }
+      }
 
       if (jsonString == null || jsonString.isEmpty) {
-        return const UserProgress();
+        return UserProgress(userId: targetUid);
       }
 
       final jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
-      return UserProgress.fromJson(jsonMap);
+      final loaded = UserProgress.fromJson(jsonMap);
+      if (loaded.userId != targetUid) {
+        return loaded.copyWith(userId: targetUid);
+      }
+      return loaded;
     } catch (e) {
       debugPrint('StorageService: Error loading gamification data - $e');
-      return const UserProgress();
+      final fallbackUid = (userId != null && userId.trim().isNotEmpty) ? userId.trim() : 'guest';
+      return UserProgress(userId: fallbackUid);
     }
   }
 
-  /// Clear all gamification data (for reset functionality)
-  Future<void> clearGamificationData() async {
+  /// Clear gamification data for a specific user (or guest).
+  Future<void> clearGamificationData({String? userId}) async {
     try {
+      final key = gamificationKey(userId);
       final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_gamificationKey);
+      await prefs.remove(key);
+      debugPrint('StorageService: Cleared gamification data for key $key');
     } catch (e) {
       debugPrint('StorageService: Error clearing gamification data - $e');
     }

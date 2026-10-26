@@ -2,6 +2,7 @@
 // TradeRepository - SQLite-backed Local Storage for Trading Journal
 // =============================================================================
 // Provides CRUD operations for Trade objects using sqflite.
+// Enforces strict user isolation via userId column on all queries and mutations.
 // Data is stored locally and synced to Firestore when authenticated.
 // =============================================================================
 
@@ -30,11 +31,12 @@ class TradeRepository {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE trades (
             id TEXT PRIMARY KEY,
+            userId TEXT NOT NULL DEFAULT '',
             symbol TEXT NOT NULL,
             tradeType TEXT NOT NULL,
             status TEXT NOT NULL,
@@ -52,13 +54,21 @@ class TradeRepository {
             updatedAt TEXT NOT NULL
           )
         ''');
-        debugPrint('TradeRepository: Database created');
+        await db.execute('CREATE INDEX idx_trades_userId ON trades (userId)');
+        debugPrint('TradeRepository: Database created with userId column');
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute("ALTER TABLE trades ADD COLUMN userId TEXT NOT NULL DEFAULT ''");
+          await db.execute('CREATE INDEX IF NOT EXISTS idx_trades_userId ON trades (userId)');
+          debugPrint('TradeRepository: Migrated schema to v2 with userId column');
+        }
       },
     );
   }
 
   // ============================================
-  // CRUD Operations
+  // CRUD Operations (User-Scoped)
   // ============================================
 
   /// Insert or replace a trade.
@@ -69,78 +79,87 @@ class TradeRepository {
       trade.toSqliteMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    debugPrint('TradeRepository: Trade ${trade.id} upserted');
+    debugPrint('TradeRepository: Trade ${trade.id} upserted for user ${trade.userId}');
   }
 
-  /// Get all trades, ordered by creation date (newest first).
-  Future<List<Trade>> getAll() async {
+  /// Get all trades for a specific user, ordered by creation date (newest first).
+  Future<List<Trade>> getAll({required String userId}) async {
     final db = await database;
     final maps = await db.query(
       'trades',
+      where: 'userId = ?',
+      whereArgs: [userId],
       orderBy: 'createdAt DESC',
     );
     return maps.map((m) => Trade.fromSqliteMap(m)).toList();
   }
 
-  /// Get a single trade by ID.
-  Future<Trade?> getById(String id) async {
+  /// Get a single trade by ID scoped to the authenticated user.
+  Future<Trade?> getById(String id, {required String userId}) async {
     final db = await database;
     final maps = await db.query(
       'trades',
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'id = ? AND userId = ?',
+      whereArgs: [id, userId],
       limit: 1,
     );
     if (maps.isEmpty) return null;
     return Trade.fromSqliteMap(maps.first);
   }
 
-  /// Get trades filtered by status.
-  Future<List<Trade>> getByStatus(TradeStatus status) async {
+  /// Get trades filtered by status for a specific user.
+  Future<List<Trade>> getByStatus(TradeStatus status, {required String userId}) async {
     final db = await database;
     final maps = await db.query(
       'trades',
-      where: 'status = ?',
-      whereArgs: [status.name],
+      where: 'status = ? AND userId = ?',
+      whereArgs: [status.name, userId],
       orderBy: 'createdAt DESC',
     );
     return maps.map((m) => Trade.fromSqliteMap(m)).toList();
   }
 
-  /// Get trades within a date range.
-  Future<List<Trade>> getByDateRange(DateTime start, DateTime end) async {
+  /// Get trades within a date range for a specific user.
+  Future<List<Trade>> getByDateRange(DateTime start, DateTime end, {required String userId}) async {
     final db = await database;
     final maps = await db.query(
       'trades',
-      where: 'entryDate >= ? AND entryDate <= ?',
-      whereArgs: [start.toIso8601String(), end.toIso8601String()],
+      where: 'entryDate >= ? AND entryDate <= ? AND userId = ?',
+      whereArgs: [start.toIso8601String(), end.toIso8601String(), userId],
       orderBy: 'entryDate DESC',
     );
     return maps.map((m) => Trade.fromSqliteMap(m)).toList();
   }
 
-  /// Delete a trade by ID.
-  Future<void> delete(String id) async {
+  /// Delete a trade by ID only if it belongs to the specified user.
+  Future<void> delete(String id, {required String userId}) async {
     final db = await database;
-    await db.delete(
+    final count = await db.delete(
       'trades',
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'id = ? AND userId = ?',
+      whereArgs: [id, userId],
     );
-    debugPrint('TradeRepository: Trade $id deleted');
+    debugPrint('TradeRepository: Trade $id deleted for user $userId (rows affected: $count)');
   }
 
-  /// Delete all trades.
-  Future<void> deleteAll() async {
+  /// Delete all trades for a specific user.
+  Future<void> deleteAll({required String userId}) async {
     final db = await database;
-    await db.delete('trades');
-    debugPrint('TradeRepository: All trades deleted');
+    final count = await db.delete(
+      'trades',
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
+    debugPrint('TradeRepository: All trades deleted for user $userId (rows affected: $count)');
   }
 
-  /// Get trade count.
-  Future<int> count() async {
+  /// Get trade count for a specific user.
+  Future<int> count({required String userId}) async {
     final db = await database;
-    final result = await db.rawQuery('SELECT COUNT(*) as cnt FROM trades');
+    final result = await db.rawQuery(
+      'SELECT COUNT(*) as cnt FROM trades WHERE userId = ?',
+      [userId],
+    );
     return Sqflite.firstIntValue(result) ?? 0;
   }
 }

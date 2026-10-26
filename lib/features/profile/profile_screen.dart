@@ -51,8 +51,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (auth.isAuthenticated) {
           final gamification = context.read<GamificationNotifier>();
           final tradeNotifier = context.read<TradeNotifier>();
-          auth.syncOnLogin(gamification);
-          tradeNotifier.syncFromCloud();
+          final userProgress = context.read<UserProgressNotifier>();
+          auth.syncOnLogin(
+            gamification,
+            tradeNotifier: tradeNotifier,
+            userProgress: userProgress,
+          );
         }
       } catch (_) {}
     });
@@ -701,7 +705,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     if (confirmed == true && context.mounted) {
-      await auth.signOut();
+      final gamification = context.read<GamificationNotifier>();
+      final tradeNotifier = context.read<TradeNotifier>();
+      final userProgress = context.read<UserProgressNotifier>();
+      await auth.signOut(
+        gamification: gamification,
+        tradeNotifier: tradeNotifier,
+        userProgress: userProgress,
+      );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Signed out successfully")),
@@ -740,7 +751,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     if (confirmed == true && context.mounted) {
-      final success = await auth.deleteAccount();
+      final gamification = context.read<GamificationNotifier>();
+      final tradeNotifier = context.read<TradeNotifier>();
+      final userProgress = context.read<UserProgressNotifier>();
+      final success = await auth.deleteAccount(
+        gamification: gamification,
+        tradeNotifier: tradeNotifier,
+        userProgress: userProgress,
+      );
       if (context.mounted) {
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(

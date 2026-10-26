@@ -1,9 +1,3 @@
-// =============================================================================
-// TradeNotifier - Trading Journal State Management
-// =============================================================================
-// ChangeNotifier managing trade list, CRUD, statistics, and Firestore sync.
-// =============================================================================
-
 import 'package:candlestick_master/core/services/analytics_service.dart';
 import 'package:candlestick_master/core/services/auth_service.dart';
 import 'package:candlestick_master/core/services/firestore_service.dart';
@@ -18,6 +12,7 @@ class TradeNotifier extends ChangeNotifier {
   final AnalyticsService _analytics = AnalyticsService();
   final _uuid = const Uuid();
 
+  String _currentUserId = 'guest';
   List<Trade> _trades = [];
   bool _isLoading = false;
   bool _isInitialized = false;
@@ -26,6 +21,7 @@ class TradeNotifier extends ChangeNotifier {
   // Getters
   // ============================================
 
+  String get currentUserId => _currentUserId;
   List<Trade> get trades => _trades;
   bool get isLoading => _isLoading;
   bool get isInitialized => _isInitialized;
@@ -84,19 +80,22 @@ class TradeNotifier extends ChangeNotifier {
   }
 
   // ============================================
-  // Initialization
+  // Initialization & User Account Lifecycle
   // ============================================
 
-  Future<void> initialize() async {
+  /// Initialize trades for the active session.
+  Future<void> initialize({String? userId}) async {
     if (_isInitialized) return;
 
     _isLoading = true;
     notifyListeners();
 
     try {
-      _trades = await _repository.getAll();
+      final activeUid = userId ?? AuthService().uid ?? 'guest';
+      _currentUserId = activeUid.isNotEmpty ? activeUid : 'guest';
+      _trades = await _repository.getAll(userId: _currentUserId);
       _isInitialized = true;
-      debugPrint('TradeNotifier: Loaded ${_trades.length} trades');
+      debugPrint('TradeNotifier: Loaded ${_trades.length} trades for user $_currentUserId');
     } catch (e) {
       debugPrint('TradeNotifier: Init error – $e');
     }
@@ -105,11 +104,40 @@ class TradeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Switch the active user identity and load only that user's trades.
+  Future<void> switchUser(String? userId) async {
+    final newUid = (userId != null && userId.trim().isNotEmpty) ? userId.trim() : 'guest';
+    _currentUserId = newUid;
+    _isLoading = true;
+    _trades = [];
+    notifyListeners();
+
+    try {
+      _trades = await _repository.getAll(userId: _currentUserId);
+      debugPrint('TradeNotifier: Switched to user $_currentUserId, loaded ${_trades.length} trades');
+    } catch (e) {
+      debugPrint('TradeNotifier: Error switching user – $e');
+      _trades = [];
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Clear all user-specific trade records from memory on logout.
+  void clearOnSignOut() {
+    _currentUserId = 'guest';
+    _trades = [];
+    _isLoading = false;
+    notifyListeners();
+    debugPrint('TradeNotifier: Cleared in-memory trades on sign out');
+  }
+
   // ============================================
-  // CRUD
+  // CRUD Operations
   // ============================================
 
-  /// Add a new trade.
+  /// Add a new trade for the active user.
   Future<void> addTrade({
     required String symbol,
     required TradeType tradeType,
@@ -129,6 +157,7 @@ class TradeNotifier extends ChangeNotifier {
 
     final trade = Trade(
       id: _uuid.v4(),
+      userId: _currentUserId,
       symbol: symbol.toUpperCase().trim(),
       tradeType: tradeType,
       status: status,
@@ -153,9 +182,13 @@ class TradeNotifier extends ChangeNotifier {
     await _syncTradeToCloud(trade);
   }
 
-  /// Update an existing trade.
+  /// Update an existing trade owned by the active user.
   Future<void> updateTrade(Trade updatedTrade) async {
-    final trade = updatedTrade.copyWith(updatedAt: DateTime.now());
+    // Enforce ownership: cannot change userId to another account
+    final trade = updatedTrade.copyWith(
+      userId: _currentUserId,
+      updatedAt: DateTime.now(),
+    );
 
     await _repository.upsert(trade);
 
@@ -179,6 +212,7 @@ class TradeNotifier extends ChangeNotifier {
     if (index == -1) return;
 
     final trade = _trades[index].copyWith(
+      userId: _currentUserId,
       exitPrice: exitPrice,
       exitDate: exitDate ?? DateTime.now(),
       status: TradeStatus.closed,
@@ -192,9 +226,9 @@ class TradeNotifier extends ChangeNotifier {
     await _syncTradeToCloud(trade);
   }
 
-  /// Delete a trade.
+  /// Delete a trade owned by the active user.
   Future<void> deleteTrade(String tradeId) async {
-    await _repository.delete(tradeId);
+    await _repository.delete(tradeId, userId: _currentUserId);
     _trades.removeWhere((t) => t.id == tradeId);
     notifyListeners();
 
@@ -224,52 +258,62 @@ class TradeNotifier extends ChangeNotifier {
   // ============================================
 
   Future<void> _syncTradeToCloud(Trade trade) async {
-    final uid = AuthService().uid;
-    if (uid == null) return;
+    final authUid = AuthService().uid;
+    if (authUid == null || authUid != _currentUserId || _currentUserId == 'guest') {
+      return;
+    }
 
     try {
-      await _firestore.saveTrade(uid: uid, trade: trade);
+      await _firestore.saveTrade(uid: _currentUserId, trade: trade);
     } catch (e) {
       debugPrint('TradeNotifier: Cloud sync failed for trade ${trade.id} – $e');
     }
   }
 
   Future<void> _deleteTradeFromCloud(String tradeId) async {
-    final uid = AuthService().uid;
-    if (uid == null) return;
+    final authUid = AuthService().uid;
+    if (authUid == null || authUid != _currentUserId || _currentUserId == 'guest') {
+      return;
+    }
 
     try {
-      await _firestore.deleteTrade(uid: uid, tradeId: tradeId);
+      await _firestore.deleteTrade(uid: _currentUserId, tradeId: tradeId);
     } catch (e) {
-      debugPrint(
-          'TradeNotifier: Cloud delete failed for trade $tradeId – $e');
+      debugPrint('TradeNotifier: Cloud delete failed for trade $tradeId – $e');
     }
   }
 
-  /// Sync all local trades to Firestore.
+  /// Sync all active user trades to Firestore.
   Future<void> syncAllToCloud() async {
-    final uid = AuthService().uid;
-    if (uid == null) return;
+    final authUid = AuthService().uid;
+    if (authUid == null || authUid != _currentUserId || _currentUserId == 'guest') {
+      return;
+    }
 
     try {
-      await _firestore.syncAllTrades(uid: uid, trades: _trades);
-      debugPrint('TradeNotifier: All trades synced to cloud');
+      final userTrades = _trades.where((t) => t.userId == _currentUserId).toList();
+      await _firestore.syncAllTrades(uid: _currentUserId, trades: userTrades);
+      debugPrint('TradeNotifier: All ${userTrades.length} trades synced to cloud for $_currentUserId');
     } catch (e) {
       debugPrint('TradeNotifier: Full sync failed – $e');
     }
   }
 
-  /// Load trades from Firestore and merge with local.
+  /// Load trades from Firestore for the active user and merge with local repository.
   Future<void> syncFromCloud() async {
-    final uid = AuthService().uid;
-    if (uid == null) return;
+    final authUid = AuthService().uid;
+    if (authUid == null || authUid != _currentUserId || _currentUserId == 'guest') {
+      return;
+    }
 
     try {
-      final cloudTrades = await _firestore.loadTrades(uid: uid);
+      final cloudTrades = await _firestore.loadTrades(uid: _currentUserId);
       final localIds = _trades.map((t) => t.id).toSet();
 
       int added = 0;
-      for (final trade in cloudTrades) {
+      for (final rawTrade in cloudTrades) {
+        // Enforce active user ownership
+        final trade = rawTrade.copyWith(userId: _currentUserId);
         if (!localIds.contains(trade.id)) {
           await _repository.upsert(trade);
           _trades.add(trade);
@@ -280,7 +324,7 @@ class TradeNotifier extends ChangeNotifier {
       if (added > 0) {
         _trades.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         notifyListeners();
-        debugPrint('TradeNotifier: Added $added trades from cloud');
+        debugPrint('TradeNotifier: Added $added trades from cloud for $_currentUserId');
       }
     } catch (e) {
       debugPrint('TradeNotifier: Cloud sync failed – $e');

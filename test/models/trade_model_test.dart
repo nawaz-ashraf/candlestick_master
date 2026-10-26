@@ -132,5 +132,34 @@ void main() {
       expect(fromDb.notes, equals(original.notes));
       expect(fromDb.tags, equals(original.tags));
     });
+    test("Trade model preserves userId across copyWith and serialization", () {
+      final trade = Trade(
+        id: "u-1",
+        userId: "user_alpha_123",
+        symbol: "BTC/USDT",
+        tradeType: TradeType.long,
+        status: TradeStatus.open,
+        entryPrice: 50000.0,
+        quantity: 1.0,
+        entryDate: DateTime(2026, 1, 1),
+        createdAt: DateTime(2026, 1, 1),
+        updatedAt: DateTime(2026, 1, 1),
+      );
+
+      expect(trade.userId, equals("user_alpha_123"));
+
+      final json = trade.toJson();
+      expect(json["userId"], equals("user_alpha_123"));
+      final fromJson = Trade.fromJson(json);
+      expect(fromJson.userId, equals("user_alpha_123"));
+
+      final sqliteMap = trade.toSqliteMap();
+      expect(sqliteMap["userId"], equals("user_alpha_123"));
+      final fromSqlite = Trade.fromSqliteMap(sqliteMap);
+      expect(fromSqlite.userId, equals("user_alpha_123"));
+
+      final copied = trade.copyWith(userId: "user_beta_456");
+      expect(copied.userId, equals("user_beta_456"));
+    });
   });
 }

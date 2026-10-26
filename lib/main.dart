@@ -84,12 +84,14 @@ void main() async {
     final authNotifier = AuthNotifier();
     final tradeNotifier = TradeNotifier();
 
+    final initialUid = authNotifier.uid ?? 'guest';
+
     // Load persisted preferences before app starts
     await Future.wait([
       themeNotifier.initialize(),
-      userProgressNotifier.initialize(),
-      gamificationNotifier.initialize(),
-      tradeNotifier.initialize(),
+      userProgressNotifier.initialize(userId: initialUid),
+      gamificationNotifier.initialize(userId: initialUid),
+      tradeNotifier.initialize(userId: initialUid),
     ]);
 
     runApp(MyApp(

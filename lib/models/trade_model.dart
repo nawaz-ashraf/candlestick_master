@@ -11,6 +11,7 @@ enum TradeStatus { open, closed }
 
 class Trade {
   final String id;
+  final String userId;
   final String symbol;
   final TradeType tradeType;
   final TradeStatus status;
@@ -33,6 +34,7 @@ class Trade {
 
   const Trade({
     required this.id,
+    this.userId = '',
     required this.symbol,
     required this.tradeType,
     required this.status,
@@ -102,6 +104,7 @@ class Trade {
 
   Trade copyWith({
     String? id,
+    String? userId,
     String? symbol,
     TradeType? tradeType,
     TradeStatus? status,
@@ -120,6 +123,7 @@ class Trade {
   }) {
     return Trade(
       id: id ?? this.id,
+      userId: userId ?? this.userId,
       symbol: symbol ?? this.symbol,
       tradeType: tradeType ?? this.tradeType,
       status: status ?? this.status,
@@ -145,6 +149,7 @@ class Trade {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'userId': userId,
       'symbol': symbol,
       'tradeType': tradeType.name,
       'status': status.name,
@@ -166,6 +171,7 @@ class Trade {
   factory Trade.fromJson(Map<String, dynamic> json) {
     return Trade(
       id: json['id'] as String? ?? '',
+      userId: json['userId'] as String? ?? '',
       symbol: json['symbol'] as String? ?? '',
       tradeType: TradeType.values.firstWhere(
         (e) => e.name == json['tradeType'],
@@ -205,6 +211,7 @@ class Trade {
   Map<String, dynamic> toSqliteMap() {
     return {
       'id': id,
+      'userId': userId,
       'symbol': symbol,
       'tradeType': tradeType.name,
       'status': status.name,
@@ -226,6 +233,7 @@ class Trade {
   factory Trade.fromSqliteMap(Map<String, dynamic> map) {
     return Trade(
       id: map['id'] as String,
+      userId: map['userId'] as String? ?? '',
       symbol: map['symbol'] as String? ?? '',
       tradeType: TradeType.values.firstWhere(
         (e) => e.name == map['tradeType'],

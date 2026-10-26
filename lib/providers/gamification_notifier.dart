@@ -21,6 +21,7 @@ import "package:candlestick_master/core/services/firestore_service.dart";
 class GamificationNotifier extends ChangeNotifier {
   final StorageService _storage = StorageService();
 
+  String _currentUserId = 'guest';
   UserProgress _data = const UserProgress();
   bool _isInitialized = false;
 
@@ -29,6 +30,7 @@ class GamificationNotifier extends ChangeNotifier {
   // ============================================
   UserProgress get data => _data;
   bool get isInitialized => _isInitialized;
+  String get currentUserId => _currentUserId;
 
   int get xp => _data.xp;
   int get coins => _data.coins;
@@ -67,10 +69,19 @@ class GamificationNotifier extends ChangeNotifier {
   // ============================================
 
   /// Load persisted gamification data
-  Future<void> initialize() async {
+  Future<void> initialize({String? userId}) async {
     if (_isInitialized) return;
 
-    _data = await _storage.loadGamificationData();
+    String? authUid;
+    try {
+      authUid = FirebaseAuth.instance.currentUser?.uid;
+    } catch (_) {}
+
+    _currentUserId = (userId != null && userId.trim().isNotEmpty)
+        ? userId.trim()
+        : (authUid ?? 'guest');
+
+    _data = await _storage.loadGamificationData(userId: _currentUserId);
     _isInitialized = true;
 
     // Check if streak needs to be reset (missed a day)
@@ -86,6 +97,31 @@ class GamificationNotifier extends ChangeNotifier {
     if (requiresPersist) {
       await _persist();
     }
+  }
+
+  /// Switch the active user identity and load only that user's gamification data
+  Future<void> switchUser(String? userId) async {
+    final newUid = (userId != null && userId.trim().isNotEmpty) ? userId.trim() : 'guest';
+    _currentUserId = newUid;
+    _data = await _storage.loadGamificationData(userId: _currentUserId);
+    if (_data.userId != _currentUserId) {
+      _data = _data.copyWith(userId: _currentUserId);
+    }
+    _ensureBaseUnlocks();
+    notifyListeners();
+    debugPrint('GamificationNotifier: Switched to user $_currentUserId (XP: ${_data.xp}, Coins: ${_data.coins})');
+  }
+
+  /// Clear user-specific in-memory progress on logout
+  Future<void> clearOnSignOut() async {
+    _currentUserId = 'guest';
+    _data = await _storage.loadGamificationData(userId: 'guest');
+    if (_data.userId != 'guest') {
+      _data = _data.copyWith(userId: 'guest');
+    }
+    _ensureBaseUnlocks();
+    notifyListeners();
+    debugPrint('GamificationNotifier: Cleared in-memory progress on sign out');
   }
 
   // ============================================
@@ -533,10 +569,10 @@ class GamificationNotifier extends ChangeNotifier {
   }
 
   bool _ensureUserId() {
-    if (_data.userId.isNotEmpty) return false;
+    if (_data.userId == _currentUserId) return false;
 
     _data = _data.copyWith(
-      userId: 'guest_${DateTime.now().millisecondsSinceEpoch}',
+      userId: _currentUserId,
     );
     return true;
   }
@@ -574,6 +610,7 @@ class GamificationNotifier extends ChangeNotifier {
     final mergedWrongAnswers = {..._data.wrongAnswers, ...cloudData.wrongAnswers}.toList();
 
     _data = _data.copyWith(
+      userId: _currentUserId,
       xp: max(_data.xp, cloudData.xp),
       coins: max(_data.coins, cloudData.coins),
       streak: max(_data.streak, cloudData.streak),
@@ -593,13 +630,13 @@ class GamificationNotifier extends ChangeNotifier {
   /// Persist current data to storage
   Future<bool> _persist() async {
     try {
-      final success = await _storage.saveGamificationData(_data);
+      final success = await _storage.saveGamificationData(_data, userId: _currentUserId);
       if (!success) {
         debugPrint('GamificationNotifier: Failed to save gamification data');
       }
       try {
         final user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
+        if (user != null && user.uid == _currentUserId && _currentUserId != 'guest') {
           FirestoreService().saveUserProgress(uid: user.uid, data: _data);
         }
       } catch (e) {

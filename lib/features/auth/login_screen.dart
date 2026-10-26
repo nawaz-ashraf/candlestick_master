@@ -2,6 +2,7 @@ import "package:candlestick_master/core/theme/app_theme.dart";
 import "package:candlestick_master/providers/auth_notifier.dart";
 import "package:candlestick_master/providers/gamification_notifier.dart";
 import "package:candlestick_master/providers/trade_notifier.dart";
+import "package:candlestick_master/providers/user_progress_notifier.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:provider/provider.dart";
@@ -32,18 +33,21 @@ class _LoginScreenState extends State<LoginScreen> {
     final auth = context.read<AuthNotifier>();
     final gamification = context.read<GamificationNotifier>();
     final tradeNotifier = context.read<TradeNotifier>();
+    final userProgress = context.read<UserProgressNotifier>();
 
     final success = await auth.signIn(
       email: _emailController.text.trim(),
       password: _passwordController.text,
     );
     if (success) {
-      await auth.syncOnLogin(gamification);
+      await auth.syncOnLogin(
+        gamification,
+        tradeNotifier: tradeNotifier,
+        userProgress: userProgress,
+      );
     }
 
     if (success && mounted) {
-      // Sync cloud trades
-      await tradeNotifier.syncFromCloud();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
