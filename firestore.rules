@@ -3,29 +3,67 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // =========================================================================
-    // Account Isolation Rules: Candlestick Master
+    // Candlestick Master: Security Rules
     // =========================================================================
-    // Every user's private data is strictly partitioned by their authenticated UID.
-    // User A can NEVER read, create, update, or delete records belonging to User B.
+    // Strict UID-scoped data ownership for user profiles, learning analytics,
+    // quiz/challenge attempts, and Trading Journal entries.
     // =========================================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
 
     match /users/{userId} {
-      // Direct access to user document
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // 1. Root user profile document
+      allow read, write: if isOwner(userId);
 
-      // User gamification progress document
-      match /data/{document=**} {
-        allow read, write: if request.auth != null && request.auth.uid == userId;
+      // 2. Aggregated Statistics (stats/learning, stats/trading, stats/activity)
+      match /stats/{statDoc} {
+        allow read, write: if isOwner(userId);
       }
 
-      // Trading Journal entries
+      // 3. Pattern Progress (patternProgress/{patternId})
+      match /patternProgress/{patternId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // 4. Indicator Progress (indicatorProgress/{indicatorId})
+      match /indicatorProgress/{indicatorId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // 5. Quiz Attempts (quizAttempts/{attemptId})
+      match /quizAttempts/{attemptId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // 6. Challenge Attempts (challengeAttempts/{attemptId})
+      match /challengeAttempts/{attemptId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // 7. Trading Journal Records (trades/{tradeId})
+      match /trades/{tradeId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // 8. Backward-Compatible Trading Journal Mirror (journal/{tradeId})
       match /journal/{tradeId} {
-        allow read, write: if request.auth != null && request.auth.uid == userId;
+        allow read, write: if isOwner(userId);
       }
 
-      // Any additional user subcollections
+      // 9. Backward-Compatible User Progress Document (data/progress)
+      match /data/{document=**} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // 10. Fallback for any other user-owned subcollections
       match /{allSubcollections=**} {
-        allow read, write: if request.auth != null && request.auth.uid == userId;
+        allow read, write: if isOwner(userId);
       }
     }
 

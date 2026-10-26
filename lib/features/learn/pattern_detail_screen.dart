@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:candlestick_master/models/pattern_model.dart';
+import 'package:candlestick_master/core/services/analytics_service.dart';
 import 'package:candlestick_master/core/theme/app_theme.dart';
 import 'package:candlestick_master/providers/gamification_notifier.dart';
 import 'package:candlestick_master/providers/user_progress_notifier.dart';
@@ -14,6 +15,10 @@ class PatternDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logLessonOpened(
+      lessonId: pattern.id,
+      lessonType: pattern.category,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(pattern.name),

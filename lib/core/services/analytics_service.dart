@@ -169,6 +169,68 @@ class AnalyticsService {
   }
 
   // ============================================
+  // Additional Engagement Events
+  // ============================================
+
+  Future<void> logLessonOpened({
+    required String lessonId,
+    String? lessonType,
+  }) async {
+    try {
+      await _analytics.logEvent(
+        name: 'lesson_opened',
+        parameters: {
+          'lesson_id': lessonId,
+          if (lessonType != null) 'lesson_type': lessonType,
+        },
+      );
+    } catch (e) {
+      debugPrint('AnalyticsService: logLessonOpened error – $e');
+    }
+  }
+
+  Future<void> logIndicatorOpened({required String indicatorId}) async {
+    try {
+      await _analytics.logEvent(
+        name: 'indicator_opened',
+        parameters: {'indicator_id': indicatorId},
+      );
+    } catch (e) {
+      debugPrint('AnalyticsService: logIndicatorOpened error – $e');
+    }
+  }
+
+  Future<void> logJournalOpened() async {
+    try {
+      await _analytics.logEvent(name: 'journal_opened');
+    } catch (e) {
+      debugPrint('AnalyticsService: logJournalOpened error – $e');
+    }
+  }
+
+  Future<void> logChallengeStarted({required String challengeId}) async {
+    try {
+      await _analytics.logEvent(
+        name: 'challenge_started',
+        parameters: {'challenge_id': challengeId},
+      );
+    } catch (e) {
+      debugPrint('AnalyticsService: logChallengeStarted error – $e');
+    }
+  }
+
+  Future<void> logDailyStreakMaintained({required int streak}) async {
+    try {
+      await _analytics.logEvent(
+        name: 'daily_streak_maintained',
+        parameters: {'streak': streak},
+      );
+    } catch (e) {
+      debugPrint('AnalyticsService: logDailyStreakMaintained error – $e');
+    }
+  }
+
+  // ============================================
   // User Properties
   // ============================================
 

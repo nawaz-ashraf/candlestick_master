@@ -17,6 +17,9 @@ import 'package:candlestick_master/models/quiz_settings.dart';
 import 'package:candlestick_master/providers/gamification_notifier.dart';
 import 'package:candlestick_master/providers/pattern_notifier.dart';
 import 'package:candlestick_master/providers/quiz_notifier.dart';
+import 'package:candlestick_master/core/services/analytics_service.dart';
+import 'package:candlestick_master/core/services/auth_service.dart';
+import 'package:candlestick_master/core/services/firestore_service.dart';
 import 'package:candlestick_master/providers/user_progress_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -33,6 +36,7 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   bool _quizStarted = false;
+  bool _hasRecordedResult = false;
 
   @override
   void initState() {
@@ -53,7 +57,13 @@ class _QuizScreenState extends State<QuizScreen> {
         );
 
     if (mounted) {
-      setState(() => _quizStarted = true);
+      setState(() {
+        _quizStarted = true;
+        _hasRecordedResult = false;
+      });
+      AnalyticsService().logQuizStart(
+        difficulty: widget.settings?.difficultyLabel ?? 'Medium',
+      );
     }
   }
 
@@ -274,6 +284,27 @@ class _QuizScreenState extends State<QuizScreen> {
     ThemeData theme,
     ColorScheme colorScheme,
   ) {
+    if (!_hasRecordedResult) {
+      _hasRecordedResult = true;
+      final authUid = AuthService().uid;
+      final diff = notifier.currentSettings?.difficultyLabel ?? 'Medium';
+      if (authUid != null) {
+        final attemptId = 'quiz_${DateTime.now().millisecondsSinceEpoch}';
+        FirestoreService().saveQuizAttempt(
+          uid: authUid,
+          attemptId: attemptId,
+          difficulty: diff,
+          score: notifier.score,
+          totalQuestions: notifier.questions.length,
+          correctAnswers: notifier.score,
+        );
+      }
+      AnalyticsService().logQuizComplete(
+        difficulty: diff,
+        score: notifier.score,
+        totalQuestions: notifier.questions.length,
+      );
+    }
     final accuracy = notifier.accuracy;
     final isPerfect = notifier.score == notifier.questions.length;
     final isGood = accuracy >= 70;

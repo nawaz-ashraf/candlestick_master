@@ -7,6 +7,7 @@
 
 import 'dart:async';
 
+import 'package:candlestick_master/core/services/analytics_service.dart';
 import 'package:candlestick_master/core/services/auth_service.dart';
 import 'package:candlestick_master/core/services/firestore_service.dart';
 import 'package:candlestick_master/core/services/storage_service.dart';
@@ -75,8 +76,16 @@ class AuthNotifier extends ChangeNotifier {
         password: password,
       );
 
-      if (user != null && displayName != null && displayName.isNotEmpty) {
-        await _authService.updateDisplayName(displayName);
+      if (user != null) {
+        if (displayName != null && displayName.isNotEmpty) {
+          await _authService.updateDisplayName(displayName);
+        }
+        await FirestoreService().saveUserProfile(
+          uid: user.uid,
+          email: user.email ?? email,
+          displayName: displayName,
+        );
+        await AnalyticsService().logSignUp();
       }
 
       _setLoading(false);
@@ -97,7 +106,15 @@ class AuthNotifier extends ChangeNotifier {
     _error = null;
 
     try {
-      await _authService.signIn(email: email, password: password);
+      final user = await _authService.signIn(email: email, password: password);
+      if (user != null) {
+        await FirestoreService().saveUserProfile(
+          uid: user.uid,
+          email: user.email ?? email,
+          displayName: user.displayName,
+        );
+        await AnalyticsService().logLogin();
+      }
       _setLoading(false);
       return true;
     } catch (e) {
@@ -200,7 +217,14 @@ class AuthNotifier extends ChangeNotifier {
 
       final firestoreService = FirestoreService();
 
-      // 2. Fetch cloud data for this specific user
+      // 2. Update user profile root document
+      await firestoreService.saveUserProfile(
+        uid: targetUid,
+        email: _user?.email ?? '',
+        displayName: _user?.displayName,
+      );
+
+      // 3. Fetch cloud data for this specific user
       final cloudData = await firestoreService.loadUserProgress(
         uid: targetUid,
       );
@@ -213,8 +237,12 @@ class AuthNotifier extends ChangeNotifier {
         await firestoreService.saveUserProgress(
           uid: targetUid,
           data: gamification.data.copyWith(userId: targetUid),
+          totalQuizzes: userProgress?.totalQuestions ?? 0,
         );
       }
+
+      // Check for legacy migration
+      await firestoreService.migrateLegacyUserDocuments();
 
       // 3. Load user's cloud trades into isolated local repository
       if (tradeNotifier != null) {

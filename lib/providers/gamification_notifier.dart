@@ -382,6 +382,17 @@ class GamificationNotifier extends ChangeNotifier {
     _updateStreak();
     notifyListeners();
     await _persist();
+
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && user.uid == _currentUserId && _currentUserId != 'guest') {
+        FirestoreService().saveChallengeAttempt(
+          uid: user.uid,
+          attemptId: '${challengeId}_${DateTime.now().millisecondsSinceEpoch}',
+          challengeId: challengeId,
+        );
+      }
+    } catch (_) {}
   }
 
   bool isChallengeCompleted(String challengeId) {

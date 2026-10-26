@@ -265,6 +265,7 @@ class TradeNotifier extends ChangeNotifier {
 
     try {
       await _firestore.saveTrade(uid: _currentUserId, trade: trade);
+      await _firestore.saveTradingStats(uid: _currentUserId, trades: _trades);
     } catch (e) {
       debugPrint('TradeNotifier: Cloud sync failed for trade ${trade.id} – $e');
     }
@@ -278,6 +279,7 @@ class TradeNotifier extends ChangeNotifier {
 
     try {
       await _firestore.deleteTrade(uid: _currentUserId, tradeId: tradeId);
+      await _firestore.saveTradingStats(uid: _currentUserId, trades: _trades);
     } catch (e) {
       debugPrint('TradeNotifier: Cloud delete failed for trade $tradeId – $e');
     }
@@ -325,6 +327,9 @@ class TradeNotifier extends ChangeNotifier {
         _trades.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         notifyListeners();
         debugPrint('TradeNotifier: Added $added trades from cloud for $_currentUserId');
+      }
+      if (_trades.isNotEmpty) {
+        await _firestore.saveTradingStats(uid: _currentUserId, trades: _trades);
       }
     } catch (e) {
       debugPrint('TradeNotifier: Cloud sync failed – $e');

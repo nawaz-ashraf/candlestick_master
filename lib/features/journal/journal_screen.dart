@@ -1,3 +1,4 @@
+import "package:candlestick_master/core/services/analytics_service.dart";
 import "package:candlestick_master/core/theme/app_theme.dart";
 import "package:candlestick_master/features/journal/journal_stats_screen.dart";
 import "package:candlestick_master/features/journal/trade_detail_screen.dart";
@@ -20,6 +21,12 @@ class JournalScreen extends StatefulWidget {
 
 class _JournalScreenState extends State<JournalScreen> {
   JournalFilter _filter = JournalFilter.all;
+
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsService().logJournalOpened();
+  }
 
   List<Trade> _filterTrades(List<Trade> all) {
     switch (_filter) {
