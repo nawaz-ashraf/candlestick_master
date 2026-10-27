@@ -10,6 +10,7 @@ import 'package:candlestick_master/models/lesson_model.dart';
 import 'package:candlestick_master/models/pattern_model.dart';
 import 'package:candlestick_master/providers/gamification_notifier.dart';
 import 'package:candlestick_master/providers/pattern_notifier.dart';
+import 'package:candlestick_master/widgets/full_screen_image_view.dart';
 import 'package:candlestick_master/widgets/rewarded_ad_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -1152,6 +1153,8 @@ class _IndicatorVisualPreview extends StatelessWidget {
   final double height;
   final double borderRadius;
   final bool showLabel;
+  final bool enableZoom;
+  final BoxFit fit;
 
   const _IndicatorVisualPreview({
     required this.indicator,
@@ -1159,6 +1162,8 @@ class _IndicatorVisualPreview extends StatelessWidget {
     required this.height,
     this.borderRadius = 14,
     this.showLabel = false,
+    this.enableZoom = false,
+    this.fit = BoxFit.cover,
   });
 
   @override
@@ -1167,17 +1172,91 @@ class _IndicatorVisualPreview extends StatelessWidget {
     final label = indicator?.title ?? 'Indicator';
     final stableSeed = _stableSeed(indicator?.id ?? label);
 
-    Widget placeholder = _IndicatorChartPlaceholder(
+    Widget imageWidget = _IndicatorChartPlaceholder(
       label: label,
       seed: stableSeed,
     );
 
     if (imagePath.isNotEmpty) {
-      placeholder = Image.asset(
+      imageWidget = Image.asset(
         imagePath,
-        fit: BoxFit.cover,
+        fit: fit,
         errorBuilder: (context, error, stackTrace) =>
             _IndicatorChartPlaceholder(label: label, seed: stableSeed),
+      );
+    }
+
+    Widget content = Container(
+      color: const Color(0xFF0D1520),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Center(child: imageWidget),
+          if (showLabel)
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.55),
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                ),
+                child: const Text(
+                  'Visual Guide',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          if (enableZoom && imagePath.isNotEmpty)
+            Positioned(
+              bottom: 8,
+              right: 8,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.65),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.zoom_in, size: 14, color: Colors.white70),
+                    SizedBox(width: 4),
+                    Text(
+                      'Tap to zoom',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+
+    if (enableZoom && imagePath.isNotEmpty) {
+      content = GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => FullScreenImageView(imagePath: imagePath),
+            ),
+          );
+        },
+        child: content,
       );
     }
 
@@ -1186,34 +1265,7 @@ class _IndicatorVisualPreview extends StatelessWidget {
       child: SizedBox(
         width: width,
         height: height,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            placeholder,
-            if (showLabel)
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.45),
-                    borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: Colors.white.withOpacity(0.2)),
-                  ),
-                  child: const Text(
-                    'Visual Guide',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
+        child: content,
       ),
     );
   }
@@ -1497,9 +1549,11 @@ class _IndicatorDetailSheetState extends State<_IndicatorDetailSheet> {
               _IndicatorVisualPreview(
                 indicator: indicator,
                 width: double.infinity,
-                height: 190,
+                height: 200,
                 borderRadius: 16,
                 showLabel: true,
+                enableZoom: true,
+                fit: BoxFit.contain,
               ),
               const SizedBox(height: 14),
               const Text(

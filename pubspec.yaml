@@ -74,4 +74,5 @@ flutter:
     - assets/quiz_questions.json
     - assets/images/
     - assets/images/patterns/
+    - assets/images/indicators/
     - assets/AppIcons/
